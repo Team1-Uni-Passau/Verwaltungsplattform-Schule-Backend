@@ -34,7 +34,7 @@ public class User {
 	private String lastName;
 	
 	@Column (name = "e_mail")
-	private String eMail;
+	private String email;
 
 	@Column (name = "passwort")
 	private String password;
@@ -46,13 +46,21 @@ public class User {
 	private String registerCode;
 
 	
+	
+	//default constructor 
+	public User() {
+		
+	}
+	
+	
+	
 	public User(String firstName, String lastName, String eMail, String passwort, String role) {
 		/* Erstellt beim Registrieren einen neuen Nutzer
 		 * Rolle wird durch den Registrierungscode bestimmt. Z.B. Code 123 -> neuer User = Parent
 		 */
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.eMail = eMail;
+		this.email = eMail;
 		this.password = passwort;
 		this.role = role;
 	}
@@ -77,7 +85,7 @@ public class User {
 	}
 
 	public String getEmail() {
-		return eMail;
+		return email;
 	}
 	
 	
@@ -90,6 +98,17 @@ public class User {
 	}
 	
 	
+	
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
 	public void forgotPasswort(String eMail) {
 		// schickt einen zufallsgenrierten code an die E-Mail des Nutzers
 	}
@@ -122,12 +141,12 @@ public class User {
         return Objects.equals(id, nutzer.id) &&
                 Objects.equals(firstName, nutzer.firstName) &&
                 Objects.equals(lastName, nutzer.lastName) &&
-                Objects.equals(eMail, nutzer.eMail);
+                Objects.equals(email, nutzer.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, eMail);
+        return Objects.hash(id, firstName, lastName, email);
     }
 
     @Override
@@ -136,7 +155,7 @@ public class User {
         sb.append("id=").append(id);
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
-        sb.append(", email='").append(eMail).append('\'');
+        sb.append(", email='").append(email).append('\'');
         sb.append('}');
         return sb.toString();
     }

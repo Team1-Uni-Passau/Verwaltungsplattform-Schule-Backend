@@ -1,8 +1,10 @@
 package com.verwaltungsplatform.service;
 
-import com.verwaltungsplatform.dto.UserRegistrationDto;
-import com.verwaltungsplatform.model.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService {
-	User save(UserRegistrationDto registrationDto);
+import com.verwaltungsplatform.dto.UserRegistrationDto;
+
+public interface UserService extends UserDetailsService {
+	void save(UserRegistrationDto registrationDto);    
+    boolean checkIfUserExist(String email);
 }

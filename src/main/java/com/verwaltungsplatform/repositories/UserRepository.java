@@ -16,4 +16,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	User getUserRole(@Param("email") String email); 
     
     User findById(int id);
+    
 }

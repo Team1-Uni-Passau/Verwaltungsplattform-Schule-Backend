@@ -19,8 +19,12 @@ import com.verwaltungsplatform.exceptions.UserAlreadyExistException;
 import com.verwaltungsplatform.service.UserService;
 import com.verwaltungsplatform.util.JwtUtil;
 
+
 @Controller
-public class UserRegistrationController {
+public class UserAuthentificationController {
+	
+	
+
 	
 	@Autowired
 	private UserService userService;
@@ -32,8 +36,8 @@ public class UserRegistrationController {
 	private AuthenticationManager authentificationManager;
 	
 	
-	
-	public UserRegistrationController(UserService userService) {
+	// Contructor
+	public UserAuthentificationController(UserService userService) {
 		super();
 		this.userService = userService;
 	}
@@ -45,10 +49,16 @@ public class UserRegistrationController {
 	@PostMapping(value = "/registration")
 	public ResponseEntity<String> registerUserAccount (@RequestBody Map<String,String> userdata) throws UserAlreadyExistException {
 		
+		ResponseEntity<String> response;
+		
+		if(!this.isInteger(userdata.get("registerCode"))) {
+		    return new ResponseEntity<>(
+		    	      "The registration code is not valid", HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+				
 		UserRegistrationDto registrationDto = new UserRegistrationDto();
 		User_Role_RegisterCode_MapperDto mapper = new User_Role_RegisterCode_MapperDto();
-		
-		
+			
 		mapper.setRole(userdata.get("roleCheckedInRegisterForm"));
 		mapper.setRegisterCode(Integer.valueOf(userdata.get("registerCode")));
 		
@@ -60,21 +70,26 @@ public class UserRegistrationController {
     	
 		
 		try {
-			userService.save(registrationDto);
+			 response = userService.save(registrationDto);
 		} catch (UserAlreadyExistException e) {	
+			e.printStackTrace(); 
 		    return new ResponseEntity<>(
 		    	      "This user might already be saved in the database", HttpStatus.CONFLICT);
 		}
 		
-	    return new ResponseEntity<>(
-	    	      "Registration successful", HttpStatus.OK);
+	    return response;
 
 	}
 	
 	
+	
+	// Method to handle login requests
 	@PostMapping(value= "/login")
 	public ResponseEntity<Map<String,Object>> generateToken(@RequestBody Map<String,String> loginData) throws Exception {
 		
+		
+	    Map<String, Object> jsonResponse = new HashMap<String, Object>();
+
 		AuthRequestDto authRequestDto = new AuthRequestDto(loginData.get("username"), loginData.get("password"));
 		
 		try {
@@ -82,13 +97,13 @@ public class UserRegistrationController {
 					new UsernamePasswordAuthenticationToken(authRequestDto.getEmail(), authRequestDto.getPassword())
 			);
 		} catch (Exception ex) {
-			throw new Exception ("Invalid username or Password");
+			ex.printStackTrace(); 
+			jsonResponse.put("message", "Wrong username or password");
+			return new ResponseEntity<>(
+					jsonResponse , HttpStatus.OK);
 		}
-		
-		
+				
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-	    Map<String, Object> jsonResponse = new HashMap();
 
 		if (principal != null) {
 			String userRole = userService.getUserRole(authRequestDto.getEmail());
@@ -102,5 +117,16 @@ public class UserRegistrationController {
 	}
 	
 	
+	
+	
+	// Method to check if the register code is of type integer
+	public boolean isInteger(String p_str)
+	{
+	    if (p_str == null)
+	        return false;
+	    else
+	        return p_str.matches("^\\d*$");
+	}
+
 	
 }

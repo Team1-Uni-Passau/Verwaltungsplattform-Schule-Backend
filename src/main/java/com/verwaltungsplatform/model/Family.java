@@ -24,4 +24,24 @@ public class Family {
 	@Column (name = "nutzer_id")
 	private int userId;
 
+
+	public int getFamilyId() {
+		return familyId;
+	}
+
+
+	public void setFamilyId(int familyId) {
+		this.familyId = familyId;
+	}
+
+
+	public int getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 }

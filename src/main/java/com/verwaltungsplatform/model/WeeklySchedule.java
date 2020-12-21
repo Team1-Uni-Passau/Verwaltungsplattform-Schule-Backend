@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+
 public class WeeklySchedule {
 	
 	/*
@@ -14,10 +14,8 @@ public class WeeklySchedule {
 	 * @param lessons			Unterrichtsstunden in dem WeeklySchedule
 	 */
 	
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
 	
+	private int id;
 	private SchoolClass affectedClass;
 	private Teacher affectedTeacher;
 	private Lesson[] lessons;

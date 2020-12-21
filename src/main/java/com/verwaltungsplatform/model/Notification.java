@@ -4,13 +4,18 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table (name = "ankuendigung")
+@Table (name="ankuendigung")
 public class Notification {
 	
 	/*
@@ -27,7 +32,7 @@ public class Notification {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int idankuendigung;
 	
 	/*
 	 * Attribut nicht im Datenmodell
@@ -36,7 +41,7 @@ public class Notification {
 	
 
 	@Column (name = "nutzer_id")
-	private int nutzerId;
+	private int userId;
 	 
 	
 	@Column (name = "startdatum")
@@ -56,16 +61,16 @@ public class Notification {
 	@Column (name = "inhalt")
 	private String content;
 	
-	public Notification(int nutzerId, Date start, Date end, String role, String content) {
-		this.nutzerId = nutzerId;
+	public Notification(int nutzer, Date start, Date end, String role, String content) {
+		this.userId = nutzer;
 		this.start = start;
 		this.end = end;
 		this.role = role;
 		this.content = content;
 	}
 	
-	public Notification(int nutzerId, String classId, String content, Date start, Date end) {
-		this.nutzerId = nutzerId;
+	public Notification(int nutzer, String classId, String content, Date start, Date end) {
+		this.userId = nutzer;
 		this.start = start;
 		this.end = end;
 		this.classId = classId;
@@ -77,11 +82,11 @@ public class Notification {
 	}
 	
 	public int getId() {
-		return id;
+		return idankuendigung;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.idankuendigung = id;
 	}
 
 	public Date getStart() {
@@ -116,9 +121,9 @@ public class Notification {
 		this.content = content;
 	}
 
-	public void setClassvisibility(SchoolClass newClass) {
-		// Ändert die SchoolClass, für die die Ankündigung angezeigt wird
-	}
+//	public void setClassvisibility(SchoolClass newClass) {
+//		// Ändert die SchoolClass, für die die Ankündigung angezeigt wird
+//	}
 	
 	public void delete() {
 		// Löscht die Ankündigung

@@ -13,14 +13,14 @@ import java.util.List;
 
 @Repository
 public interface SchoolClassRepository extends JpaRepository<SchoolClass, Integer> {
-	List<SchoolClass> findByIdKlasse(String idKlasse);
-	
-    @Query("FROM klasse k WHERE  k.idklassen = :idKlasse")
-	List<Integer> getStudentIds(String idKlasse);  
-     
-	SchoolClass getOne(int lernender_id);
-	
-	String findBySchuelerId(int schueler_id);
-
-	
+//	List<SchoolClass> findByIdKlasse(String idKlasse);
+//	
+//    @Query("SELECT student FROM SchoolClass s WHERE  s.name = :idKlasse")
+//	List<Integer> getStudentIds(@Param("idKlasse") String idKlasse);  
+//     
+//	SchoolClass getOne(int lernender_id);
+//	
+//	String findBySchuelerId(int schueler_id);
+//
+//	
 }

@@ -6,43 +6,46 @@ import java.util.List;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
 import com.verwaltungsplatform.model.Notification;
 
-
+@Repository
 public interface NotificationRepository extends JpaRepository<Notification, Integer> {
 
-@Query("FROM ankuendigung a WHERE a.sichtbarkeitRolle =: sichtbarkeitRolle OR"
-		+ "a.sichtbarkeitRolle =: 'Alle' AND"
-		+ "a.enddatum >= : current_date() >=: a.startdatum ORDER BY a.startdatum DESC")	
-	List<Notification> findByRole(String sichtbarkeitRolle);
+//@Query("FROM Notification n WHERE n.role =: sichtbarkeitRolle OR "
+//		+ "n.role =: 'Alle' AND "
+//		+ "n.end >= : current_date() >=: n.start ORDER BY n.start DESC")	
+//	List<Notification> findByRole(@Param("sichtbarkeitRolle") String sichtbarkeitRolle);
 
-@Query("FROM ankuendigung a WHERE a.klassenId =: klassenId AND"
-		+ "a.enddatum >= : current_date() >=: a.startdatum ORDER BY a.startdatum DESC")	
-	List<Notification> findByKlassenId(String klassenId);
-
-@Modifying
-@Query("UPDATE ankuendigung a SET a.startdatum = newdate WHERE a.idankuendigung= :notId")
-		void updateStartDate(int notId, Date newdate);
+//@Query("FROM Notification n WHERE n.classId =: klassenId AND"
+//		+ " n.end >=: current_date() >= : n.start ORDER BY n.start DESC")	
+//	List<Notification> findByKlassenId(@Param("klassenId") String klassenId);
 
 @Modifying
-@Query("UPDATE ankuendigung a SET a.enddatum = newdate WHERE a.idankuendigung= :notId")
-		void updateEndDate(int notId, Date newdate);
+@Query("UPDATE Notification n SET n.start = :newStart WHERE n.idankuendigung= :notId")
+		void updateStartDate(@Param("notId") int notId, @Param("newStart") Date newStart);
+
+@Modifying
+@Query("UPDATE Notification n SET n.end = :newEnd WHERE n.idankuendigung= :notId")
+		void updateEndDate(@Param("notId") int notId, @Param("newEnd") Date newEnd);
 
 
 @Modifying
-@Query("UPDATE ankuendigung a SET a.text = newText WHERE a.idankuendigung= :notId")
-		void updateText(int notId, String newText);
+@Query("UPDATE Notification n SET n.content = :newText WHERE n.idankuendigung= :notId")
+		void updateText(@Param("notId") int notId, @Param("newText") String newText);
 
 @Modifying
-@Query("UPDATE ankuendigung a SET a.sichtbarkeitRolle = newRole WHERE a.idankuendigung= :notId")
-		void updateRolle(int notId, String newRole);
+@Query("UPDATE Notification n SET n.role = :newRole WHERE n.idankuendigung= :notId")
+		void updateRolle(@Param("notId") int notId, @Param("newRole") String newRole);
 
 @Modifying
-@Query("UPDATE ankuendigung a SET a.klassen_id = newClass WHERE a.idankuendigung= :notId")
-		void updateKlasse(int notId, String newClass);
+@Query("UPDATE Notification n SET n.classId = :newClass WHERE n.idankuendigung= :notId")
+		void updateKlasse(@Param("notId") int notId, @Param("newClass") String newClass);
 
-@Query("DELETE FROM ankuendigung a WHERE a.idankuendigung= :notId")
-		void deleteNotification(int notId);
+@Query("DELETE FROM Notification n WHERE n.idankuendigung = :notId")
+		void deleteNotification(@Param("notId") int notId);
 }
 
 

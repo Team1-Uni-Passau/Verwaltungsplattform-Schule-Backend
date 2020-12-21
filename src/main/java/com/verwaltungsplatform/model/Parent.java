@@ -16,9 +16,9 @@ public class Parent extends User {
 //		 */
 //	}
 	
-	public void createIllnessNotification(Student kid, Date date) {
-		// Erstellt eine Krankmeldung für ein Kind
-	}
+//	public void createIllnessNotification(Student kid, Date date) {
+//		// Erstellt eine Krankmeldung für ein Kind
+//	}
 	
 //	public WeeklySchedule getWochenplan(Student kind) {
 //		// Gibt den WeeklySchedule eines Kindes aus

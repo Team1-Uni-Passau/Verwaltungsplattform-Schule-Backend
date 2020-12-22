@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 
+
 @Entity
 @Table (name = "krankmeldung")
 public class IllnessNotification {
@@ -24,13 +25,12 @@ public class IllnessNotification {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	@Column (name = "nutzer_id")
+	private int affectedUser;
 	
-	/*
-	 * Die Lösung für Fremdschlüssel ist noch unklar
-	 * @Column (name = "nutzer_id")
-	 * private User affectedUser;
-	 */
-	
+
+
 	@Column (name = "datum")
 	private Date date;
 	
@@ -39,9 +39,9 @@ public class IllnessNotification {
 	
 	
 
-	public IllnessNotification(int id, Date date) {
+	public IllnessNotification(int affectedUser, Date date) {
 		super();
-		this.id = id;
+		this.affectedUser = affectedUser;
 		this.date = date;
 		confirmation = false;
 	}
@@ -58,7 +58,15 @@ public class IllnessNotification {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public int getAffectedUser() {
+		return affectedUser;
+	}
 
+	public void setAffectedUser(int affectedUser) {
+		this.affectedUser = affectedUser;
+	}
+	
 	public Date getDate() {
 		return date;
 	}

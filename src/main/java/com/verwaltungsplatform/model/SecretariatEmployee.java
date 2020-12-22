@@ -41,16 +41,6 @@ public class SecretariatEmployee extends User {
 		 */
 	}
 	
-	public void editWeeklySchedule(WeeklySchedule weeklySchedule) {
-		/*
-		 * Ändert einen WeeklySchedule
-		 * Kann in mehrere Methoden für die einzelnen Attribute aufgeteilt werden
-		 */
-	}
-	
-	public void deleteWeeklySchedule(WeeklySchedule weeklySchedule) {
-		// Löscht einen WeeklySchedule
-	}
 	
 	public void createSchoolClass(String name) {
 		// Erstellt eine neue SchoolClass ohne Mitglieder

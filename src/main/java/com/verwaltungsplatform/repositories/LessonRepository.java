@@ -1,3 +1,4 @@
+
 package com.verwaltungsplatform.repositories;
 
 import java.sql.Date;
@@ -14,13 +15,9 @@ import com.verwaltungsplatform.model.Lesson;
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 
-	@Query("SELECT subject FROM Lesson l WHERE  l.classId = :idKlasse AND l.appointment = :terminId")
-	String getSubject(@Param("idKlasse") String idKlasse, @Param("terminId") int terminId);
-	
-	// Wir haben kein "art" in der Tabelle
-//	@Query("SELECT art FROM Lesson l WHERE  l.classId = :idKlasse AND l.appointment = :terminId")
-//	String getType(@Param("idKlasse") String idKlasse, @Param("terminId") int terminId);
-	
+	@Query("SELECT subject FROM Lesson l WHERE  l.classId = :classId AND l.appointment = :appointment")
+	String getSubject(@Param("classId") String classId, @Param("appointment") int appointment);
+		
 	@Modifying
 	@Query("UPDATE Lesson l SET l.subject = :newSubject WHERE l.id = :lessonId")
 			void updateSubject(@Param("lessonId") int lessonId, @Param("newSubject") String newSubject);
@@ -44,5 +41,5 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 	List<Lesson> findWeeklyScheduleByIdLehrender(@Param("lehrender_id") int lehrender_id);
 
 	@Query("FROM Lesson l WHERE l.classId = :klassen_id")
-	List<Lesson> findWeeklySchduleByIdKlasse(@Param("klassen_id") String klassen_id);
+	List<Lesson> findWeeklyScheduleByIdKlasse(@Param("klassen_id") String klassen_id);
 }

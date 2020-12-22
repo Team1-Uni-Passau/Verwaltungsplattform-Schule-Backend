@@ -18,7 +18,7 @@ public interface SchoolClassRepository extends JpaRepository<SchoolClass, Intege
 //    @Query("SELECT student FROM SchoolClass s WHERE  s.name = :idKlasse")
 //	List<Integer> getStudentIds(@Param("idKlasse") String idKlasse);  
 //     
-//	SchoolClass getOne(int lernender_id);
+	SchoolClass getOne(int lernender_id);
 //	
 //	String findBySchuelerId(int schueler_id);
 //

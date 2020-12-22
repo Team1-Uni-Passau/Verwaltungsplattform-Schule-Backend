@@ -49,13 +49,13 @@
 //			User user = userRepository.getOne(userId);
 //			illnessDto.setFirstName(user.getFirstName());
 //			illnessDto.setLastName(user.getLastName());
-//			illnessDto.setRolle(user.getRole());
+//			illnessDto.setRolle(user.getRoleRegisterCodeMapper().getRole());
 //			return illnessDto;
 //		}
 //		
 //	
 //	//@param klassen-id
-//	//@return List of all IllnessNotifications today with id, firstName, lastName and role
+//	//@return List of all IllnessNotifications today with id, affectedUserId, firstName, lastName and role
 //	public List<IllnessDto> getAllIllnessToday() {
 //		return ((List<IllnessNotification>) illnessNotificationRepository
 //				.getIllnessNotificationToday())
@@ -66,12 +66,11 @@
 //	
 //	private IllnessDto convertToIllnessDto(IllnessNotification illnessNotification) {
 //		IllnessDto illnessDto = new IllnessDto();
-//		illnessDto.setAffectedUserId(illnessNotification.getId());
-//		int userId = illnessNotification.getId();
-//		User user = userRepository.getOne(userId);
+//		illnessDto.setAffectedUserId(illnessNotification.getAffectedUser());
+//		User user = userRepository.getOne(illnessNotification.getAffectedUser());
 //		illnessDto.setFirstName(user.getFirstName());
 //		illnessDto.setLastName(user.getLastName());
-//		illnessDto.setRolle(user.getRole());
+//		illnessDto.setRolle(user.getRoleRegisterCodeMapper()getRole());
 //		
 //		return illnessDto;
 //	}

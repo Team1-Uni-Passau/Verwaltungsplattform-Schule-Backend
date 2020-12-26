@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 
 
 @Entity
@@ -24,8 +26,10 @@ public class IllnessNotification {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column (name="idkrankmeldung")
 	private int id;
 
+	
 	@Column (name = "nutzer_id")
 	private int affectedUser;
 	
@@ -35,6 +39,7 @@ public class IllnessNotification {
 	private Date date;
 	
 	@Column (name = "bestaetigung")
+	@Type(type="org.hibernate.type.NumericBooleanType")
 	private boolean confirmation;
 	
 	
@@ -43,11 +48,10 @@ public class IllnessNotification {
 		super();
 		this.affectedUser = affectedUser;
 		this.date = date;
-		confirmation = false;
 	}
 
 	public IllnessNotification() {
-		
+		super();
 	}
 	
 	
@@ -75,7 +79,7 @@ public class IllnessNotification {
 		this.date = date;
 	}
 
-	public boolean isConfirmation() {
+	public boolean getConfirmation() {
 		return confirmation;
 	}
 

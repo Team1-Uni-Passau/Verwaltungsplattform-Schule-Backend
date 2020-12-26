@@ -19,6 +19,7 @@ public class Appointment {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column (name="idtermin")
 	private int id;
 	
 	@Column (name = "wochentag")

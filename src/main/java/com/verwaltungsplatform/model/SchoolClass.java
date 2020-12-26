@@ -41,29 +41,29 @@ public class SchoolClass {
 		this.student = student;
 	}
 
-	private Student[] member;
-	
-	private Teacher[] teacher;
+//	private Student[] member;
+//	
+//	private Teacher[] teacher;
 	
 //	public SchoolClass(String classname) {
 //		// Erstellt eine neue, noch leere SchoolClass
 //	}
 	
-	public void addMitglied(Student student) {
-		// Fügt der SchoolClass einen neuen Schüler hinzu
-	}
-	
-	public void removeMitglied(Student student) {
-		// Entfernt einen Schüler aus der SchoolClass
-	}
+//	public void addMitglied(Student student) {
+//		// Fügt der SchoolClass einen neuen Schüler hinzu
+//	}
+//	
+//	public void removeMitglied(Student student) {
+//		// Entfernt einen Schüler aus der SchoolClass
+//	}
 	
 	public void delete() {
 		// Löscht die SchoolClass
 	}
 	
-	public void addTeacher(Teacher teacher) {
-		// Fügt der SchoolClass einen Lehrer hinzu
-	}
-	
+//	public void addTeacher(Teacher teacher) {
+//		// Fügt der SchoolClass einen Lehrer hinzu
+//	}
+//	
 }
 

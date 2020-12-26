@@ -54,6 +54,10 @@ public class IllnessConfirmationDto {
 	public void setConfirmation(boolean confirmation) {
 		this.confirmation = confirmation;
 	}
+
+	public boolean isConfirmation() {
+		return confirmation;
+	}
 	
 
 	

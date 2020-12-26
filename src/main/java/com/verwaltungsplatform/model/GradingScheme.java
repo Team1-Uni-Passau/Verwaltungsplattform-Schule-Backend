@@ -13,6 +13,7 @@ public class GradingScheme {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column (name="idnotenschema")
 	private int id;
 	
 	@Column (name = "klassen_id")

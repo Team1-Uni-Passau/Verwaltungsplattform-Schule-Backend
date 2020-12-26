@@ -14,14 +14,12 @@ import com.verwaltungsplatform.model.Notification;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Integer> {
 
-//@Query("FROM Notification n WHERE n.role =: sichtbarkeitRolle OR "
-//		+ "n.role =: 'Alle' AND "
-//		+ "n.end >= : current_date() >=: n.start ORDER BY n.start DESC")	
-//	List<Notification> findByRole(@Param("sichtbarkeitRolle") String sichtbarkeitRolle);
+@Query("FROM Notification n WHERE n.role =: role AND n.end <= CURRENT_DATE() AND n.start >= CURRENT_DATE() ORDER BY n.start DESC")	
+	List<Notification> findByRole(@Param("role") String role);
 
-//@Query("FROM Notification n WHERE n.classId =: klassenId AND"
-//		+ " n.end >=: current_date() >= : n.start ORDER BY n.start DESC")	
-//	List<Notification> findByKlassenId(@Param("klassenId") String klassenId);
+@Query("FROM Notification n WHERE n.classId =: klassenId"
+		+ " AND n.end <= CURRENT_DATE() AND n.start >= CURRENT_DATE() ORDER BY n.start DESC")	
+	List<Notification> findByKlassenId(@Param("klassenId") String klassenId);
 
 @Modifying
 @Query("UPDATE Notification n SET n.start = :newStart WHERE n.idankuendigung= :notId")

@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table (name = "anwesenheit")
 public class Presence {
@@ -24,6 +26,7 @@ public class Presence {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column (name="idanwesenheit")
 	private int id;
 	
 	@Column (name="nutzer_id")
@@ -39,6 +42,7 @@ public class Presence {
 	private Date date;
 	
 	@Column (name = "krankmeldung")
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean confirmation;
 	
 	@Column (name = "anwesenheit")

@@ -20,6 +20,7 @@ public class Lesson {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column (name="idunterrichtsstunde")
 	private int id;
 
 	@Column (name="termin")

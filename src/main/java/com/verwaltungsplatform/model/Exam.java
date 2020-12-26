@@ -25,6 +25,7 @@ public class Exam {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column (name="idpruefung")
 	private int id;
 	
 	@Column (name="lehrender_id")

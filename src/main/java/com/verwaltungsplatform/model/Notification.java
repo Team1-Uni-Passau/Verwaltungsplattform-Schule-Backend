@@ -33,12 +33,7 @@ public class Notification {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idankuendigung;
-	
-	/*
-	 * Attribut nicht im Datenmodell
-	 * private String titel;
-	 */
-	
+
 
 	@Column (name = "nutzer_id")
 	private int userId;

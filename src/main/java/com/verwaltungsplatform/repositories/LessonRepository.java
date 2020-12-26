@@ -35,11 +35,11 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 			void updateTeacher(@Param("lessonId") int lessonId, @Param("newTeacher") String newTeacher);
 
 	@Query("DELETE FROM Lesson l WHERE l.id = :lessonId")
-	void deleteLesson(@Param("lessonId") int lessonId);
+			void deleteLesson(@Param("lessonId") int lessonId);
 	
-	@Query("FROM Lesson l WHERE l.teacherId = :lehrender_id")
-	List<Lesson> findWeeklyScheduleByIdLehrender(@Param("lehrender_id") int lehrender_id);
+	@Query("FROM Lesson l WHERE l.teacherId = :teacherId")
+	List<Lesson> findWeeklyScheduleByIdLehrender(@Param("teacherId") int teacherId);
 
-	@Query("FROM Lesson l WHERE l.classId = :klassen_id")
-	List<Lesson> findWeeklyScheduleByIdKlasse(@Param("klassen_id") String klassen_id);
+	@Query("FROM Lesson l WHERE l.classId = :classId")
+	List<Lesson> findWeeklyScheduleByIdKlasse(@Param("classId") String classId);
 }

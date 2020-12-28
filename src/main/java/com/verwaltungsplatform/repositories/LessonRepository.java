@@ -17,6 +17,8 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 
 	@Query("SELECT subject FROM Lesson l WHERE  l.classId = :classId AND l.appointment = :appointment")
 	String getSubject(@Param("classId") String classId, @Param("appointment") int appointment);
+	
+	Lesson findById(int id); 
 		
 	@Modifying
 	@Query("UPDATE Lesson l SET l.subject = :newSubject WHERE l.id = :lessonId")

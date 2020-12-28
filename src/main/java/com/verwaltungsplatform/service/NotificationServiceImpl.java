@@ -44,7 +44,19 @@ public class NotificationServiceImpl implements NotificationService {
 		// Saves the notification entity in the database
 		notificationRepository.save(notification);
 	}
+
+
+	//saves new notification for all roles
+	public void saveNotification (NotificationDto notificationDto, int userId) {
 	
+        //Creates a new notification entity
+		Notification notification = new Notification(userId, notificationDto.getStartdate(), notificationDto.getEnddate(), notificationDto.getContent());
+		
+
+		// Saves the notification entity in the database
+		notificationRepository.save(notification);
+	}
+		
 	//saves new notification for class Id
 	public void saveNotificationClass (NotificationDto notificationDto, int userId, String classId) {
 		
@@ -57,10 +69,15 @@ public class NotificationServiceImpl implements NotificationService {
 		notificationRepository.save(notification);
 	}
 	
+	/*@param userId
+	 * @return list of all current notifications for the role, all roles and the class (of user or child of user)
+	 */
 	public List<NotificationDto> getAllNotificationsRoleAndClass(int userId) {
 		List<NotificationDto> roleNotifications = getAllNotificationsRole(userId);
 		List<NotificationDto> classNotifications = getAllNotificationsClassId(userId);
+		List<NotificationDto> allNotifications = getAllNotifications();
 		roleNotifications.addAll(classNotifications);
+		roleNotifications.addAll(allNotifications);
 		return roleNotifications;
 	}
 	/*@param userId
@@ -71,6 +88,14 @@ public class NotificationServiceImpl implements NotificationService {
 		String rolle = user.getRoleRegisterCodeMapper().getRole();
 		return ((List<Notification>) notificationRepository
 				.findByRole(rolle))
+				.stream()
+				.map(this::convertToNotificationDto).collect(Collectors.toList());
+		
+	}
+	//@return list of all Notifications with no defined class or role
+	public List<NotificationDto> getAllNotifications() {
+		return ((List<Notification>) notificationRepository
+				.findByRoleIsNullAndClassIdIsNull())
 				.stream()
 				.map(this::convertToNotificationDto).collect(Collectors.toList());
 		

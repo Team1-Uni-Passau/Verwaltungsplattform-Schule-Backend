@@ -21,6 +21,9 @@ public interface NotificationRepository extends JpaRepository<Notification, Inte
 		+ " AND n.end <= CURRENT_DATE() AND n.start >= CURRENT_DATE() ORDER BY n.start DESC")	
 	List<Notification> findByKlassenId(@Param("klassenId") String klassenId);
 
+@Query("FROM Notification n WHERE n.end <= CURRENT_DATE() AND n.start >= CURRENT_DATE() ORDER BY n.start DESC")
+	List<Notification> findByRoleIsNullAndClassIdIsNull();
+
 @Modifying
 @Query("UPDATE Notification n SET n.start = :newStart WHERE n.idankuendigung= :notId")
 		void updateStartDate(@Param("notId") int notId, @Param("newStart") Date newStart);
@@ -36,11 +39,11 @@ public interface NotificationRepository extends JpaRepository<Notification, Inte
 
 @Modifying
 @Query("UPDATE Notification n SET n.role = :newRole WHERE n.idankuendigung= :notId")
-		void updateRolle(@Param("notId") int notId, @Param("newRole") String newRole);
+		void updateRole(@Param("notId") int notId, @Param("newRole") String newRole);
 
 @Modifying
 @Query("UPDATE Notification n SET n.classId = :newClass WHERE n.idankuendigung= :notId")
-		void updateKlasse(@Param("notId") int notId, @Param("newClass") String newClass);
+		void updateClassId(@Param("notId") int notId, @Param("newClass") String newClass);
 
 @Query("DELETE FROM Notification n WHERE n.idankuendigung = :notId")
 		void deleteNotification(@Param("notId") int notId);

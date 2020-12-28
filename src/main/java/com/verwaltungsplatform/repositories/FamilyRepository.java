@@ -1,7 +1,8 @@
 package com.verwaltungsplatform.repositories;
 
 
-import org.springframework.data.jdbc.repository.query.Query;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,7 @@ public interface FamilyRepository extends JpaRepository<Family, Integer> {
 	
 	@Query("FROM Family f WHERE f.familyId = :familyId AND f.userId IN (:klasse)")
 	Family findByFamilyId (@Param("familyId") int familyId);
+	
 }
 
 

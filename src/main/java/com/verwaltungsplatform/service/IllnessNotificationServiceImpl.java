@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.verwaltungsplatform.repositories.IllnessNotificationRepository;
+import com.verwaltungsplatform.repositories.SchoolClassRepository;
 import com.verwaltungsplatform.repositories.UserRepository;
+import com.verwaltungsplatform.dto.FamilyDto;
 import com.verwaltungsplatform.dto.IllnessDto;
 import com.verwaltungsplatform.model.IllnessNotification;
 import com.verwaltungsplatform.model.User;
@@ -25,6 +27,11 @@ public class IllnessNotificationServiceImpl implements IllnessNotificationServic
 	private IllnessNotificationRepository illnessNotificationRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private SchoolClassRepository schoolClassRepository;
+	@Autowired
+	private FamilyServiceImpl familyServiceImpl;
+	
 	
 	//saves new illness notification with illnessDto and date
 		public void saveIllnessNotification (IllnessDto illnessDto, Date date) {
@@ -40,6 +47,13 @@ public class IllnessNotificationServiceImpl implements IllnessNotificationServic
 	
 	//create a new illnessDto with userId of teacher or parent
 		public IllnessDto createIllnessNotification(int userId) {
+			
+			if (schoolClassRepository.existsById(userId)){
+				FamilyDto familyDto = new FamilyDto();
+				familyDto = familyServiceImpl.getFamilyDto(userId);
+				userId = familyDto.getStudentId();
+			}
+			
 			IllnessDto illnessDto = new IllnessDto(userId);
 			User user = userRepository.getOne(userId);
 			illnessDto.setFirstName(user.getFirstName());

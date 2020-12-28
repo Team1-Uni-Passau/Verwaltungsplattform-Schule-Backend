@@ -53,7 +53,7 @@ public class Notification {
 	private String classId;
 	
 
-	@Column (name = "inhalt")
+	@Column (name = "text")
 	private String content;
 	
 	public Notification(int nutzer, Date start, Date end, String role, String content) {
@@ -61,6 +61,13 @@ public class Notification {
 		this.start = start;
 		this.end = end;
 		this.role = role;
+		this.content = content;
+	}
+	
+	public Notification(int nutzer, Date start, Date end, String content) {
+		this.userId = nutzer;
+		this.start = start;
+		this.end = end;
 		this.content = content;
 	}
 	

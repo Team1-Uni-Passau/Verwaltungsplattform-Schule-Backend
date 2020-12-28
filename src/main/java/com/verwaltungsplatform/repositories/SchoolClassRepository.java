@@ -1,5 +1,6 @@
 package com.verwaltungsplatform.repositories;
 
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,5 +23,10 @@ public interface SchoolClassRepository extends JpaRepository<SchoolClass, Intege
 
 	@Query("SELECT name FROM SchoolClass s WHERE s.student = :student")
 	String getName(@Param("student") int student);
+	
+	@Modifying
+	@Query("UPDATE SchoolClass s SET s.name = :newName WHERE s.student= :student")
+			void updateName(@Param("student") int student, @Param("newName") String newName);
+
 	
 }

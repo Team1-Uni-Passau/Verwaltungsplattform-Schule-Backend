@@ -29,7 +29,12 @@ public class GivingGradesDto {
 		this.affectedUserId = affectedUserId;
 	}
 
-
+	public GivingGradesDto(int affectedUserId, int examId, int grade) {
+		super();
+		this.affectedUserId = affectedUserId;
+		this.examId = examId;
+		this.grade = grade;
+	}
 
 
 	public int getAffectedUserId() {

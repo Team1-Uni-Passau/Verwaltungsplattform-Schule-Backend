@@ -32,12 +32,6 @@ public class Presence {
 	@Column (name="nutzer_id")
 	private int userId;
 	
-	/*
-	 * Die Lösung für Fremdschlüssel ist noch unklar
-	 * @Column (name = "nutzer_id")
-	 * private User affectedUser;
-	 */
-	
 	@Column (name = "datum")
 	private Date date;
 	
@@ -46,6 +40,7 @@ public class Presence {
 	private boolean confirmation;
 	
 	@Column (name = "anwesenheit")
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean presence;
 	
 	@Column (name = "unterrichtsstunde")
@@ -55,6 +50,17 @@ public class Presence {
 		super();
 		this.userId = userId;
 	}
+
+	
+	public Presence(int userId, Date date, boolean confirmation, boolean presence, int lesson) {
+		super();
+		this.userId = userId;
+		this.date = date;
+		this.confirmation = confirmation;
+		this.presence = presence;
+		this.lesson = lesson;
+	}
+
 
 	public int getId() {
 		return id;

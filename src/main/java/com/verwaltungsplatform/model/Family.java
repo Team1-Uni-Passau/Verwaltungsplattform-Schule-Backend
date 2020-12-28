@@ -18,6 +18,7 @@ public class Family {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column (name="idfamilie")
 	private int familyId;
 	
 	

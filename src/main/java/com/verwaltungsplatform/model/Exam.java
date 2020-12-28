@@ -32,7 +32,7 @@ public class Exam {
 	private int teacherId;
 	
 	@Column (name="klassen_id")
-	private int classId;
+	private String classId;
 
 
 	@Column (name = "termin")
@@ -44,12 +44,16 @@ public class Exam {
 	@Column (name = "art")
 	private String type;
 	
-//	public Exam(Date date, int hour, String subject, Teacher tester, SchoolClass testedClass, String type) {
-//		// Erstellt eine neue Prüfung in einem Fach für eine bestimmte SchoolClass zu einem bestimmten Termin
-//	}
-//
 	
-	
+	public Exam(int teacherId, String classId, int appointment, Date date, String type) {
+		super();
+		this.teacherId = teacherId;
+		this.classId = classId;
+		this.appointment = appointment;
+		this.date = date;
+		this.type = type;
+	}
+
 	public Exam(int id) {
 		super();
 		this.id = id;
@@ -71,11 +75,11 @@ public class Exam {
 		this.teacherId = teacherId;
 	}
 
-	public int getClassId() {
+	public String getClassId() {
 		return classId;
 	}
 
-	public void setClassId(int classId) {
+	public void setClassId(String classId) {
 		this.classId = classId;
 	}
 

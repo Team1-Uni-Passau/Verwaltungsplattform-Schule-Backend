@@ -19,6 +19,9 @@ public interface SchoolClassRepository extends JpaRepository<SchoolClass, Intege
     @Query("SELECT student FROM SchoolClass s WHERE s.name = :name")
 	List<Integer> getStudentIds(@Param("name") String name);  
    
+    @Query("SELECT student FROM SchoolClass s WHERE s.name IN :name")
+	List<Integer> getStudentIdsByClassIds(@Param("name") List<String> name);
+    
 	SchoolClass getOne(int lernender_id);
 
 	@Query("SELECT name FROM SchoolClass s WHERE s.student = :student")

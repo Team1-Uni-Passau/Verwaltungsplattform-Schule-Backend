@@ -1,6 +1,8 @@
 package com.verwaltungsplatform.repositories;
 
 
+import java.util.List;
+
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +18,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     
     @Query("FROM User u WHERE  u.email = :email")
 	User getUserRole(@Param("email") String email); 
+    
+    @Query("SELECT email FROM User u WHERE u.id IN (:parentIds)")
+    List<String> getEmailByUserId(@Param("parentIds") List<Integer> parentIds);
     
     User findById(int id);
     

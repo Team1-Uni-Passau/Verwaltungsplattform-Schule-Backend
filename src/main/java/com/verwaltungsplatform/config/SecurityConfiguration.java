@@ -58,7 +58,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
         		.antMatchers(
 					"/login",
-					"/registration"
+					"/registration",
+					"/lernender/wochenplan/{studentId}",
+					"/lehrender/wochenplan/{teacherId}",
+					"/sekretariat/wochenplan/klasse/{classId}",
+					"/sekretariat/wochenplan/{teacherId}"
         		)
                 .permitAll().anyRequest().authenticated()
                 .and().exceptionHandling().and().sessionManagement()

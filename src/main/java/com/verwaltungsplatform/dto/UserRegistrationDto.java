@@ -23,6 +23,12 @@ public class UserRegistrationDto {
     @NotNull
     @NotEmpty
 	private User_Role_RegisterCode_MapperDto role;
+    
+    @NotNull
+    @NotEmpty
+    private int userId;
+    
+    private int familyId;
 	
 	
 	// Default constructor
@@ -31,16 +37,26 @@ public class UserRegistrationDto {
 	}
 	
 	
-	public UserRegistrationDto(String firstName, String lastName, String email, String password, User_Role_RegisterCode_MapperDto role) {
+	public UserRegistrationDto(String firstName, String lastName, String email, String password, User_Role_RegisterCode_MapperDto role, int userId) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 		this.role = role;
+		this.userId = userId;
 	}
 	
-	
+	public UserRegistrationDto(String firstName, String lastName, String email, String password, User_Role_RegisterCode_MapperDto role, int userId, int familyId) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+		this.userId = userId;
+		this.familyId = familyId;
+	}
 	
 	
 	
@@ -56,6 +72,26 @@ public class UserRegistrationDto {
 	}
 
 
+
+
+	public int getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+
+	public int getFamilyId() {
+		return familyId;
+	}
+
+
+	public void setFamilyId(int familyId) {
+		this.familyId = familyId;
+	}
 
 
 	public String getFirstName() {

@@ -11,9 +11,12 @@ import org.springframework.stereotype.Service;
 
 import com.verwaltungsplatform.dto.UserRegistrationDto;
 import com.verwaltungsplatform.exceptions.UserAlreadyExistException;
+import com.verwaltungsplatform.model.Family;
 import com.verwaltungsplatform.model.Role_RegisterCode_Mapper;
 import com.verwaltungsplatform.model.User;
+import com.verwaltungsplatform.repositories.FamilyRepository;
 import com.verwaltungsplatform.repositories.RoleRegisterCodeMapperRepository;
+import com.verwaltungsplatform.repositories.SchoolClassRepository;
 import com.verwaltungsplatform.repositories.UserRepository;
 
 
@@ -27,7 +30,12 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private RoleRegisterCodeMapperRepository roleCodeMapperRepository;
+	
+	@Autowired
+	private SchoolClassRepository schoolClassRepository;
 
+	@Autowired
+	private FamilyRepository familyRepository;
 	
 
 	public UserServiceImpl(UserRepository userRepository) {
@@ -44,9 +52,33 @@ public class UserServiceImpl implements UserService {
         if(checkIfUserExist(registrationDto.getEmail())){
             throw new UserAlreadyExistException("A user is already saved in the database with the following e-mail address: "+registrationDto.getEmail());
         }
-
+        
+        
         Role_RegisterCode_Mapper userRole = new Role_RegisterCode_Mapper(registrationDto.getRoleCodeMapping().getRole(), registrationDto.getRoleCodeMapping().getRegisterCode());
         
+        //checks if user is in student list and if registration code matches
+        if(schoolClassRepository.existsById(registrationDto.getUserId())) {
+        	if(this.checkIfRegisterCodeMatchesRole(userRole.getRole(), userRole.getRegisterCode())) {
+        		try {
+    				// Updates the user
+        			int id = registrationDto.getUserId();
+                	userRepository.updateEmail(id, registrationDto.getEmail());
+                	userRepository.updatePassword(id, registrationDto.getPassword());
+    			    return new ResponseEntity<>(
+    			    	      "User successfully saved in the database", HttpStatus.OK);
+    			} catch (Exception e) {
+    				e.printStackTrace(); 
+    				return new ResponseEntity<>(
+    			    	      "Error registering the user in the database", HttpStatus.BAD_REQUEST);
+    			}
+    		}
+        	else {
+    		    return new ResponseEntity<>(
+    		    	      "The registration code is incorrect", HttpStatus.UNPROCESSABLE_ENTITY);
+    		}
+        }
+        
+        else {
         //Creates a new user entity
 		User user = new User(registrationDto.getFirstName(), registrationDto.getLastName(),
 								registrationDto.getEmail(), registrationDto.getPassword(), userRole);
@@ -54,6 +86,10 @@ public class UserServiceImpl implements UserService {
 		//If the register code matches the code saved in the registrierungscode table for the role chosen by the user
 		if(this.checkIfRegisterCodeMatchesRole(userRole.getRole(), userRole.getRegisterCode())) {
 			try {
+				//checks if user is parent and adds entry to table family if yes
+				if(userRole.getRegisterCode()==201) {
+					createFamilyEntry(registrationDto);
+				}
 				// Persists the user entity in the database
 				userRepository.save(user);
 			    return new ResponseEntity<>(
@@ -68,6 +104,7 @@ public class UserServiceImpl implements UserService {
 		    	      "The registration code is incorrect", HttpStatus.UNPROCESSABLE_ENTITY
 		    	      );
 		}
+        }
 				
 	}
 	
@@ -98,5 +135,11 @@ public class UserServiceImpl implements UserService {
 		return registerCodeAssignedToRole == registrationCode;
 	}
 
-
+	public void createFamilyEntry(UserRegistrationDto registrationDto) {
+		Family family = new Family();
+		family.setFamilyId(registrationDto.getFamilyId());
+		family.setUserId(registrationDto.getUserId());
+		familyRepository.save(family);
+	}
+	
 }

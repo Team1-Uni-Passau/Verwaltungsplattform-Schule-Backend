@@ -9,10 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.verwaltungsplatform.dto.RegisterStudentDto;
 import com.verwaltungsplatform.dto.UserRegistrationDto;
 import com.verwaltungsplatform.exceptions.UserAlreadyExistException;
 import com.verwaltungsplatform.model.Family;
 import com.verwaltungsplatform.model.Role_RegisterCode_Mapper;
+import com.verwaltungsplatform.model.SchoolClass;
 import com.verwaltungsplatform.model.User;
 import com.verwaltungsplatform.repositories.FamilyRepository;
 import com.verwaltungsplatform.repositories.RoleRegisterCodeMapperRepository;
@@ -136,10 +138,28 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public void createFamilyEntry(UserRegistrationDto registrationDto) {
-		Family family = new Family();
-		family.setFamilyId(registrationDto.getFamilyId());
-		family.setUserId(registrationDto.getUserId());
+		Family family = new Family(registrationDto.getFamilyId(), registrationDto.getUserId());
 		familyRepository.save(family);
 	}
 	
+	/* @param  RegisterStudentDto
+	 * @return RegisterStudentDto with added userId and familyId
+	 * saves a new student registered by secretary without email and password
+	 */
+	public RegisterStudentDto registerNewStudent(RegisterStudentDto studentDto) {
+		Role_RegisterCode_Mapper role_mapper = new Role_RegisterCode_Mapper("Lernender", 200);
+		User user = new User(studentDto.getFirstName(), studentDto.getLastName(), role_mapper);
+		userRepository.save(user);
+		
+		SchoolClass schoolClass = new SchoolClass(studentDto.getClassId(), user.getId());
+		schoolClassRepository.save(schoolClass);
+		
+		Family family = new Family(user.getId());
+		familyRepository.save(family);
+		
+		studentDto.setUserId(user.getId());
+		studentDto.setFamilyId(family.getFamilyId());
+		
+		return studentDto;
+	}
 }

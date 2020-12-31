@@ -89,6 +89,16 @@ public class User {
 	}
 	
 	
+	
+	public User(String firstName, String lastName, Role_RegisterCode_Mapper role) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.role = role;
+	}
+
+
+
 	public int getId() {
 		return id;
 	}

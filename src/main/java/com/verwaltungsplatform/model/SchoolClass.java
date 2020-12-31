@@ -24,6 +24,12 @@ public class SchoolClass {
 	private int student;
 	 
 	
+	public SchoolClass(String name, int student) {
+		super();
+		this.name = name;
+		this.student = student;
+	}
+	
 	
 	public String getName() {
 		return name;
@@ -41,14 +47,7 @@ public class SchoolClass {
 		this.student = student;
 	}
 
-//	private Student[] member;
-//	
-//	private Teacher[] teacher;
-	
-//	public SchoolClass(String classname) {
-//		// Erstellt eine neue, noch leere SchoolClass
-//	}
-	
+
 //	public void addMitglied(Student student) {
 //		// Fügt der SchoolClass einen neuen Schüler hinzu
 //	}

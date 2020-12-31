@@ -33,7 +33,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 
 	@Modifying
 	@Query("UPDATE Lesson l SET l.appointment = :newAppointment WHERE l.id = :lessonId")
-			void updateAppointment(@Param("lessonId") int lessonId, @Param("newAppointment") String newAppointment);
+			void updateAppointment(@Param("lessonId") int lessonId, @Param("newAppointment") int newAppointment);
 
 	@Modifying
 	@Query("UPDATE Lesson l SET l.teacherId = :newTeacher WHERE l.id = :lessonId")

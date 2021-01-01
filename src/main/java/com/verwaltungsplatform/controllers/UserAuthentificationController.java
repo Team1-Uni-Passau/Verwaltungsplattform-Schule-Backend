@@ -1,7 +1,6 @@
 package com.verwaltungsplatform.controllers;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,13 +8,21 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.verwaltungsplatform.dto.AuthRequestDto;
 import com.verwaltungsplatform.dto.UserRegistrationDto;
 import com.verwaltungsplatform.dto.User_Role_RegisterCode_MapperDto;
 import com.verwaltungsplatform.exceptions.UserAlreadyExistException;
+import com.verwaltungsplatform.model.MailSender;
+import com.verwaltungsplatform.model.PasswordCode;
+import com.verwaltungsplatform.model.User;
+import com.verwaltungsplatform.repositories.UserRepository;
 import com.verwaltungsplatform.service.UserService;
 import com.verwaltungsplatform.util.JwtUtil;
 
@@ -24,7 +31,8 @@ import com.verwaltungsplatform.util.JwtUtil;
 public class UserAuthentificationController {
 	
 	
-
+	private PasswordCode code;
+	private String email;
 	
 	@Autowired
 	private UserService userService;
@@ -34,6 +42,13 @@ public class UserAuthentificationController {
 	
 	@Autowired
 	private AuthenticationManager authentificationManager;
+	
+	@Autowired
+	private UserRepository userRepo;
+	
+	// Speichermethode der beiden Variablen sollte möglicherweise geändert werden
+		String eMailUsername = "team1.verwaltungsplattform@gmail.com";
+		String eMailPassword = "ToSEWS20/21T1";
 	
 	
 	// Contructor
@@ -77,6 +92,16 @@ public class UserAuthentificationController {
 		    	      "This user might already be saved in the database", HttpStatus.CONFLICT);
 		}
 		
+		MailSender sender = new MailSender();
+		sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
+		try {
+			
+			sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", registrationDto.getEmail(), "Registrierung erfolgreich", "Ihre Registrierung im System ist erfolgreich. \rSie sind nun im System registriert.");
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	    return response;
 
 	}
@@ -116,6 +141,40 @@ public class UserAuthentificationController {
 				jsonResponse , HttpStatus.OK);
 	}
 	
+	@GetMapping("/restorePassword")
+	@ResponseBody
+	public void generateCode(String email) {
+		
+		this.code = new PasswordCode();
+		this.email = email;
+		
+		MailSender sender = new MailSender();
+		sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
+		try {
+			
+			sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", email, "Code zur Passwortänderung", "Sie haben versucht Ihr Passwort zu ändern. \rDer Änderungscode ist: " + code.getCode());
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@GetMapping("/restorePassword/code")
+	@ResponseBody
+	public boolean checkCode(int frontendCode) {
+		
+		return code.isCodeCorrect( frontendCode );
+		
+	}
+	
+	@PutMapping("/restorePassword/changePassword")
+	@ResponseBody
+	public void changePassword(String newPassword) {
+		
+		User user = userRepo.findByEmail(email);
+		user.setPassword(newPassword);
+		userRepo.save(user);
+	}
 	
 	
 	

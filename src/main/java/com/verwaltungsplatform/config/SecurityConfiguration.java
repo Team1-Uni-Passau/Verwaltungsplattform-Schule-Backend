@@ -70,7 +70,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					"/sekretariat/wochenplan/stunde/{lessonId}/klasse",
 					"/sekretariat/wochenplan/stunde/{lessonId}/lehrender",
 					"/sekretariat/wochenplan/stunde/{lessonId}/fach",
-					"/sekretariat/wochenplan/stunde/{lessonId}/loeschen"
+					"/sekretariat/wochenplan/stunde/{lessonId}/loeschen",
+					"/restorePassword",
+					"/restorePassword/code",
+					"/restorePassword/changePassword"
         		)
                 .permitAll().anyRequest().authenticated()
                 .and().exceptionHandling().and().sessionManagement()

@@ -65,8 +65,7 @@ public class WeeklyScheduleServiceImpl implements WeeklyScheduleService {
 			klassenId = schoolClass.getName();
 		}
 		else {
-			FamilyDto familyDto = new FamilyDto();
-			familyDto = familyServiceImpl.getFamilyDto(userId);
+			FamilyDto familyDto = familyServiceImpl.getFamilyDto(userId);
 			klassenId = familyDto.getClassId();
 		}
 		return ((List<Lesson>) lessonRepository

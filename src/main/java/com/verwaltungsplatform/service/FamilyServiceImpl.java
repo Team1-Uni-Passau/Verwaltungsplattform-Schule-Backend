@@ -25,9 +25,12 @@ public class FamilyServiceImpl implements FamilyService {
 	 */
 	public FamilyDto getFamilyDto(int elternId) {
 		FamilyDto familyDto = new FamilyDto(elternId);
+		
 		int familienId = familyRepository.findByUserId(elternId);
-		Family family = familyRepository.findByFamilyId(familienId);
 		familyDto.setFamilyId(familienId);
+		
+		Family family = familyRepository.findByFamilyId(familienId);
+		
 		familyDto.setStudentId(family.getUserId());
 		familyDto.setClassId(schoolClassRepository.getOne(family.getUserId()).getName());
 		return familyDto;

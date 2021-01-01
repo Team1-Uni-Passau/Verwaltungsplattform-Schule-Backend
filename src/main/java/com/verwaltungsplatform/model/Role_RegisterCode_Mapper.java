@@ -37,6 +37,13 @@ public class Role_RegisterCode_Mapper {
 	
 	
 	
+	public Role_RegisterCode_Mapper(String userRole) {
+		super();
+		this.userRole = userRole;
+	}
+
+
+
 	public String getRole() {
 		return userRole;
 	}

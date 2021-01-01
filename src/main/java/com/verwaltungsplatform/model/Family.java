@@ -25,6 +25,22 @@ public class Family {
 	@Column (name = "nutzer_id")
 	private int userId;
 
+	
+
+	public Family(int userId) {
+		super();
+		this.userId = userId;
+	}
+
+	
+
+	public Family(int familyId, int userId) {
+		super();
+		this.familyId = familyId;
+		this.userId = userId;
+	}
+
+
 
 	public int getFamilyId() {
 		return familyId;

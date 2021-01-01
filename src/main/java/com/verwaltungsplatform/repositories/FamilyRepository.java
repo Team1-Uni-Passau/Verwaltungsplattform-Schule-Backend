@@ -17,7 +17,8 @@ import com.verwaltungsplatform.model.Family;
 @Repository
 public interface FamilyRepository extends JpaRepository<Family, Integer> {
 
-	int findByUserId (int nutzer_id);
+	@Query("SELECT familyId FROM Family f WHERE f.userId = :userId")
+	int findByUserId (@Param("userId") int userId);
 	
 	@Query("FROM Family f WHERE f.familyId = :familyId AND f.userId IN (:SchoolClass)")
 	Family findByFamilyId (@Param("familyId") int familyId);

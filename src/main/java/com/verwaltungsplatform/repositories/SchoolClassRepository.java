@@ -30,6 +30,9 @@ public interface SchoolClassRepository extends JpaRepository<SchoolClass, Intege
 	@Modifying
 	@Query("UPDATE SchoolClass s SET s.name = :newName WHERE s.student= :student")
 			void updateName(@Param("student") int student, @Param("newName") String newName);
+	
+	@Query("SELECT student FROM SchoolClass s")
+	List<Integer> getAllStudent();
 
 	
 }

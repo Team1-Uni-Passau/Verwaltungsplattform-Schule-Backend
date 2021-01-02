@@ -1,6 +1,8 @@
 package com.verwaltungsplatform.service;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +28,14 @@ public class FamilyServiceImpl implements FamilyService {
 	public FamilyDto getFamilyDto(int elternId) {
 		FamilyDto familyDto = new FamilyDto(elternId);
 		
-		int familienId = familyRepository.findByUserId(elternId);
-		familyDto.setFamilyId(familienId);
+		Family parentfamily = familyRepository.findByUserId(elternId);
+		familyDto.setFamilyId(parentfamily.getFamilyId());
 		
-		Family family = familyRepository.findByFamilyId(familienId);
+		List<Integer> schoolClass = schoolClassRepository.getAllStudent();
+		Family studentfamily = familyRepository.findByFamilyId(parentfamily.getFamilyId(), schoolClass);
 		
-		familyDto.setStudentId(family.getUserId());
-		familyDto.setClassId(schoolClassRepository.getOne(family.getUserId()).getName());
+		familyDto.setStudentId(studentfamily.getUserId());
+		familyDto.setClassId(schoolClassRepository.getOne(studentfamily.getUserId()).getName());
 		return familyDto;
 	}
 	

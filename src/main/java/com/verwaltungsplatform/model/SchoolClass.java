@@ -24,6 +24,12 @@ public class SchoolClass {
 	private int student;
 	 
 	
+	
+	public SchoolClass() {
+		super();
+	}
+
+
 	public SchoolClass(String name, int student) {
 		super();
 		this.name = name;

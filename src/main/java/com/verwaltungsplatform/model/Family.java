@@ -16,16 +16,21 @@ public class Family {
 	 * @param userId	ID des Schülers
 	 */
 	
-	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name="idfamilie")
 	private int familyId;
 	
-	
+	@Id
 	@Column (name = "nutzer_id")
 	private int userId;
 
 	
+
+	public Family() {
+		super();
+	}
+
+
 
 	public Family(int userId) {
 		super();

@@ -17,11 +17,11 @@ import com.verwaltungsplatform.model.Family;
 @Repository
 public interface FamilyRepository extends JpaRepository<Family, Integer> {
 
-	@Query("SELECT familyId FROM Family f WHERE f.userId = :userId")
-	int findByUserId (@Param("userId") int userId);
+	@Query("FROM Family f WHERE f.userId = :userId")
+	Family findByUserId (@Param("userId") int userId);
 	
-	@Query("FROM Family f WHERE f.familyId = :familyId AND f.userId IN (:SchoolClass)")
-	Family findByFamilyId (@Param("familyId") int familyId);
+	@Query("FROM Family f WHERE f.familyId = :familyId AND f.userId IN (:schoolClass)")
+	Family findByFamilyId (@Param("familyId") int familyId, List<Integer> schoolClass);
 	
 	@Query("SELECT familyId FROM Family f WHERE f.userId IN (:studentIds)")
 	List<Integer> findFamilyIds (@Param("studentIds") List<Integer> studentIds);

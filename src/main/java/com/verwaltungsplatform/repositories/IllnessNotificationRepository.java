@@ -14,7 +14,7 @@ import com.verwaltungsplatform.model.IllnessNotification;
 @Repository
 public interface IllnessNotificationRepository extends JpaRepository<IllnessNotification, Integer> {
 
-	List<IllnessNotification> findById(int id);
+	IllnessNotification findById(int id);
 		
 	
 	@Query("FROM IllnessNotification i WHERE i.date = CURRENT_DATE() AND i.affectedUser= :affectedUser")

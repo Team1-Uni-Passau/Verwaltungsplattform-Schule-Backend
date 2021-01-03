@@ -86,6 +86,7 @@ public class WeeklyScheduleController {
 		
 	}
 	
+	// Erstellt eine neue Unterrichtsstunde
 	@PostMapping("/sekretariat/wochenplan/neuestunde")
 	@ResponseBody
 	public Lesson addLessonClass(Lesson lesson) {
@@ -156,6 +157,21 @@ public class WeeklyScheduleController {
 		return lesson;
 	}
 	
+	// Ändert alle Attribute einer bestimmten Unterrichtsstunde
+	@PutMapping("/sekretariat/wochenplan/stunde/edit/{lessonId}")
+	@ResponseBody
+	public Lesson editLesson(@PathVariable("lessonId") int lessonId, int appointment, String classId, int teacherId, String subject) {
+		
+		Lesson lesson = lessonRepo.findById(lessonId);
+		lesson.setAppointment(appointment);
+		lesson.setClassId(classId);
+		lesson.setTeacherId(teacherId);
+		lesson.setSubject(subject);
+		lessonRepo.save(lesson);
+		
+		return lesson;
+	}
+	
 	// Löscht eine bestimmte Unterrichtsstunde
 	@DeleteMapping("/sekretariat/wochenplan/stunde/{lessonId}/loeschen")
 	@ResponseBody
@@ -164,6 +180,8 @@ public class WeeklyScheduleController {
 		Lesson lesson = lessonRepo.findById(lessonId);
 		lessonRepo.delete(lesson);
 	}
+	
+	
 	
 
 }

@@ -56,6 +56,12 @@ public class Notification {
 	@Column (name = "text")
 	private String content;
 	
+	
+	
+	public Notification() {
+		super();
+	}
+
 	public Notification(int nutzer, Date start, Date end, String role, String content) {
 		this.userId = nutzer;
 		this.start = start;

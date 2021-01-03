@@ -16,13 +16,16 @@ public class PresenceDto {
 	
 	private int lesson;
 	
+	//is the student present yes or no
 	private boolean presence;
 	
+	//is there an illness confirmation yes or no
 	private boolean confirmation;
 	
-   
+	private String colour;
+	
+	
 
-   
 	// Default constructor
 	public PresenceDto() {
 		
@@ -99,7 +102,14 @@ public class PresenceDto {
 		this.confirmation = confirmation;
 	}
 	
-	
+	public String getColour() {
+		return colour;
+	}
+
+
+	public void setColour(String colour) {
+		this.colour = colour;
+	}
 	
 
 	

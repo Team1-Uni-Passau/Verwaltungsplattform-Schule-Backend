@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import com.verwaltungsplatform.repositories.UserRepository;
 import com.verwaltungsplatform.dto.FamilyDto;
 import com.verwaltungsplatform.dto.IllnessDto;
 import com.verwaltungsplatform.model.IllnessNotification;
+import com.verwaltungsplatform.model.MailSender;
 import com.verwaltungsplatform.model.User;
 
 
@@ -59,12 +61,6 @@ public class IllnessNotificationServiceImpl implements IllnessNotificationServic
 	//create a new illnessDto with userId of teacher or parent
 		public IllnessDto createIllnessNotification(int userId) {
 			
-			if (schoolClassRepository.existsById(userId)){
-				FamilyDto familyDto = new FamilyDto();
-				familyDto = familyServiceImpl.getFamilyDto(userId);
-				userId = familyDto.getStudentId();
-			}
-			
 			IllnessDto illnessDto = new IllnessDto(userId);
 			User user = userRepository.getOne(userId);
 			illnessDto.setFirstName(user.getFirstName());
@@ -73,7 +69,20 @@ public class IllnessNotificationServiceImpl implements IllnessNotificationServic
 			return illnessDto;
 		}
 		
-	
+		public IllnessDto createIllnessNotificationParent(int parentId) {
+
+			FamilyDto familyDto = new FamilyDto();
+			familyDto = familyServiceImpl.getFamilyDto(parentId);
+			int studentId = familyDto.getStudentId();
+			
+			IllnessDto illnessDto = new IllnessDto(studentId);
+			User user = userRepository.getOne(studentId);
+			illnessDto.setFirstName(user.getFirstName());
+			illnessDto.setLastName(user.getLastName());
+			illnessDto.setRolle(user.getRoleRegisterCodeMapper().getRole());
+			return illnessDto;
+		}
+		
 	//@param klassen-id
 	//@return List of all IllnessNotifications today with id, affectedUserId, firstName, lastName and role
 	public List<IllnessDto> getAllIllnessDay(Date date) {
@@ -95,11 +104,16 @@ public class IllnessNotificationServiceImpl implements IllnessNotificationServic
 		return illnessDto;
 	}
  	
+	
+
+	
 	//@param teacherId
 	//@return List of e-mail addresses of parents with students having teacher today
-	private List<String> getEmailsByTeacher(int teacherId, Date date) {
+	public List<String> getEmailsByTeacher(int teacherId) {
 		
-		String weekday = getWeekDay(date);
+		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		//String weekday = getWeekDay(date);
+		String weekday = "Montag";
 		List<Integer> appointments = appointmentRepository.findByDay(weekday);
 		List<String> classIds = lessonRepository.getClassIdByAppointmentsAndTeacherId(appointments, teacherId);
 		List<Integer> studentIds = schoolClassRepository.getStudentIdsByClassIds(classIds);

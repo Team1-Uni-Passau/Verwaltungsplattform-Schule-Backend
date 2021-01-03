@@ -3,6 +3,7 @@ package com.verwaltungsplatform.controllers;
 import java.sql.Date;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.verwaltungsplatform.dto.IllnessDto;
 import com.verwaltungsplatform.model.IllnessNotification;
+import com.verwaltungsplatform.model.MailSender;
 import com.verwaltungsplatform.repositories.IllnessNotificationRepository;
+import com.verwaltungsplatform.repositories.UserRepository;
 import com.verwaltungsplatform.service.IllnessNotificationService;
 
 @Controller
@@ -25,6 +28,11 @@ public class IllnessNotificationController {
 	@Autowired
 	private IllnessNotificationRepository illnessRepo;
 	
+	@Autowired
+	private UserRepository userRepo;
+	
+	String eMailUsername = "team1.verwaltungsplattform@gmail.com";
+	String eMailPassword = "ToSEWS20/21T1";
 	
 	// Wenn eine Krankmeldung  eines  „Lernenden“ durch das Sekretariat bestätigt ist, ist dies ersichtlich für Lehrende (Methode zur Ausgabe aller bestätigten Krankmeldungen einer Klasse in der ServiceImpl)
 	// Automatischer Email Versand an Schüler eines krankgeschriebenen Lehrers
@@ -53,6 +61,7 @@ public class IllnessNotificationController {
 	}
 	
 	// Ein Lehrer erstellt eine Krankmeldung für sich selbst
+	//E-Mail-Funktion kriegt Fehlermeldung: Handler dispatch failed; nested exception is java.lang.NoClassDefFoundError: javax/mail/Authenticator
 	@PostMapping("/lehrender/krankmeldungen/neuekrankmeldung")
 	@ResponseBody
 	public IllnessDto addIllnessNotificationTeacher(int teacherId, Date date) {
@@ -60,6 +69,24 @@ public class IllnessNotificationController {
 		IllnessDto notificationDto = illnessNotificationService.createIllnessNotification(teacherId);
 		
 		illnessNotificationService.saveIllnessNotification(notificationDto, date);
+		String teacherFirstName = userRepo.getFirstName(teacherId);
+		String teacherLastName = userRepo.getLastName(teacherId);
+			
+//		MailSender sender = new MailSender();
+//		sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
+//		
+//		List<String> email = illnessNotificationService.getEmailsByTeacher(teacherId);
+//		for (String parentEmail : email) {
+//			try {
+//		
+//				sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", parentEmail, "Information: Lehrkraft krank", 
+//						"Guten Morgen, \rWir möchten Sie darauf hinweisen, dass "+teacherFirstName+" "+teacherLastName+" heute krank geschrieben ist.");
+//				
+//			} catch(Exception e) {
+//				e.printStackTrace();
+//		}
+//		}
+
 		
 		return notificationDto;
 	}
@@ -71,7 +98,7 @@ public class IllnessNotificationController {
 	public IllnessDto addIllnessNotificationChild(int parentId, Date date) {
 		
 		// Die Methode gibt gerade eine Fehlermeldung aus (Eingabe der Id des Kindes möglicherweise besser)
-		IllnessDto notificationDto = illnessNotificationService.createIllnessNotification(parentId);
+		IllnessDto notificationDto = illnessNotificationService.createIllnessNotificationParent(parentId);
 		
 		illnessNotificationService.saveIllnessNotification(notificationDto, date);
 		

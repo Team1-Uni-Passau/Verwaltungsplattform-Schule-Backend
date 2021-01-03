@@ -45,8 +45,12 @@ public class PresenceServiceImpl implements PresenceService {
 	
 		
 	
-	//@param user-id of parent
-	//@return List of all precence entries of last seven days with id, date, hour, presence, illness confirmation
+	/*@param user-id of parent
+	*@return List of all precence entries of last seven days with id, 
+	*date, hour, presence, illness confirmation and colour
+	*not present and no confirmation=red, not present and confirmation =green, present = white
+	*default = blue should be set in Frontend
+	**/
 	public List<PresenceDto> getPresenceEntriesLastWeek(int userId) {
 		FamilyDto familyDto = new FamilyDto();
 		familyDto = familyServiceImpl.getFamilyDto(userId);
@@ -67,8 +71,35 @@ public class PresenceServiceImpl implements PresenceService {
 		presenceDto.setLesson(presence.getLesson());
 		presenceDto.setPresence(presence.isPresence());
 		presenceDto.setConfirmation(presence.isConfirmation());
+		presenceDto.setColour(colourPresence(presence.isConfirmation(), presence.isPresence()));
 		
 		return presenceDto;
 	}
  	
+	
+	private String colourPresence(boolean confirmation, boolean presence) {
+	
+	if(confirmation && !presence) {
+		return "green";}
+	if(!confirmation && !presence) {
+		return "red";}
+	else {
+		return "white";
+	}
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

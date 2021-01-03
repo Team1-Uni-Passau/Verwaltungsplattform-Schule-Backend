@@ -15,6 +15,11 @@ package com.verwaltungsplatform.model;
 
 	public class MailSender {
 		
+		
+	public MailSender() {
+			super();
+		}
+
 	protected Session mailSession;
 		
 	public void login(String smtpHost, String smtpPort, final String username, final String password) {

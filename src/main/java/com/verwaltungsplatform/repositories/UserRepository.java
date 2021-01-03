@@ -24,6 +24,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     
     User findById(int id);
     
+    @Query("SELECT firstName FROM User u WHERE u.id= :id")
+    String getFirstName(@Param("id") int id);
+    
+    @Query("SELECT lastName FROM User u WHERE u.id= :id")
+    String getLastName(@Param("id") int id);
 
     @Modifying
     @Query("UPDATE User u SET u.role = :newRole WHERE u.id = :id")

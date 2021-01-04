@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 
 public class ExamDto {
 
+	private int examId;
+	
 	private int userId;
 	
 	private Date date;
@@ -28,8 +30,9 @@ public class ExamDto {
 		
 	}
 
-	public ExamDto(int userId, Date date, String day, int hour, String subject, String classId, String type) {
+	public ExamDto(int examId, int userId, Date date, String day, int hour, String subject, String classId, String type) {
 		super();
+		this.examId = examId;
 		this.userId = userId;
 		this.date = date;
 		this.day = day;
@@ -40,6 +43,14 @@ public class ExamDto {
 	}
 
 	
+	public int getExamId() {
+		return examId;
+	}
+
+	public void setExamId(int examId) {
+		this.examId = examId;
+	}
+
 	public int getUserId() {
 		return userId;
 	}

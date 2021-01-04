@@ -1,6 +1,7 @@
 package com.verwaltungsplatform.service;
 
 
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,9 +72,33 @@ public class ExamServiceImpl implements ExamService {
 
 		return examDto;
 	}
-}
- 	
 	
+	//@return one examDto
+	public ExamDto getOneExam(int examId) {
+		Exam exam = examsRepository.getOneById(examId);
+		Appointment appointment = appointmentRepository.findById(exam.getAppointment());
+		String day = appointment.getWeekday();
+		int hour = appointment.getHour();
+		String subject = lessonRepository.getSubject(exam.getClassId(), exam.getAppointment());
+		ExamDto examDto = new ExamDto(exam.getId(), exam.getTeacherId(), exam.getDate(), day, hour, subject, exam.getClassId(), exam.getType());
+	
+		return examDto;
+	}
+
+	//updates an exam
+	public Exam editExam(int examId, Date date, String day, int hour, String classId, String type) {
+		Exam exam =examsRepository.getOneById(examId);
+		exam.setDate(date);
+		int appointment = appointmentRepository.findAppointment(day, hour);
+		exam.setAppointment(appointment);
+		exam.setClassId(classId);
+		exam.setType(type);
+		
+		examsRepository.save(exam);
+		return exam;
+	}
+ 	
+}
 
 
 

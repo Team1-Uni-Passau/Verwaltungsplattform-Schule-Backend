@@ -20,6 +20,8 @@ public interface ExamsRepository extends JpaRepository<Exam, Integer> {
 	@Query("FROM Exam e WHERE e.teacherId = :teacherId")
 	List<Exam> getAllExam(@Param("teacherId") int teacherId);
 	
+	Exam getOneById(int examId);
+	
 	@Modifying
 	@Query("UPDATE Exam e SET e.teacherId = :newTeacherId WHERE e.id= :examId")
 			void updateTeacher(@Param("examId") int examId, @Param("newTeacherId") int newTeacherId);

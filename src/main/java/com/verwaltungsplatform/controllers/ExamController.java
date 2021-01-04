@@ -51,23 +51,26 @@ public class ExamController {
 	
 //	// getOneExam() Gibt durch die Übergabe der examId die ExamDto der jeweiligen Prüfung aus
 //	// Gibt einem Lehrenden eine bestimmte Prüfung aus
-//	@GetMapping("/lehrender/pruefung/{examId}")
-//	@ResponseBody
-//	public ExamDto getOneExam(@PathVariable("examId") int examId) {
-//		
-//		ExamDto exam = examService.getOneExam(examId);
-//		return exam;
-//	}
-//	
+	@GetMapping("/lehrender/pruefung/{examId}")
+	@ResponseBody
+	public ExamDto getOneExam(@PathVariable("examId") int examId) {
+		
+		ExamDto exam = examService.getOneExam(examId);
+		return exam;
+	}
+	
 //	// editExam() sucht mithilfe der examId die jeweilige Prüfung, aktualisiert die ExamDto und überschreibt die alten Werte der Prüfung
 //	// Editiert eine bestimmte Prüfung
-//	@PutMapping("/lehrender/pruefung/edit/{examId}")
-//	@ResponseBody
-//	public ExamDto editExam(@PathVariable("examId") int examId, Date date, String day, int hour, String subject, String classId, String type) {
-//		
-//		ExamDto exam = examService.editExam(examId, date, day, hour, subject, classId, type);
-//		return exam;
-//	}
+	//Problem: ich weiß nicht, wie subject geändert werden kann, weil es nicht in exam gespeichert ist, sondern durch Stunde und Wochentag gesucht wird
+	@PutMapping("/lehrender/pruefung/edit/{examId}")
+	@ResponseBody
+	public ExamDto editExam(@PathVariable("examId") int examId, Date date, String day, int hour, String classId, String type) {
+		
+		Exam editExam = examService.editExam(examId, date, day, hour, classId, type);
+		ExamDto exam = examService.getOneExam(examId);
+		
+		return exam;
+	}
 	
 	// Löscht eine bestimmte Prüfung
 	@DeleteMapping("/lehrender/pruefung/delete/{examId}")

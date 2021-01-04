@@ -20,6 +20,7 @@ public class Grades {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column (name="idnoten")
 	private int id;
 	
 	@Column (name = "pruefung_id")

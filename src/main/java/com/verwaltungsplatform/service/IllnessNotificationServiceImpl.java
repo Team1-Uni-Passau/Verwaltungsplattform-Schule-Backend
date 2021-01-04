@@ -85,9 +85,10 @@ public class IllnessNotificationServiceImpl implements IllnessNotificationServic
 		
 	//@param klassen-id
 	//@return List of all IllnessNotifications today with id, affectedUserId, firstName, lastName and role
-	public List<IllnessDto> getAllIllnessDay(Date date) {
+	public List<IllnessDto> getAllIllnessDay() {
+		
 		return ((List<IllnessNotification>) illnessNotificationRepository
-				.findByDate(date))
+				.findByDate())
 				.stream()
 				.map(this::convertToIllnessDto).collect(Collectors.toList());
 		

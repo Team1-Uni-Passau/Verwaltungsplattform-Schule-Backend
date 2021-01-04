@@ -1,3 +1,4 @@
+  
 package com.verwaltungsplatform.model;
 
 import javax.persistence.Column;

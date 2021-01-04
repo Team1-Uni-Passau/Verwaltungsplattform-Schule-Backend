@@ -58,48 +58,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
         		.antMatchers(
 					"/login",
-					"/registration",
-					"/lernender/wochenplan/{studentId}",
-					"/lehrender/wochenplan/{teacherId}",
-					"/sekretariat/wochenplan/klasse/{classId}",
-					"/sekretariat/wochenplan/{teacherId}",
-					"/eltern/wochenplan/{studentId}",
-					"/sekretariat/wochenplan/neuestunde",
-					"/sekretariat/wochenplan/stunde/{lessonId}",
-					"/sekretariat/wochenplan/stunde/{lessonId}/termin",
-					"/sekretariat/wochenplan/stunde/{lessonId}/klasse",
-					"/sekretariat/wochenplan/stunde/{lessonId}/lehrender",
-					"/sekretariat/wochenplan/stunde/{lessonId}/fach",
-					"/sekretariat/wochenplan/stunde/edit/{lessonId}",
-					"/sekretariat/wochenplan/stunde/{lessonId}/loeschen",
-					"/restorePassword",
-					"/restorePassword/code",
-					"/restorePassword/changePassword",
-					"/sekretariat/changerole",
-					"/admin/changerole",
-					"/lernender/ankuendigungen",
-					"/lehrender/ankuendigungen",
-					"/eltern/ankuendigungen",
-					"/sekretariat/ankuendigungen",
-					"/sekretariat/alleankuendigungen",
-					"/sekretariat/neueankuendigungallgemein",
-					"/sekretariat/neueankuendigungrolle",
-					"/lehrender/neueankuendigungklasse",
-					"/sekretariat/ankuendigungloeschen/{notificationId}",
-					"/sekretariat/krankmeldungen",
-					"/sekretariat/krankmeldungen/{illnessNotificationId}",
-					"/lehrender/krankmeldungen/neuekrankmeldung",
-					"/eltern/krankmeldungen/neuekrankmeldung",
-					"/lehrender/pruefungen",
-					"/lehrender/neuepruefung",
-					"/lehrender/pruefung/{examId}",
-					"/lehrender/pruefung/edit/{examId}",
-					"/lehrender/pruefung/delete/{examId}"
-        		)
+					"/registration"
+				)
                 .permitAll().anyRequest().authenticated()
                 .and().exceptionHandling().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);;
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        
+        http.cors();
+
     }
     
     @Bean
@@ -111,6 +78,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // setAllowCredentials(true) is important, otherwise:
         // The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
         //configuration.setAllowCredentials(true);
+//        configuration.setAllowCredentials(true);
         // setAllowedHeaders is important! Without it, OPTIONS preflight request
         // will fail with 403 Invalid CORS request
         configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));

@@ -129,6 +129,24 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+<<<<<<< HEAD
+=======
+		
+		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+		<dependency>
+    		<groupId>javax.mail</groupId>
+    		<artifactId>javax.mail-api</artifactId>
+    		<version>1.6.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax/javaee-api -->
+		<dependency>
+    		<groupId>javax</groupId>
+    		<artifactId>javaee-api</artifactId>
+    		<version>8.0.1</version>
+    		<scope>provided</scope>
+		</dependency>
+>>>>>>> c56617e... backend corrections
 	</dependencies>
 
 	<build>

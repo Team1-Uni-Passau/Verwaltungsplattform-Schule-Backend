@@ -1,7 +1,8 @@
 package com.verwaltungsplatform.repositories;
-
 import java.util.List;
 import java.sql.Date;
+import java.sql.Date;
+import java.util.List;
 
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,7 +21,10 @@ public interface IllnessNotificationRepository extends JpaRepository<IllnessNoti
 	@Query("FROM IllnessNotification i WHERE i.date = CURRENT_DATE() AND i.affectedUser= :affectedUser")
 	IllnessNotification findByAffectedUser(@Param("affectedUser") int affectedUser);
 	
-	List<IllnessNotification> findByDate(Date date);
+
+	
+	@Query("FROM IllnessNotification i WHERE i.date = CURRENT_DATE()")
+	List<IllnessNotification> findByDate();
 	
 	
 	@Query("FROM IllnessNotification i WHERE i.confirmation = :confirmation")

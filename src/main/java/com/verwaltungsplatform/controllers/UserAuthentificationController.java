@@ -30,7 +30,9 @@ import com.verwaltungsplatform.util.JwtUtil;
 @Controller
 public class UserAuthentificationController {
 	
-	
+//	@Autowired
+//	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	private PasswordCode code;
 	private String email;
 	
@@ -77,6 +79,9 @@ public class UserAuthentificationController {
 		mapper.setRole(userdata.get("roleCheckedInRegisterForm"));
 		mapper.setRegisterCode(Integer.valueOf(userdata.get("registerCode")));
 		
+		
+//		String encodedPassword = bCryptPasswordEncoder.encode(userdata.get("registerPassword"));
+
 		registrationDto.setEmail(userdata.get("registerEmail"));
 		registrationDto.setPassword(userdata.get("registerPassword"));
 		registrationDto.setRoleCodeMapping(mapper);
@@ -86,21 +91,25 @@ public class UserAuthentificationController {
 		
 		try {
 			 response = userService.save(registrationDto);
+			 
+			 if(response.getStatusCodeValue() == 200) {
+					MailSender sender = new MailSender();
+					sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
+					try {
+						
+						sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", registrationDto.getEmail(), "Registrierung erfolgreich", "Ihre Registrierung im System ist erfolgreich. \rSie sind nun im System registriert.");
+						
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+			 }
+			 
 		} catch (UserAlreadyExistException e) {	
 			e.printStackTrace(); 
 		    return new ResponseEntity<>(
 		    	      "This user might already be saved in the database", HttpStatus.CONFLICT);
 		}
 		
-		MailSender sender = new MailSender();
-		sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
-		try {
-			
-			sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", registrationDto.getEmail(), "Registrierung erfolgreich", "Ihre Registrierung im System ist erfolgreich. \rSie sind nun im System registriert.");
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
 		
 	    return response;
 

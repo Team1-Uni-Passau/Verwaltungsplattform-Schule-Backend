@@ -1,5 +1,4 @@
 package com.verwaltungsplatform.service;
-
 import java.sql.Date;
 import java.util.List;
 

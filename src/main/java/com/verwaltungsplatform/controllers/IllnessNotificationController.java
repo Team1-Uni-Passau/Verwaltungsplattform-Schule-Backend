@@ -1,6 +1,7 @@
 package com.verwaltungsplatform.controllers;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -41,10 +42,9 @@ public class IllnessNotificationController {
 	// Gibt dem Sekretariat alle Krankmeldungen eines bestimmten Tages aus
 	@GetMapping("/sekretariat/krankmeldungen")
 	@ResponseBody
-	public List<IllnessDto> getIllnessNotifications(Date date) {
-		
-		List<IllnessDto> notifications = illnessNotificationService.getAllIllnessDay(date);
-		
+	public List<IllnessDto> getIllnessNotifications() {
+
+		List<IllnessDto> notifications = illnessNotificationService.getAllIllnessDay();
 		return notifications;
 	}
 	
@@ -53,7 +53,6 @@ public class IllnessNotificationController {
 	@PutMapping("/sekretariat/krankmeldungen/{illnessNotificationId}")
 	@ResponseBody
 	public IllnessNotification confirmIllnessNotification(@PathVariable("illnessNotificationId") int illnessNotificationId) {
-		
 		IllnessNotification notification = illnessRepo.findById(illnessNotificationId);
 		notification.setConfirmation(true);
 		illnessRepo.save(notification);

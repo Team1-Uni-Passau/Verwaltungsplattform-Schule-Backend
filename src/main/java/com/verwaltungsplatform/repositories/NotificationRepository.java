@@ -48,4 +48,3 @@ public interface NotificationRepository extends JpaRepository<Notification, Inte
 		void deleteNotification(@Param("notId") int notId);
 }
 
-

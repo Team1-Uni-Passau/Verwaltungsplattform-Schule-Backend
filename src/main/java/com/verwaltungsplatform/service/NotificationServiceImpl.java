@@ -72,39 +72,37 @@ public class NotificationServiceImpl implements NotificationService {
 	/*@param userId
 	 * @return list of all current notifications for the role, all roles and the class (of user or child of user)
 	 */
-	public List<NotificationDto> getAllNotificationsRoleAndClass(int userId) {
-		List<NotificationDto> roleNotifications = getAllNotificationsRole(userId);
-		List<NotificationDto> classNotifications = getAllNotificationsClassId(userId);
-		List<NotificationDto> allNotifications = getAllNotifications();
+	public List<Notification> getAllNotificationsRoleAndClass(int userId) {
+		List<Notification> roleNotifications = getAllNotRole(userId);
+		List<Notification> classNotifications = getAllNotClassId(userId);
+		List<Notification> allNotifications = getAllNotifications();
 		roleNotifications.addAll(classNotifications);
 		roleNotifications.addAll(allNotifications);
+
 		return roleNotifications;
 	}
-	/*@param userId
-	 * @return list of all current notifications for the role 
-	 */
-	public List<NotificationDto> getAllNotificationsRole(int userId) {
-		User user = userRepository.getOne(userId);
-		String rolle = user.getRoleRegisterCodeMapper().getRole();
-		return ((List<Notification>) notificationRepository
-				.findByRole(rolle))
-				.stream()
-				.map(this::convertToNotificationDto).collect(Collectors.toList());
+
 		
-	}
 	//@return list of all Notifications with no defined class or role
-	public List<NotificationDto> getAllNotifications() {
-		return ((List<Notification>) notificationRepository
-				.findByRoleIsNullAndClassIdIsNull())
-				.stream()
-				.map(this::convertToNotificationDto).collect(Collectors.toList());
+	public List<Notification> getAllNotifications() {
+		List<Notification> notification = notificationRepository.findByRoleIsNullAndClassIdIsNull();
+		return notification;
 		
 	}
 	
-	/* @param a userId of a student or parent
-	 * @return list of all notifications for a class
-	 */
-	public List<NotificationDto> getAllNotificationsClassId(int userId) {
+	//@return all Notifications for a role
+	public List<Notification> getAllNotRole(int userId) {
+		User user = userRepository.getOne(userId);
+		String rolle = user.getRoleRegisterCodeMapper().getRole();
+		List<Notification> notification = notificationRepository.findByRole(rolle);
+		
+		return notification;
+		
+	}
+
+
+	//@return List of Notification for a class
+	public List<Notification> getAllNotClassId(int userId) {
 		
 		String klassenId;
 		if (schoolClassRepository.existsById(userId)) {
@@ -116,22 +114,10 @@ public class NotificationServiceImpl implements NotificationService {
 			klassenId = familyDto.getClassId();
 		}
 		
-		return ((List<Notification>) notificationRepository
-				.findByKlassenId(klassenId))
-				.stream()
-				.map(this::convertToNotificationDto).collect(Collectors.toList());
-	}
+		List<Notification> notification = notificationRepository.findByClassId(klassenId);
+		return notification;
+}
 	
-	
-	//method supports getAllNotification
-	
-	private NotificationDto convertToNotificationDto(Notification notification) {
-		NotificationDto notificationDto = new NotificationDto();
-		notificationDto.setEnddate(notification.getEnd());
-		notificationDto.setStartdate(notification.getStart());
-		notificationDto.setContent(notification.getContent());
-		return notificationDto;
-	}
  	
     
 	

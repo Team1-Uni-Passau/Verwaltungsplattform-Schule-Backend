@@ -43,6 +43,9 @@ public class NotificationController {
 		
 		List<Notification> notification = notificationRepo.findAll();
 		
+		//Methode in nächster Zeile funktioniert jetzt, filtert welche Ankündigungen angezeigt werden, braucht @param studentID
+		//List<Notification> notification = notificationService.getAllNotificationsRoleAndClass(studentId);
+		
 		return notification;
 	}
 	

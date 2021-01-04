@@ -89,7 +89,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					"/sekretariat/krankmeldungen",
 					"/sekretariat/krankmeldungen/{illnessNotificationId}",
 					"/lehrender/krankmeldungen/neuekrankmeldung",
-					"/eltern/krankmeldungen/neuekrankmeldung"
+					"/eltern/krankmeldungen/neuekrankmeldung",
+					"/lehrender/pruefungen",
+					"/lehrender/neuepruefung",
+					"/lehrender/pruefung/{examId}",
+					"/lehrender/pruefung/edit/{examId}",
+					"/lehrender/pruefung/delete/{examId}"
         		)
                 .permitAll().anyRequest().authenticated()
                 .and().exceptionHandling().and().sessionManagement()

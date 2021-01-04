@@ -44,6 +44,9 @@ public class Exam {
 	@Column (name = "art")
 	private String type;
 	
+	public Exam() {
+		super();
+	}
 	
 	public Exam(int teacherId, String classId, int appointment, Date date, String type) {
 		super();

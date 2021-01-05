@@ -1,6 +1,6 @@
 package com.verwaltungsplatform.controllers;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,9 +71,10 @@ public class NotificationController {
 	// Anzeigen aller Ankündigungen als Sekretariatsmitglied
 	@GetMapping("/sekretariat/alleankuendigungen")
 	@ResponseBody
-	public List<Notification> getAllNotifications() {
+	public List<NotificationDto> getAllNotifications() {
 		
-		List<Notification> notification = notificationRepo.findAll();
+		List<NotificationDto> notification = notificationService.getSecretaryNotifications();
+
 		
 		return notification;
 	}

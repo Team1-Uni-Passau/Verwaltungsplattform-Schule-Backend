@@ -1,6 +1,6 @@
 package com.verwaltungsplatform.repositories;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jdbc.repository.query.Modifying;
@@ -46,6 +46,8 @@ public interface NotificationRepository extends JpaRepository<Notification, Inte
 
 @Query("DELETE FROM Notification n WHERE n.idankuendigung = :notId")
 		void deleteNotification(@Param("notId") int notId);
+
+List<Notification> findByClassIdIsNull();
 }
 
 

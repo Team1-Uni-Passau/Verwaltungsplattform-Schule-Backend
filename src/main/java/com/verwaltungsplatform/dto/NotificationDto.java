@@ -5,13 +5,17 @@ import java.sql.Date;
 
 public class NotificationDto {
 
+	private int idNotification;
 	
-	private Date enddate;
+	private String enddate;
 	
-	private Date startdate;
+	private String startdate;
 	
 	private String content;
 	
+	private String rolle;
+	
+	private String classId;
 
    
 	// Default constructor
@@ -20,38 +24,44 @@ public class NotificationDto {
 	}
 
 
-
-	public NotificationDto(Date enddate, Date startdate, String content) {
+	public NotificationDto(String enddate, String startdate, String content, String rolle, String classId) {
 		super();
 		this.enddate = enddate;
 		this.startdate = startdate;
 		this.content = content;
+		this.rolle = rolle;
+		this.classId = classId;
 	}
 
 
+	public int getIdNotification() {
+		return idNotification;
+	}
 
-	public Date getEnddate() {
+
+	public void setIdNotification(int idNotification) {
+		this.idNotification = idNotification;
+	}
+
+
+	public String getEnddate() {
 		return enddate;
 	}
 
 
-
-	public void setEnddate(Date enddate) {
+	public void setEnddate(String enddate) {
 		this.enddate = enddate;
 	}
 
 
-
-	public Date getStartdate() {
+	public String getStartdate() {
 		return startdate;
 	}
 
 
-
-	public void setStartdate(Date startdate) {
+	public void setStartdate(String startdate) {
 		this.startdate = startdate;
 	}
-
 
 
 	public String getContent() {
@@ -59,12 +69,30 @@ public class NotificationDto {
 	}
 
 
-
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
 
-	
+
+	public String getRolle() {
+		return rolle;
+	}
+
+
+	public void setRolle(String rolle) {
+		this.rolle = rolle;
+	}
+
+
+	public String getClassId() {
+		return classId;
+	}
+
+
+	public void setClassId(String classId) {
+		this.classId = classId;
+	}
 	
 }
+
+

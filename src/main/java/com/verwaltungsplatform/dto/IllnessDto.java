@@ -10,6 +10,8 @@ public class IllnessDto {
 	@NotEmpty
 	private int affectedUserId;
 	
+	private int sicknessNoteId;
+	
 	private String firstName;
    
 	private String lastName;
@@ -60,6 +62,16 @@ public class IllnessDto {
 
 	public void setRolle(String rolle) {
 		this.rolle = rolle;
+	}
+
+
+	public int getSicknessNoteId() {
+		return sicknessNoteId;
+	}
+
+
+	public void setSicknessNoteId(int sicknessNoteId) {
+		this.sicknessNoteId = sicknessNoteId;
 	}
 
 

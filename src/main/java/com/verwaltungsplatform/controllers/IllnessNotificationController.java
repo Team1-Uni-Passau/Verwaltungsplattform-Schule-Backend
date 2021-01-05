@@ -1,6 +1,6 @@
 package com.verwaltungsplatform.controllers;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 
@@ -41,9 +41,9 @@ public class IllnessNotificationController {
 	// Gibt dem Sekretariat alle Krankmeldungen eines bestimmten Tages aus
 	@GetMapping("/sekretariat/krankmeldungen")
 	@ResponseBody
-	public List<IllnessDto> getIllnessNotifications(Date date) {
+	public List<IllnessDto> getIllnessNotifications() {
 		
-		List<IllnessDto> notifications = illnessNotificationService.getAllIllnessDay(date);
+		List<IllnessDto> notifications = illnessNotificationService.getAllIllnessDay();
 		
 		return notifications;
 	}

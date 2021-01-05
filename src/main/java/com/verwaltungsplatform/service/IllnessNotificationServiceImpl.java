@@ -1,7 +1,7 @@
 package com.verwaltungsplatform.service;
 
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -20,7 +20,6 @@ import com.verwaltungsplatform.repositories.UserRepository;
 import com.verwaltungsplatform.dto.FamilyDto;
 import com.verwaltungsplatform.dto.IllnessDto;
 import com.verwaltungsplatform.model.IllnessNotification;
-import com.verwaltungsplatform.model.MailSender;
 import com.verwaltungsplatform.model.User;
 
 
@@ -86,9 +85,8 @@ public class IllnessNotificationServiceImpl implements IllnessNotificationServic
 	//@param klassen-id
 	//@return List of all IllnessNotifications today with id, affectedUserId, firstName, lastName and role
 	public List<IllnessDto> getAllIllnessDay() {
-		
 		return ((List<IllnessNotification>) illnessNotificationRepository
-				.findByDate())
+				.findAll())
 				.stream()
 				.map(this::convertToIllnessDto).collect(Collectors.toList());
 		
@@ -101,7 +99,8 @@ public class IllnessNotificationServiceImpl implements IllnessNotificationServic
 		illnessDto.setFirstName(user.getFirstName());
 		illnessDto.setLastName(user.getLastName());
 		illnessDto.setRolle(user.getRoleRegisterCodeMapper().getRole());
-		
+		illnessDto.setSicknessNoteId(illnessNotification.getId());
+		illnessDto.setConfirmation(illnessNotification.getConfirmation());
 		return illnessDto;
 	}
  	

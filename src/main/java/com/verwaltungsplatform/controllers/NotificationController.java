@@ -1,7 +1,9 @@
 package com.verwaltungsplatform.controllers;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,9 +11,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.verwaltungsplatform.dto.NotificationDto;
 import com.verwaltungsplatform.model.Notification;
 import com.verwaltungsplatform.repositories.NotificationRepository;
 import com.verwaltungsplatform.service.NotificationService;
@@ -81,9 +83,18 @@ public class NotificationController {
 	// Erstellen einer neuen allgemeinen Ankündigung als Sekretariatsmitglied
 	@PostMapping("/sekretariat/neueankuendigungallgemein")
 	@ResponseBody
-	public Notification addNotificationGeneral(int user, Date start, Date end, String content) {
-		
-		Notification newNotification = new Notification(user, start, end, content);
+	public Notification addNotificationGeneral(@RequestBody Map<String,String> eventData) throws java.text.ParseException {			
+	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	    java.util.Date startDate= null;
+	    java.util.Date endDate= null;
+
+	    startDate = format.parse(eventData.get("startDate"));
+		endDate = format.parse(eventData.get("endDate"));
+	    
+        java.sql.Date sqlStartDate = new java.sql.Date(startDate.getTime());
+        java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
+
+		Notification newNotification = new Notification(Integer.valueOf(eventData.get("userId")),sqlStartDate, sqlEndDate, eventData.get("content"));
 		notificationRepo.save(newNotification);
 		return newNotification;
 	}
@@ -91,9 +102,19 @@ public class NotificationController {
 	// Erstellen einer neuen rollenspezifischen Ankündigung als Sekretariatsmitglied
 	@PostMapping("/sekretariat/neueankuendigungrolle")
 	@ResponseBody
-	public Notification addNotificationRole(int user, Date start, Date end, String role, String content) {
-		
-		Notification newNotification = new Notification(user, start, end, role, content);
+	public Notification addNotificationRole(@RequestBody Map<String,String> eventData) throws java.text.ParseException {
+	   
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	    java.util.Date startDate= null;
+	    java.util.Date endDate= null;
+
+	    startDate = format.parse(eventData.get("startDate"));
+		endDate = format.parse(eventData.get("endDate"));
+	    
+        java.sql.Date sqlStartDate = new java.sql.Date(startDate.getTime());
+        java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
+
+		Notification newNotification = new Notification(Integer.valueOf(eventData.get("userId")),sqlStartDate, sqlEndDate, eventData.get("role"),eventData.get("content"));
 		notificationRepo.save(newNotification);
 		return newNotification;
 	}

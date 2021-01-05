@@ -17,6 +17,8 @@ public class IllnessDto {
 	private String lastName;
    
     private String rolle;
+    
+    private boolean confirmation;
 
    
 	// Default constructor
@@ -72,6 +74,16 @@ public class IllnessDto {
 
 	public void setSicknessNoteId(int sicknessNoteId) {
 		this.sicknessNoteId = sicknessNoteId;
+	}
+
+
+	public boolean getConfirmation() {
+		return confirmation;
+	}
+
+
+	public void setConfirmation(boolean confirmation) {
+		this.confirmation = confirmation;
 	}
 
 

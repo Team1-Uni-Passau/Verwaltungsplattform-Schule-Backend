@@ -75,10 +75,10 @@ public class NotificationServiceImpl implements NotificationService {
 	/*@param userId
 	 * @return list of all current notifications for the role, all roles and the class (of user or child of user)
 	 */
-	public List<Notification> getAllNotificationsRoleAndClass(int userId) {
-		List<Notification> roleNotifications = getAllNotRole(userId);
-		List<Notification> classNotifications = getAllNotClassId(userId);
-		List<Notification> allNotifications = getAllNotifications();
+	public List<NotificationDto> getAllNotificationsRoleAndClass(int userId) {
+		List<NotificationDto> roleNotifications = getAllNotRole(userId);
+		List<NotificationDto> classNotifications = getAllNotClassId(userId);
+		List<NotificationDto> allNotifications = getAllNotifications();
 		roleNotifications.addAll(classNotifications);
 		roleNotifications.addAll(allNotifications);
 
@@ -86,10 +86,19 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 		
+//	//@return list of all Notifications with no defined class or role
+//	public List<Notification> getAllNotifications() {
+//		List<Notification> notification = notificationRepository.findByRoleIsNullAndClassIdIsNull();
+//		return notification;
+//		
+//	}
+	
 	//@return list of all Notifications with no defined class or role
-	public List<Notification> getAllNotifications() {
-		List<Notification> notification = notificationRepository.findByRoleIsNullAndClassIdIsNull();
-		return notification;
+	public List<NotificationDto> getAllNotifications() {
+		return ((List<Notification>) notificationRepository
+				.findByRoleIsNullAndClassIdIsNull())			
+				.stream()
+				.map(this::convertToNotificationDto).collect(Collectors.toList());
 		
 	}
 	
@@ -102,7 +111,7 @@ public class NotificationServiceImpl implements NotificationService {
 			
 		}
 		
-		private NotificationDto convertToNotificationDto(Notification notification) {
+		public NotificationDto convertToNotificationDto(Notification notification) {
 			NotificationDto notificationDto = new NotificationDto();
 			notificationDto.setContent(notification.getContent());
 			notificationDto.setRolle(notification.getRole());
@@ -118,19 +127,47 @@ public class NotificationServiceImpl implements NotificationService {
 	 	
 			
 	
+//	//@return all Notifications for a role
+//	public List<Notification> getAllNotRole(int userId) {
+//		User user = userRepository.getOne(userId);
+//		String rolle = user.getRoleRegisterCodeMapper().getRole();
+//		List<Notification> notification = notificationRepository.findByRole(rolle);
+//		
+//		return notification;
+//		
+//	}
+	
 	//@return all Notifications for a role
-	public List<Notification> getAllNotRole(int userId) {
+	public List<NotificationDto> getAllNotRole(int userId) {
 		User user = userRepository.getOne(userId);
 		String rolle = user.getRoleRegisterCodeMapper().getRole();
-		List<Notification> notification = notificationRepository.findByRole(rolle);
-		
-		return notification;
+		return ((List<Notification>) notificationRepository
+				.findByRole(rolle))			
+				.stream()
+				.map(this::convertToNotificationDto).collect(Collectors.toList());
 		
 	}
 
 
+//	//@return List of Notification for a class
+//	public List<Notification> getAllNotClassId(int userId) {
+//		
+//		String klassenId;
+//		if (schoolClassRepository.existsById(userId)) {
+//			klassenId = schoolClassRepository.getName(userId);
+//		}
+//		else {
+//			FamilyDto familyDto = new FamilyDto();
+//			familyDto = familyServiceImpl.getFamilyDto(userId);
+//			klassenId = familyDto.getClassId();
+//		}
+//		
+//		List<Notification> notification = notificationRepository.findByClassId(klassenId);
+//		return notification;
+//}
+	
 	//@return List of Notification for a class
-	public List<Notification> getAllNotClassId(int userId) {
+	public List<NotificationDto> getAllNotClassId(int userId) {
 		
 		String klassenId;
 		if (schoolClassRepository.existsById(userId)) {
@@ -142,8 +179,10 @@ public class NotificationServiceImpl implements NotificationService {
 			klassenId = familyDto.getClassId();
 		}
 		
-		List<Notification> notification = notificationRepository.findByClassId(klassenId);
-		return notification;
+		return ((List<Notification>) notificationRepository
+				.findByClassId(klassenId))			
+				.stream()
+				.map(this::convertToNotificationDto).collect(Collectors.toList());
 }
 	
  	

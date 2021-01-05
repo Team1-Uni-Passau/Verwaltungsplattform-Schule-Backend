@@ -34,7 +34,6 @@ public class IllnessNotificationController {
 	String eMailUsername = "team1.verwaltungsplattform@gmail.com";
 	String eMailPassword = "ToSEWS20/21T1";
 	
-	// Wenn eine Krankmeldung  eines  „Lernenden“ durch das Sekretariat bestätigt ist, ist dies ersichtlich für Lehrende (Methode zur Ausgabe aller bestätigten Krankmeldungen einer Klasse in der ServiceImpl)
 	// Automatischer Email Versand an Schüler eines krankgeschriebenen Lehrers
 	
 	// Es wird nicht gezeigt, ob die Krankmeldung bereits bestätigt ist (IllnessDto und IllnessConfirmationDto zusammenführen?)

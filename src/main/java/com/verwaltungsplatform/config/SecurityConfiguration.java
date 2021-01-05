@@ -94,7 +94,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					"/lehrender/neuepruefung",
 					"/lehrender/pruefung/{examId}",
 					"/lehrender/pruefung/edit/{examId}",
-					"/lehrender/pruefung/delete/{examId}"
+					"/lehrender/pruefung/delete/{examId}",
+					"/sekretariat/klassenliste/{classId}",
+					"/sekretariat/klassenliste/keineklasse",
+					"/sekretariat/klassenliste/keineklasse/klassehinzufuegen",
+					"/sekretariat/klassenliste/klasseaendern",
+					"/lehrender/klassenliste/{classId}",
+					"/lehrender/klassenliste/abwesenheiteintragen"
         		)
                 .permitAll().anyRequest().authenticated()
                 .and().exceptionHandling().and().sessionManagement()

@@ -46,8 +46,11 @@ public class SchoolClassServiceImpl implements SchoolClassService {
 		User user = userRepository.getOne(userId);
 		illnessConfirmationDto.setFirstName(user.getFirstName());
 		illnessConfirmationDto.setLastName(user.getLastName());
-		boolean confirmation = illnessNotificationRepository.findByAffectedUser(userId).getConfirmation();
+		boolean confirmation = false;
+			if(illnessNotificationRepository.existsById(userId)) {
+				confirmation = illnessNotificationRepository.findByAffectedUser(userId).getConfirmation();}
 		illnessConfirmationDto.setConfirmation(confirmation);
+		illnessConfirmationDto.setPresence(true);
 		return illnessConfirmationDto;
 	}
  	

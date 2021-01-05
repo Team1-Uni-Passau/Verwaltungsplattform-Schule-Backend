@@ -112,7 +112,7 @@ public class IllnessNotificationServiceImpl implements IllnessNotificationServic
 		
 		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 		//String weekday = getWeekDay(date);
-		String weekday = "Montag";
+		String weekday = getWeekDay(date);
 		List<Integer> appointments = appointmentRepository.findByDay(weekday);
 		List<String> classIds = lessonRepository.getClassIdByAppointmentsAndTeacherId(appointments, teacherId);
 		List<Integer> studentIds = schoolClassRepository.getStudentIdsByClassIds(classIds);

@@ -16,7 +16,6 @@ public interface IllnessNotificationRepository extends JpaRepository<IllnessNoti
 
 	IllnessNotification findById(int id);
 	
-		
 	
 	@Query("FROM IllnessNotification i WHERE i.date = CURRENT_DATE() AND i.affectedUser= :affectedUser")
 	IllnessNotification findByAffectedUser(@Param("affectedUser") int affectedUser);

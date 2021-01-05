@@ -1,6 +1,6 @@
 package com.verwaltungsplatform.controllers;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.verwaltungsplatform.dto.NotificationDto;
@@ -107,6 +108,21 @@ public class NotificationController {
 		Notification newNotification = new Notification(user, classId, content, start, end);
 		notificationRepo.save(newNotification);
 		return newNotification;
+	}
+	
+	// Ändern einer bestehenden Ankündigung als Sekretariat
+	@PutMapping("/sekretariat/ankuendigungen/edit/{notificationId}")
+	@ResponseBody
+	public Notification editNotification(@PathVariable("notificationId") int notificationId, Date start, Date end, String role, String content) {
+		
+		Notification notification = notificationRepo.getOne(notificationId);
+		notification.setStart(start);
+		notification.setEnd(end);
+		notification.setRole(role);
+		notification.setContent(content);
+		notificationRepo.save(notification);
+		
+		return notification;
 	}
 	
 	// Löschen einer Ankündigung als Sekretariatsmitglied

@@ -85,6 +85,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					"/sekretariat/neueankuendigungallgemein",
 					"/sekretariat/neueankuendigungrolle",
 					"/lehrender/neueankuendigungklasse",
+					"/sekretariat/ankuendigungen/edit/{notificationId}",
 					"/sekretariat/ankuendigungloeschen/{notificationId}",
 					"/sekretariat/krankmeldungen",
 					"/sekretariat/krankmeldungen/{illnessNotificationId}",

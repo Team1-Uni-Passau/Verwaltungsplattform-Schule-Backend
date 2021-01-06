@@ -15,6 +15,8 @@ public class IllnessConfirmationDto {
 	private String lastName;
    
     private boolean confirmation;
+    
+    private boolean presence;
 
    
 	// Default constructor
@@ -29,6 +31,7 @@ public class IllnessConfirmationDto {
 		this.firstName = "";
 		this.lastName = "";
 		this.confirmation = false;
+		this.presence = true;
 	}
 	
 
@@ -57,6 +60,16 @@ public class IllnessConfirmationDto {
 
 	public boolean isConfirmation() {
 		return confirmation;
+	}
+
+
+	public boolean isPresence() {
+		return presence;
+	}
+
+
+	public void setPresence(boolean presence) {
+		this.presence = presence;
 	}
 	
 

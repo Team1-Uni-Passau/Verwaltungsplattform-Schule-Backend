@@ -137,4 +137,28 @@ public class Notification {
 		// Löscht die Ankündigung
 	}
 
+	public int getIdankuendigung() {
+		return idankuendigung;
+	}
+
+	public void setIdankuendigung(int idankuendigung) {
+		this.idankuendigung = idankuendigung;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public String getClassId() {
+		return classId;
+	}
+
+	public void setClassId(String classId) {
+		this.classId = classId;
+	}
+
 }

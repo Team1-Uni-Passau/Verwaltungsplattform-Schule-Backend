@@ -130,6 +130,10 @@ public class UserServiceImpl implements UserService {
 		return user.getRoleRegisterCodeMapper().getRole();
 	}
 
+	public int getUserId (String email) {
+		User user = userRepository.getUserRole(email);
+		return user.getId();
+	}
 
 	@Override
 	public boolean checkIfRegisterCodeMatchesRole(String role, int registrationCode) {	

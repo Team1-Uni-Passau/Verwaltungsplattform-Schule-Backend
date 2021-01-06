@@ -9,6 +9,7 @@ public interface UserService extends UserDetailsService {
 	ResponseEntity<String> save(UserRegistrationDto registrationDto);    
     boolean checkIfUserExist(String email);
     String getUserRole(String email);
+    int getUserId (String email);
     boolean checkIfRegisterCodeMatchesRole(String role, int registrationCode);
 
 }

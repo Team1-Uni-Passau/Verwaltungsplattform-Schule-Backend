@@ -20,6 +20,16 @@ public class GradingSchemeDto {
 	public GradingSchemeDto() {
 		
 	}
+	
+	public GradingSchemeDto(String classId, int teacherId, double writtenEvaluation, double oralEvaluation, int writtenNumber, int oralNumber) {
+		super();
+		this.classId = classId;
+		this.teacherId = teacherId;
+		this.writtenEvaluation = writtenEvaluation;
+		this.oralEvaluation = oralEvaluation;
+		this.writtenNumber = writtenNumber;
+		this.oralNumber = oralNumber;
+	}
 
 
 	public String getClassId() {

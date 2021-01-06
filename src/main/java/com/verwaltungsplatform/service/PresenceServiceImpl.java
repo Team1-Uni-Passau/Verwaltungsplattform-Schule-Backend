@@ -94,12 +94,3 @@ public class PresenceServiceImpl implements PresenceService {
 
 
 
-
-
-
-
-
-
-
-
-

@@ -141,8 +141,10 @@ public class UserAuthentificationController {
 
 		if (principal != null) {
 			String userRole = userService.getUserRole(authRequestDto.getEmail());
+			int userId = userService.getUserId(authRequestDto.getEmail());
 			String token = jwtUtil.generateToken(authRequestDto.getEmail());
 			jsonResponse.put("role", userRole);
+			jsonResponse.put("userId", userId);
 			jsonResponse.put("token", token);
 		} 
 

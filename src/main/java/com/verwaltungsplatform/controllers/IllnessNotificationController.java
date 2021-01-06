@@ -1,8 +1,10 @@
 package com.verwaltungsplatform.controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.verwaltungsplatform.dto.IllnessDto;
@@ -95,12 +98,19 @@ public class IllnessNotificationController {
 	// Ein Elternteil erstellt eine Krankmeldung für ein Kind
 	@PostMapping("/eltern/krankmeldungen/neuekrankmeldung")
 	@ResponseBody
-	public IllnessDto addIllnessNotificationChild(int parentId, Date date) {
+	public IllnessDto addIllnessNotificationChild(@RequestBody Map<String,String> newSicknoteData) throws ParseException {
 		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	    java.util.Date date= null;
+
+	    date = format.parse(newSicknoteData.get("date"));
+	    
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
 		// Die Methode gibt gerade eine Fehlermeldung aus (Eingabe der Id des Kindes möglicherweise besser)
-		IllnessDto notificationDto = illnessNotificationService.createIllnessNotificationParent(parentId);
+		IllnessDto notificationDto = illnessNotificationService.createIllnessNotificationParent(Integer.valueOf(newSicknoteData.get("parentId")));
 		
-		illnessNotificationService.saveIllnessNotification(notificationDto, date);
+		illnessNotificationService.saveIllnessNotification(notificationDto, sqlDate);
 		
 		return notificationDto;
 	}

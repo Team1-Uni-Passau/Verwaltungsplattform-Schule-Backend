@@ -46,6 +46,11 @@ public class Presence {
 	@Column (name = "unterrichtsstunde")
 	private  int lesson;
 
+	// Default Contstructor
+	public Presence() {
+		
+	}
+	
 	public Presence(int userId) {
 		super();
 		this.userId = userId;

@@ -101,7 +101,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					"/sekretariat/klassenliste/keineklasse/klassehinzufuegen",
 					"/sekretariat/klassenliste/klasseaendern",
 					"/lehrender/klassenliste/{classId}",
-					"/lehrender/klassenliste/abwesenheiteintragen"
+					"/lehrender/klassenliste/abwesenheiteintragen",
+					"/lehrender/noten/eintragen",
+					"/lernender/noten/{studentId}",
+					"/eltern/noten/{parentId}",
+					"/lehrender/noten/neuesnotenschema",
+					"/lernender/noten/notenschema/{studentId}",
+					"/eltern/noten/notenschema/{parentId}",
+					"/eltern/praesenz/{parentId}"
         		)
                 .permitAll().anyRequest().authenticated()
                 .and().exceptionHandling().and().sessionManagement()

@@ -11,7 +11,7 @@ public class ExamDto {
 	
 	private int userId;
 	
-	private Date date;
+	private String date;
 	
 	private String day;
 	
@@ -30,7 +30,7 @@ public class ExamDto {
 		
 	}
 
-	public ExamDto(int examId, int userId, Date date, String day, int hour, String subject, String classId, String type) {
+	public ExamDto(int examId, int userId, String date, String day, int hour, String subject, String classId, String type) {
 		super();
 		this.examId = examId;
 		this.userId = userId;
@@ -59,11 +59,11 @@ public class ExamDto {
 		this.userId = userId;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

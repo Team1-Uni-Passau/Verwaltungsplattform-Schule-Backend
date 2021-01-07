@@ -104,7 +104,7 @@ public class SchoolClassController {
 	// Erstellt einen neuen Anwesenheitseintrag für einen bestimmten Schüler
 	@PostMapping("/lehrender/klassenliste/abwesenheiteintragen")
 	@ResponseBody
-	public PresenceDto addAbsence(int affectedUserId, Date date, int lesson, boolean presence,
+	public PresenceDto addAbsence(int affectedUserId, String date, int lesson, boolean presence,
 			boolean confirmation) {
 		
 		PresenceDto newAbsence = new PresenceDto(affectedUserId, date, lesson, presence, confirmation);

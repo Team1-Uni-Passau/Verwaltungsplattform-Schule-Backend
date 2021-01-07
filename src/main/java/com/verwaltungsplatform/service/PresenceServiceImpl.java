@@ -35,8 +35,12 @@ public class PresenceServiceImpl implements PresenceService {
 		public void savePresenceEntry (PresenceDto presenceDto) {
 			
 	        //Creates a new presence entity
-			boolean confirmation = illnessNotificationRepository.findByAffectedUser(presenceDto.getAffectedUserId()).getConfirmation();
-			Presence presence = new Presence(presenceDto.getAffectedUserId(), presenceDto.getDate(), confirmation, presenceDto.isPresence(), presenceDto.getLesson());
+			boolean confirmation = false;
+			if(illnessNotificationRepository.existsById(presenceDto.getAffectedUserId())) {
+				confirmation = illnessNotificationRepository.findByAffectedUser(presenceDto.getAffectedUserId()).getConfirmation();
+			}
+			Date date = java.sql.Date.valueOf(presenceDto.getDate());
+			Presence presence = new Presence(presenceDto.getAffectedUserId(), date, confirmation, presenceDto.isPresence(), presenceDto.getLesson());
 			
 
 			// Saves the presence entity in the database
@@ -67,7 +71,8 @@ public class PresenceServiceImpl implements PresenceService {
 	private PresenceDto convertToPresenceDto(Presence presence) {
 		PresenceDto presenceDto = new PresenceDto();
 		presenceDto.setAffectedUserId(presence.getUserId());
-		presenceDto.setDate(presence.getDate());
+		String date = presence.getDate().toString();
+		presenceDto.setDate(date);
 		presenceDto.setLesson(presence.getLesson());
 		presenceDto.setPresence(presence.isPresence());
 		presenceDto.setConfirmation(presence.isConfirmation());

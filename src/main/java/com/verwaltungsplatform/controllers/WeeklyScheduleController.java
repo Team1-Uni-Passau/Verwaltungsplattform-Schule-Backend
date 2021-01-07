@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.verwaltungsplatform.dto.LessonDto;
 import com.verwaltungsplatform.model.Lesson;
+import com.verwaltungsplatform.repositories.AppointmentRepository;
+import com.verwaltungsplatform.repositories.HourRepository;
 import com.verwaltungsplatform.repositories.LessonRepository;
 import com.verwaltungsplatform.service.WeeklyScheduleService;
 
@@ -26,6 +28,12 @@ public class WeeklyScheduleController {
 	
 	@Autowired
 	private LessonRepository lessonRepo;
+	
+	@Autowired
+	private HourRepository hourRepo;
+	
+	@Autowired
+	private AppointmentRepository appointmentRepo;
 	
 	// Null return value from advice does not match primitive return type for: public abstract int com.verwaltungsplatform.repositories.FamilyRepository.findByUserId(int)
 	// Gibt einem Schüler seinen eigenen Wochenplan aus
@@ -54,9 +62,9 @@ public class WeeklyScheduleController {
 	// Benötigt eine Fehlermeldung, wenn die eingegebene Klasse nicht existiert
 	@GetMapping("/sekretariat/wochenplan/klasse/{classId}")
 	@ResponseBody
-	public List<Lesson> getSecretariatWeeklyScheduleClass(@PathVariable("classId") String classId) {
+	public List<LessonDto> getSecretariatWeeklyScheduleClass(@PathVariable("classId") String classId) {
 		
-		List<Lesson> schedule = lessonRepo.findWeeklyScheduleByIdKlasse(classId);
+		List<LessonDto> schedule = weeklySchedule.findWeeklyScheduleByIdKlasse(classId);
 		
 		return schedule;
 		
@@ -89,9 +97,10 @@ public class WeeklyScheduleController {
 	// Erstellt eine neue Unterrichtsstunde
 	@PostMapping("/sekretariat/wochenplan/neuestunde")
 	@ResponseBody
-	public Lesson addLessonClass(Lesson lesson) {
+	public Lesson addLessonClass(int teacherId, String day, String startTime, String subject, String classId) {
 		
-		lessonRepo.save(lesson);
+		Lesson lesson = weeklySchedule.saveLesson(teacherId, day, startTime, subject, classId);
+		
 		
 		return lesson;
 	}
@@ -110,9 +119,11 @@ public class WeeklyScheduleController {
 	// Ändert den Termin einer bestimmten Unterrichtsstunde
 	@PutMapping("/sekretariat/wochenplan/stunde/{lessonId}/termin")
 	@ResponseBody
-	public Lesson changeAppointment(@PathVariable("lessonId") int lessonId, int appointment) {
+	public Lesson changeAppointment(@PathVariable("lessonId") int lessonId, String day, String startTime) {
 		
 		Lesson lesson = lessonRepo.findById(lessonId);
+		int hour = hourRepo.findIdHour(startTime);
+		int appointment = appointmentRepo.findId(day, hour);
 		lesson.setAppointment(appointment);
 		lessonRepo.save(lesson);
 		
@@ -160,9 +171,11 @@ public class WeeklyScheduleController {
 	// Ändert alle Attribute einer bestimmten Unterrichtsstunde
 	@PutMapping("/sekretariat/wochenplan/stunde/edit/{lessonId}")
 	@ResponseBody
-	public Lesson editLesson(@PathVariable("lessonId") int lessonId, int appointment, String classId, int teacherId, String subject) {
+	public Lesson editLesson(@PathVariable("lessonId") int lessonId, String day, String startTime, String classId, int teacherId, String subject) {
 		
 		Lesson lesson = lessonRepo.findById(lessonId);
+		int hour = hourRepo.findIdHour(startTime);
+		int appointment = appointmentRepo.findId(day, hour);
 		lesson.setAppointment(appointment);
 		lesson.setClassId(classId);
 		lesson.setTeacherId(teacherId);

@@ -10,9 +10,15 @@ public class LessonDto {
 	@NotEmpty
 	private int affectedUserId;
 	
+	private int lessonId;
+	
 	private String day;
    
 	private int hour;
+	
+	private String startTime;
+	
+	private String endTime;
 	
 	private String subject;
    
@@ -46,6 +52,16 @@ public class LessonDto {
 	}
 
 
+	public int getLessonId() {
+		return lessonId;
+	}
+
+
+	public void setLessonId(int lessonId) {
+		this.lessonId = lessonId;
+	}
+
+
 	public String getDay() {
 		return day;
 	}
@@ -67,6 +83,26 @@ public class LessonDto {
 
 
 	
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
 
 	public String getSubject() {
 		return subject;

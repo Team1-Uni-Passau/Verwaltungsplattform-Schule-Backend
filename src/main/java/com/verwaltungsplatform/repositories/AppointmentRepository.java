@@ -14,7 +14,7 @@ import com.verwaltungsplatform.model.SchoolClass;
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
 	
 	@Query("SELECT id FROM Appointment a WHERE a.weekday = :day AND a.hour = :hour")	
-		int findAppointment(@Param("day") String day, @Param("hour") int hour);
+		int findId(@Param("day") String day, @Param("hour") int hour);
 	
 	Appointment findById(int id);
 	

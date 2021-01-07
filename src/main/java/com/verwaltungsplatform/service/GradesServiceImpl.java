@@ -81,7 +81,7 @@ public class GradesServiceImpl implements GradesService {
 		GettingGradesDto gradesDto = new GettingGradesDto();
 		gradesDto.setAffectedUserId(grades.getUserId());
 		String classId = schoolClassRepository.getName(grades.getUserId());
-		Exam exam = new Exam(grades.getExam());
+		Exam exam = examsRepository.getOneById(grades.getExam());
 		int terminId = examsRepository.getAppointment(exam.getId());
 		String subject = lessonRepository.getSubject(classId, terminId);
 		gradesDto.setSubject(subject);

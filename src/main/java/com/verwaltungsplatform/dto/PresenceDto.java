@@ -1,6 +1,6 @@
 package com.verwaltungsplatform.dto;
 
-import java.sql.Date;
+
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -12,7 +12,7 @@ public class PresenceDto {
 	@NotEmpty
 	private int affectedUserId;
 	
-	private Date date;
+	private String date;
 	
 	private int lesson;
 	
@@ -32,7 +32,7 @@ public class PresenceDto {
 	}
 
 
-	public PresenceDto(@NotNull @NotEmpty int affectedUserId, Date date, boolean presence, int lesson) {
+	public PresenceDto(@NotNull @NotEmpty int affectedUserId, String date, boolean presence, int lesson) {
 		super();
 		this.affectedUserId = affectedUserId;
 		this.date = date;
@@ -42,7 +42,7 @@ public class PresenceDto {
 
 	
 
-	public PresenceDto(@NotNull @NotEmpty int affectedUserId, Date date, int lesson, boolean presence,
+	public PresenceDto(@NotNull @NotEmpty int affectedUserId, String date, int lesson, boolean presence,
 			boolean confirmation) {
 		super();
 		this.affectedUserId = affectedUserId;
@@ -63,12 +63,12 @@ public class PresenceDto {
 	}
 
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

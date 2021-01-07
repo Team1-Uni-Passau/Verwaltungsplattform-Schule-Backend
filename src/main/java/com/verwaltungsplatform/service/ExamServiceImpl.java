@@ -41,7 +41,8 @@ public class ExamServiceImpl implements ExamService {
 	//saves new exam
 		public void saveNewExam (ExamDto examDto) {
 			int appointment = appointmentRepository.findAppointment(examDto.getDay(), examDto.getHour());
-			Exam exam = new Exam(examDto.getUserId(), examDto.getClassId(), appointment, examDto.getDate(), examDto.getType());
+			Date date = java.sql.Date.valueOf(examDto.getDate());
+			Exam exam = new Exam(examDto.getUserId(), examDto.getClassId(), appointment, date, examDto.getType());
 		
 			examsRepository.save(exam);
 		}
@@ -61,7 +62,8 @@ public class ExamServiceImpl implements ExamService {
 	private ExamDto convertToExamDto(Exam exam) {
 		ExamDto examDto = new ExamDto();
 		examDto.setUserId(exam.getTeacherId());
-		examDto.setDate(exam.getDate());
+		String date = exam.getDate().toString();
+		examDto.setDate(date);
 		Appointment appointment = appointmentRepository.findById(exam.getAppointment());
 		examDto.setDay(appointment.getWeekday());
 		examDto.setHour(appointment.getHour());
@@ -80,7 +82,8 @@ public class ExamServiceImpl implements ExamService {
 		String day = appointment.getWeekday();
 		int hour = appointment.getHour();
 		String subject = lessonRepository.getSubject(exam.getClassId(), exam.getAppointment());
-		ExamDto examDto = new ExamDto(exam.getId(), exam.getTeacherId(), exam.getDate(), day, hour, subject, exam.getClassId(), exam.getType());
+		String date = exam.getDate().toString();
+		ExamDto examDto = new ExamDto(exam.getId(), exam.getTeacherId(), date, day, hour, subject, exam.getClassId(), exam.getType());
 	
 		return examDto;
 	}

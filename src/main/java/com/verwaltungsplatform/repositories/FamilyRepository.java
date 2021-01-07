@@ -26,8 +26,8 @@ public interface FamilyRepository extends JpaRepository<Family, Integer> {
 	@Query("SELECT familyId FROM Family f WHERE f.userId IN (:studentIds)")
 	List<Integer> findFamilyIds (@Param("studentIds") List<Integer> studentIds);
 	
-	@Query("SELECT userId FROM Family f WHERE f.familyId IN (:familyIds) AND f.userId NOT IN (:SchoolClass)")
-	List<Integer> getUserIdByFamilyId (@Param("familyIds") List<Integer> familyIds);
+	@Query("SELECT userId FROM Family f WHERE f.familyId IN (:familyIds) AND f.userId NOT IN (:schoolClass)")
+	List<Integer> getUserIdByFamilyId (@Param("familyIds") List<Integer> familyIds, List<Integer> schoolClass);
 	
 	
 }

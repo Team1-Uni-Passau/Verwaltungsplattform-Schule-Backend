@@ -114,18 +114,14 @@ public class IllnessNotificationServiceImpl implements IllnessNotificationServic
 		//String weekday = getWeekDay(date);
 		String weekday = getWeekDay(date);
 		List<Integer> appointments = appointmentRepository.findByDay(weekday);
-		System.out.println("Zeile 1");
 		List<String> classIds = lessonRepository.getClassIdByAppointmentsAndTeacherId(appointments, teacherId);
-		System.out.println("Zeile 2");
 		List<Integer> studentIds = schoolClassRepository.getStudentIdsByClassIds(classIds);
-		System.out.println("Zeile 3");
 		List<Integer> familyIds = familyRepository.findFamilyIds(studentIds);
-		System.out.println("Zeile 4");
-		List<Integer> parentIds = familyRepository.getUserIdByFamilyId(familyIds);
-		System.out.println("Zeile 5");
+		List<Integer> schoolClass = schoolClassRepository.getAllStudent();
+		List<Integer> parentIds = familyRepository.getUserIdByFamilyId(familyIds, schoolClass);
 		
 		List<String> email = userRepository.getEmailByUserId(parentIds);
-		System.out.println("Zeile 6");
+		
 	return email;
 	}
 	

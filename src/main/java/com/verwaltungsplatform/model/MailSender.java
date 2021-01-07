@@ -37,7 +37,7 @@ package com.verwaltungsplatform.model;
 			}
 		};
 			
-		this.mailSession = Session.getDefaultInstance(props, auth);
+		this.mailSession = Session.getInstance(props, auth);
 		System.out.println("Eingeloggt.");
 	}
 		

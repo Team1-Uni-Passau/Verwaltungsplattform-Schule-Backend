@@ -1,10 +1,12 @@
 package com.verwaltungsplatform.controllers;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.verwaltungsplatform.dto.IllnessDto;
+import com.verwaltungsplatform.exceptions.UserAlreadyExistException;
 import com.verwaltungsplatform.model.IllnessNotification;
 import com.verwaltungsplatform.model.MailSender;
 import com.verwaltungsplatform.repositories.IllnessNotificationRepository;
@@ -71,20 +74,20 @@ public class IllnessNotificationController {
 		String teacherFirstName = userRepo.getFirstName(teacherId);
 		String teacherLastName = userRepo.getLastName(teacherId);
 			
-//		MailSender sender = new MailSender();
-//		sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
-//		
-//		List<String> email = illnessNotificationService.getEmailsByTeacher(teacherId);
-//		for (String parentEmail : email) {
-//			try {
-//		
-//				sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", parentEmail, "Information: Lehrkraft krank", 
-//						"Guten Morgen, \rWir möchten Sie darauf hinweisen, dass "+teacherFirstName+" "+teacherLastName+" heute krank geschrieben ist.");
-//				
-//			} catch(Exception e) {
-//				e.printStackTrace();
-//		}
-//		}
+		MailSender sender = new MailSender();
+		sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
+		
+		List<String> email = illnessNotificationService.getEmailsByTeacher(teacherId);
+		for (String parentEmail : email) {
+			try {
+		
+				sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", parentEmail, "Information: Lehrkraft krank", 
+						"Guten Morgen, \rWir möchten Sie darauf hinweisen, dass "+teacherFirstName+" "+teacherLastName+" heute krank geschrieben ist.");
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+		}
+		}
 
 		
 		return notificationDto;

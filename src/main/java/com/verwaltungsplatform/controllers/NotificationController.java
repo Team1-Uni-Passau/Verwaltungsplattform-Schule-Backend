@@ -55,10 +55,9 @@ public class NotificationController {
 	
 	// Benötigte Ausgabe: List<NotificationDto>
 	// Anzeigen aller betreffenden Ankündigungen als ein Elternteil
-	@GetMapping("/eltern/ankuendigungen")
+	@GetMapping("/eltern/ankuendigungen/{parentId}")
 	@ResponseBody
-	public List<NotificationDto> getNotificationsParent(int parentId) {
-		
+	public List<NotificationDto> getNotificationsParent(@PathVariable("parentId") int parentId) {
 		List<NotificationDto> notification = notificationService.getAllNotificationsRoleAndClass(parentId);
 		
 		return notification;

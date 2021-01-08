@@ -40,14 +40,14 @@ public class ExamController {
 		return exams;
 	}
 	
-	// Fügt einem Lehrenden eine neue Prüfung hinzu
-	@PostMapping("/lehrender/neuepruefung")
-	@ResponseBody
-	public ExamDto addExam(ExamDto newExam) {
-		
-		examService.saveNewExam(newExam);
-		return newExam;
-	}
+//	// Fügt einem Lehrenden eine neue Prüfung hinzu
+//	@PostMapping("/lehrender/neuepruefung")
+//	@ResponseBody
+//	public ExamDto addExam(ExamDto newExam) {
+//		
+//		examService.saveNewExam(newExam);
+//		return newExam;
+//	}
 	
 //	// getOneExam() Gibt durch die Übergabe der examId die ExamDto der jeweiligen Prüfung aus
 //	// Gibt einem Lehrenden eine bestimmte Prüfung aus

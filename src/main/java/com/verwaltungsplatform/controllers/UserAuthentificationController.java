@@ -8,12 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.verwaltungsplatform.dto.AuthRequestDto;
 import com.verwaltungsplatform.dto.UserRegistrationDto;
@@ -140,13 +135,13 @@ public class UserAuthentificationController {
 		return new ResponseEntity<>(
 				jsonResponse , HttpStatus.OK);
 	}
-	
-	@GetMapping("/restorePassword")
+
+	@RequestMapping(path = "/restorePassword", method = RequestMethod.PUT)
 	@ResponseBody
-	public void generateCode(String email) {
+	public void generateCode(@RequestBody Map<String,String> restorepwmail) {
 		
 		this.code = new PasswordCode();
-		this.email = email;
+		this.email = restorepwmail.get("email");
 		
 		MailSender sender = new MailSender();
 		sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);

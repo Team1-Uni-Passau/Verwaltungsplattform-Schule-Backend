@@ -110,6 +110,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					"/eltern/noten/notenschema/{parentId}",
 					"/eltern/praesenz/{parentId}",
 					"/sekretariat/neuerlernender"
+
         		)
                 .permitAll().anyRequest().authenticated()
                 .and().exceptionHandling().and().sessionManagement()

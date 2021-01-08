@@ -16,7 +16,7 @@ public interface HourRepository extends JpaRepository<Hour, Integer> {
 	@Query("FROM Hour h WHERE h.idHour = :idHour")	
 		Hour findHour(@Param("idHour") int idHour);
 	
-	@Query("SELECT idHour FROM hour h WHERE h.startTime= :startTime")
+	@Query("SELECT idHour FROM Hour h WHERE h.startTime= :startTime")
 	int findIdHour(@Param("startTime") String startTime);
 
 }

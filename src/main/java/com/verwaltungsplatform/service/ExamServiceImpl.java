@@ -38,14 +38,14 @@ public class ExamServiceImpl implements ExamService {
 
 	
 	
-	//saves new exam
-		public void saveNewExam (ExamDto examDto) {
-			int appointment = appointmentRepository.findAppointment(examDto.getDay(), examDto.getHour());
-			Date date = java.sql.Date.valueOf(examDto.getDate());
-			Exam exam = new Exam(examDto.getUserId(), examDto.getClassId(), appointment, date, examDto.getType());
-		
-			examsRepository.save(exam);
-		}
+//	//saves new exam
+//		public void saveNewExam (ExamDto examDto) {
+//			int appointment = appointmentRepository.findAppointment(examDto.getDay(), examDto.getHour());
+//			Date date = java.sql.Date.valueOf(examDto.getDate());
+//			Exam exam = new Exam(examDto.getUserId(), examDto.getClassId(), appointment, date, examDto.getType());
+//		
+//			examsRepository.save(exam);
+//		}
 		
 
 		
@@ -88,19 +88,19 @@ public class ExamServiceImpl implements ExamService {
 		return examDto;
 	}
 
-	//updates an exam
-	public Exam editExam(int examId, Date date, String day, int hour, String classId, String type) {
-		Exam exam =examsRepository.getOneById(examId);
-		exam.setDate(date);
-		int appointment = appointmentRepository.findAppointment(day, hour);
-		exam.setAppointment(appointment);
-		exam.setClassId(classId);
-		exam.setType(type);
-		
-		examsRepository.save(exam);
-		return exam;
-	}
- 	
+//	//updates an exam
+//	public Exam editExam(int examId, Date date, String day, int hour, String classId, String type) {
+//		Exam exam =examsRepository.getOneById(examId);
+//		exam.setDate(date);
+//		int appointment = appointmentRepository.findAppointment(day, hour);
+//		exam.setAppointment(appointment);
+//		exam.setClassId(classId);
+//		exam.setType(type);
+//		
+//		examsRepository.save(exam);
+//		return exam;
+//	}
+// 	
 }
 
 

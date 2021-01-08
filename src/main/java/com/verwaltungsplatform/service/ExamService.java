@@ -8,8 +8,8 @@ import com.verwaltungsplatform.model.Exam;
 
 public interface ExamService {
 	
-	void saveNewExam (ExamDto examDto);
+//	void saveNewExam (ExamDto examDto);
 	List<ExamDto> getAllExamsDto(int userId);
 	ExamDto getOneExam(int examId);
-	Exam editExam(int examId, Date date, String day, int hour, String classId, String type);
+//	Exam editExam(int examId, Date date, String day, int hour, String classId, String type);
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.verwaltungsplatform.dto.IllnessConfirmationDto;
 import com.verwaltungsplatform.dto.PresenceDto;
+import com.verwaltungsplatform.model.Presence;
 import com.verwaltungsplatform.model.SchoolClass;
 import com.verwaltungsplatform.repositories.SchoolClassRepository;
 import com.verwaltungsplatform.service.PresenceService;
@@ -104,13 +105,12 @@ public class SchoolClassController {
 	// Erstellt einen neuen Anwesenheitseintrag für einen bestimmten Schüler
 	@PostMapping("/lehrender/klassenliste/abwesenheiteintragen")
 	@ResponseBody
-	public PresenceDto addAbsence(int affectedUserId, String date, int lesson, boolean presence,
-			boolean confirmation) {
+	public Presence addAbsence(int affectedUserId, boolean presence) {
 		
-		PresenceDto newAbsence = new PresenceDto(affectedUserId, date, lesson, presence, confirmation);
-		presenceService.savePresenceEntry(newAbsence);
+		PresenceDto newAbsence = new PresenceDto(affectedUserId, presence);
+		Presence presenceEntry = presenceService.savePresenceEntry(newAbsence);
 		
-		return newAbsence;
+		return presenceEntry;
 	}
 
 }

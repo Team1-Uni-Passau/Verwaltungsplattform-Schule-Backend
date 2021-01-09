@@ -12,5 +12,4 @@ public interface IllnessNotificationService {
 	IllnessDto createIllnessNotificationParent(int userId);
 	List<IllnessDto> getAllIllnessDay();
 	List<String> getEmailsByTeacher(int teacherId);
-
 }

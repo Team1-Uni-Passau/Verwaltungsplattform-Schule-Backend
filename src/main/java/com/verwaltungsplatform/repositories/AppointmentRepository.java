@@ -21,4 +21,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	@Query("SELECT id FROM Appointment a WHERE a.weekday = :day")
 	List<Integer> findByDay(@Param("day") String day);
 
+	@Query("SELECT hour FROM Appointment a WHERE a.id = :id")
+	int findHourById(@Param("id") int id);
 }

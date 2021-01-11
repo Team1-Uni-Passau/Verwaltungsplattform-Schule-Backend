@@ -68,14 +68,14 @@ public class UserAuthentificationController {
 				
 		UserRegistrationDto registrationDto = new UserRegistrationDto();
 		User_Role_RegisterCode_MapperDto mapper = new User_Role_RegisterCode_MapperDto();
-			
+
 		mapper.setRole(userdata.get("roleCheckedInRegisterForm"));
 		mapper.setRegisterCode(Integer.valueOf(userdata.get("registerCode")));
 		
 		registrationDto.setEmail(userdata.get("registerEmail"));
 		registrationDto.setPassword(userdata.get("registerPassword"));
 		registrationDto.setRoleCodeMapping(mapper);
-		registrationDto.setFirstName(userdata.get("registerName"));
+		registrationDto.setFirstName(userdata.get("registerFirstName"));
 		registrationDto.setLastName(userdata.get("registerName"));
     	
 		

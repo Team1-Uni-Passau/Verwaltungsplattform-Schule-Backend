@@ -48,6 +48,11 @@ public class IllnessNotificationServiceImpl implements IllnessNotificationServic
 	//saves new illness notification with illnessDto and date
 		public void saveIllnessNotification (IllnessDto illnessDto) {
 		
+			//checks if IllnessNotification already exists
+			if(illnessNotificationRepository.existsByAffectedUser(illnessDto.getAffectedUserId())) {
+				return;
+			}
+			else {
 			Date date = new Date();
 	        //Creates a new notification entity
 			IllnessNotification illnessNotification = new IllnessNotification(illnessDto.getAffectedUserId(), 
@@ -56,6 +61,7 @@ public class IllnessNotificationServiceImpl implements IllnessNotificationServic
 
 			// Saves the notification entity in the database
 			illnessNotificationRepository.save(illnessNotification);
+			}
 		}
 	
 	//create a new illnessDto with userId of teacher or parent

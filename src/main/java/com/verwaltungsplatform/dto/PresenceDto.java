@@ -16,6 +16,8 @@ public class PresenceDto {
 	
 	private int lesson;
 	
+	private int unterrichtsstunde;
+	
 	//is the student present yes or no
 	private boolean presence;
 	
@@ -70,6 +72,16 @@ public class PresenceDto {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+
+	public int getUnterrichtsstunde() {
+		return unterrichtsstunde;
+	}
+
+
+	public void setUnterrichtsstunde(int unterrichtsstunde) {
+		this.unterrichtsstunde = unterrichtsstunde;
 	}
 
 

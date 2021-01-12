@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.verwaltungsplatform.repositories.AppointmentRepository;
 import com.verwaltungsplatform.repositories.IllnessNotificationRepository;
 import com.verwaltungsplatform.repositories.PresenceRepository;
 import com.verwaltungsplatform.dto.FamilyDto;
@@ -28,7 +29,8 @@ public class PresenceServiceImpl implements PresenceService {
 	private PresenceRepository presenceRepository;
 	@Autowired
 	private FamilyServiceImpl familyServiceImpl;
-	
+	@Autowired
+	private AppointmentRepository appointmentRepository;
 
 	
 	//saves new presence entry with presenceDto
@@ -74,6 +76,8 @@ public class PresenceServiceImpl implements PresenceService {
 		String date = presence.getDate().toString();
 		presenceDto.setDate(date);
 		presenceDto.setLesson(presence.getLesson());
+		int unterrichtsstunde = appointmentRepository.findHourById(presence.getLesson());
+		presenceDto.setUnterrichtsstunde(unterrichtsstunde);
 		presenceDto.setPresence(presence.isPresence());
 		presenceDto.setConfirmation(presence.isConfirmation());
 		presenceDto.setColour(colourPresence(presence.isConfirmation(), presence.isPresence()));

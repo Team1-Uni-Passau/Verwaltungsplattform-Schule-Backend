@@ -58,38 +58,38 @@ public class GradesServiceImpl implements GradesService {
 			gradingSchemeRepository.save(gradingScheme);
 		}
 		
-	//@param userId
-	//@return List of all grades with subject, grade and type
-	//if userId is parent, students grades returned
-	public List<GettingGradesDto> getAllGradesDto(int userId) {
-		
-		if (schoolClassRepository.existsById(userId)) {}
-		else {
-			FamilyDto familyDto = new FamilyDto();
-			familyDto = familyServiceImpl.getFamilyDto(userId);
-			userId = familyDto.getStudentId();
-		}
+		//@param userId
+		//@return List of all grades with subject, grade and type
+		//if userId is parent, students grades returned
+		public List<GettingGradesDto> getAllGradesDto(int userId) {
 			
-		return ((List<Grades>) gradesRepository
-				.getStudentGrades(userId))
-				.stream()
-				.map(this::convertToGradesDto).collect(Collectors.toList());
-		
-	}
-	//method for getAllGradesDto
-	private GettingGradesDto convertToGradesDto(Grades grades) {
-		GettingGradesDto gradesDto = new GettingGradesDto();
-		gradesDto.setAffectedUserId(grades.getUserId());
-		String classId = schoolClassRepository.getName(grades.getUserId());
-		Exam exam = new Exam(grades.getExam());
-		int terminId = examsRepository.getAppointment(exam.getId());
-		String subject = lessonRepository.getSubject(classId, terminId);
-		gradesDto.setSubject(subject);
-		gradesDto.setGrade(grades.getGrade());
-		String type = exam.getType();
-		gradesDto.setType(type);
-		return gradesDto;
-	}
+			if (schoolClassRepository.existsById(userId)) {}
+			else {
+				FamilyDto familyDto = new FamilyDto();
+				familyDto = familyServiceImpl.getFamilyDto(userId);
+				userId = familyDto.getStudentId();
+			}
+				
+			return ((List<Grades>) gradesRepository
+					.getStudentGrades(userId))
+					.stream()
+					.map(this::convertToGradesDto).collect(Collectors.toList());
+			
+		}
+		//method for getAllGradesDto
+		private GettingGradesDto convertToGradesDto(Grades grades) {
+			GettingGradesDto gradesDto = new GettingGradesDto();
+			gradesDto.setAffectedUserId(grades.getUserId());
+			String classId = schoolClassRepository.getName(grades.getUserId());
+			Exam exam = examsRepository.getOneById(grades.getExam());
+			int terminId = examsRepository.getAppointment(exam.getId());
+			String subject = lessonRepository.getSubject(classId, terminId);
+			gradesDto.setSubject(subject);
+			gradesDto.setGrade(grades.getGrade());
+			String type = exam.getType();
+			gradesDto.setType(type);
+			return gradesDto;
+		}
  	
 	
 	//@param userID student or parent

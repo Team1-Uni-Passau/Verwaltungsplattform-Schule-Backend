@@ -46,8 +46,9 @@ public class IllnessNotificationServiceImpl implements IllnessNotificationServic
 	
 	
 	//saves new illness notification with illnessDto and date
-		public void saveIllnessNotification (IllnessDto illnessDto, Date date) {
+		public void saveIllnessNotification (IllnessDto illnessDto) {
 		
+			Date date = new Date();
 	        //Creates a new notification entity
 			IllnessNotification illnessNotification = new IllnessNotification(illnessDto.getAffectedUserId(), 
 					date);

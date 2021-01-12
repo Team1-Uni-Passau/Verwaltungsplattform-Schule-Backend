@@ -12,6 +12,7 @@ import com.verwaltungsplatform.repositories.GradesRepository;
 import com.verwaltungsplatform.repositories.GradingSchemeRepository;
 import com.verwaltungsplatform.repositories.LessonRepository;
 import com.verwaltungsplatform.repositories.SchoolClassRepository;
+import com.verwaltungsplatform.repositories.UserRepository;
 import com.verwaltungsplatform.dto.FamilyDto;
 import com.verwaltungsplatform.dto.GettingGradesDto;
 import com.verwaltungsplatform.dto.GivingGradesDto;
@@ -19,6 +20,7 @@ import com.verwaltungsplatform.dto.GradingSchemeDto;
 import com.verwaltungsplatform.model.Exam;
 import com.verwaltungsplatform.model.Grades;
 import com.verwaltungsplatform.model.GradingScheme;
+import com.verwaltungsplatform.model.User;
 
 
 @Service
@@ -37,7 +39,8 @@ public class GradesServiceImpl implements GradesService {
 	private ExamsRepository examsRepository;
 	@Autowired
 	private FamilyServiceImpl familyServiceImpl;
-
+	@Autowired
+	private UserRepository userRepository;
 	
 	
 	//saves new grade for student
@@ -118,6 +121,9 @@ public class GradesServiceImpl implements GradesService {
 		GradingSchemeDto gradingSchemeDto = new GradingSchemeDto();
 		gradingSchemeDto.setClassId(gradingScheme.getClassId());
 		gradingSchemeDto.setTeacherId(gradingScheme.getTeacherId());
+		User user = userRepository.getOne(gradingScheme.getTeacherId());
+		gradingSchemeDto.setFirstName(user.getFirstName());
+		gradingSchemeDto.setLastName(user.getLastName());
 		gradingSchemeDto.setWrittenEvaluation(gradingScheme.getWrittenEvaluation());
 		gradingSchemeDto.setOralEvaluation(gradingScheme.getOralEvaluation());
 		gradingSchemeDto.setWrittenNumber(gradingScheme.getWrittenNumber());

@@ -2,14 +2,11 @@ package com.verwaltungsplatform.controllers;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.verwaltungsplatform.dto.IllnessConfirmationDto;
 import com.verwaltungsplatform.dto.PresenceDto;
@@ -65,14 +62,15 @@ public class SchoolClassController {
 //	}
 	
 	// Fügt einen Schüler einer bestimmten Klasse hinzu. Der Schüler war zuvor keiner Klasse zugeordnet.
-	@PostMapping("/sekretariat/klassenliste/keineklasse/klassehinzufuegen")
+	@RequestMapping(path = "/sekretariat/klassenliste/keineklasse/klassehinzufuegen", method = RequestMethod.POST)
 	@ResponseBody
-	public String addStudentToClass(int studentId, String classId) {
-		
-		SchoolClass allocation = new SchoolClass(classId, studentId);
+	public String addStudentToClass(@RequestBody Map<String,String> manageclass) {
+
+		Integer studentId = Integer.valueOf(manageclass.get("studentId"));
+		SchoolClass allocation = new SchoolClass(manageclass.get("classId"), studentId);
 		schoolClassRepo.save(allocation);
 		
-		String response = "Der Schüler wurde der Klasse " + classId + " zugeordnet.";
+		String response = "Der Schüler wurde der Klasse " + manageclass.get("classId") + " zugeordnet.";
 		return response;
 	}
 	

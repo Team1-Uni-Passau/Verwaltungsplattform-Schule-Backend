@@ -12,6 +12,6 @@ public interface WeeklyScheduleService {
 	List<LessonDto> getWeeklyScheduleStudent(int userId);
 	List<LessonDto> findWeeklyScheduleByIdKlasse(String classId);
 	Lesson saveLesson(int teacherId, String day, String startTime, String subject, String classId);
-	
+	LessonDto convertToLessonDto(Lesson lesson);
 }
 

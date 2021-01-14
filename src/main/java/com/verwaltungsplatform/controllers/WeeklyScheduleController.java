@@ -97,12 +97,12 @@ public class WeeklyScheduleController {
 	// Erstellt eine neue Unterrichtsstunde
 	@PostMapping("/sekretariat/wochenplan/neuestunde")
 	@ResponseBody
-	public Lesson addLessonClass(int teacherId, String day, String startTime, String subject, String classId) {
+	public LessonDto addLessonClass(int teacherId, String day, String startTime, String subject, String classId) {
 		
 		Lesson lesson = weeklySchedule.saveLesson(teacherId, day, startTime, subject, classId);
+		LessonDto lessonDto = weeklySchedule.convertToLessonDto(lesson);
 		
-		
-		return lesson;
+		return lessonDto;
 	}
 	
 	// Gibt dem Sekretariat eine bestimmte Unterrichtsstunde aus

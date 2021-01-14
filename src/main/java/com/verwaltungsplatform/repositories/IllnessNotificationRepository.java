@@ -39,5 +39,8 @@ public interface IllnessNotificationRepository extends JpaRepository<IllnessNoti
 	@Modifying
 	@Query("UPDATE IllnessNotification i SET i.date = :newDate WHERE i.id = :illnessNotId")
 			void updateDate(@Param("illnessNotId") int illnessNotId, @Param("newDate") Date newDate);
+	
+	@Query("FROM IllnessNotification i WHERE i.date = CURRENT_DATE() AND i.affectedUser= :affectedUser")
+	boolean existsByAffectedUser(@Param("affectedUser") int affectedUser);
 
 	}

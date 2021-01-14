@@ -1,6 +1,7 @@
 package com.verwaltungsplatform.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -97,8 +99,14 @@ public class WeeklyScheduleController {
 	// Erstellt eine neue Unterrichtsstunde
 	@PostMapping("/sekretariat/wochenplan/neuestunde")
 	@ResponseBody
-	public LessonDto addLessonClass(int teacherId, String day, String startTime, String subject, String classId) {
-		
+	public LessonDto addLessonClass(@RequestBody Map<String,String> newHourData) {
+		int teacherId = Integer.valueOf(newHourData.get("teacherId"));
+		String day = newHourData.get("day");
+		String subject = newHourData.get("subject");
+		System.out.println(newHourData.get("startTime"));
+		String startTime = newHourData.get("startTime")+":00";
+		String classId = newHourData.get("classId");
+
 		Lesson lesson = weeklySchedule.saveLesson(teacherId, day, startTime, subject, classId);
 		LessonDto lessonDto = weeklySchedule.convertToLessonDto(lesson);
 		

@@ -91,7 +91,7 @@ public class WeeklyScheduleServiceImpl implements WeeklyScheduleService {
 
 	
 	//method supports getWeeklyScheduleTeacher and getWeeklyScheduleStudent
-	private LessonDto convertToLessonDto(Lesson lesson) {
+	public LessonDto convertToLessonDto(Lesson lesson) {
 		LessonDto lessonDto = new LessonDto();
 		int lessonid = lesson.getAppointment();
 		Appointment appointment = appointmentRepository.findById(lessonid);

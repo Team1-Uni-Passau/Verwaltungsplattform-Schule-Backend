@@ -86,23 +86,31 @@ public class UserAuthentificationController {
 		
 		
 //		String encodedPassword = bCryptPasswordEncoder.encode(userdata.get("registerPassword"));
+		
 
 		registrationDto.setEmail(userdata.get("registerEmail"));
 		registrationDto.setPassword(userdata.get("registerPassword"));
 		registrationDto.setRoleCodeMapping(mapper);
-		registrationDto.setFirstName(userdata.get("registerName"));
+		registrationDto.setFirstName(userdata.get("registerFirstName"));
 		registrationDto.setLastName(userdata.get("registerName"));
 		
+		
+		//bei Zeile 119 muss noch die familyId vom Frontend angenommen werden in der Klammer statt "familyId"
+		//der User wird hier nochmal neu aufgerufen, um die auto generated id abzufragen 
+
+
 		try {
 			 response = userService.save(registrationDto);
 			 
 			 if(response.getStatusCodeValue() == 200) {
 					MailSender sender = new MailSender();
 					sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
-					try {
-						
-						sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", registrationDto.getEmail(), "Registrierung erfolgreich", "Ihre Registrierung im System ist erfolgreich. \rSie sind nun im System registriert.");
-						
+					try {	
+							
+							sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", registrationDto.getEmail(), "Registrierung erfolgreich", "Ihre Registrierung im System ist erfolgreich. \rSie sind nun im System registriert.");
+
+					
+
 					} catch(Exception e) {
 						e.printStackTrace();
 					}
@@ -113,17 +121,19 @@ public class UserAuthentificationController {
 		    return new ResponseEntity<>(
 		    	      "This user might already be saved in the database", HttpStatus.CONFLICT);
 		}
+		
+		if(registrationDto.getRoleCodeMapping().getRole().equals("Eltern")) {
+			registrationDto.setFamilyId(Integer.valueOf(userdata.get("familyId")));
+			int userId = userService.getUserId(registrationDto.getEmail());
+			System.out.println(userId);
+			User user = userRepo.getUserRole(registrationDto.getEmail());
+			Family family = new Family(registrationDto.getFamilyId(), user.getId());
+			
+			familyRepo.save(family);
+		}
+		
 
-//		//bei Zeile 119 muss noch die familyId vom Frontend angenommen werden in der Klammer statt "familyId"
-//		//der User wird hier nochmal neu aufgerufen, um die auto generated id abzufragen 
-//		
-//		if(registrationDto.getRoleCodeMapping().getRole().equals("Eltern")) {
-//			registrationDto.setFamilyId(familyId);
-//			User user = userRepo.getUserRole(registrationDto.getEmail());
-//			Family family = new Family(registrationDto.getFamilyId(), user.getId());
-//			
-//			familyRepo.save(family);
-//		}
+
 		
 	    return response;
 

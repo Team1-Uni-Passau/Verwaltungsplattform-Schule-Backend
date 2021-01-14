@@ -88,12 +88,15 @@ public class UserServiceImpl implements UserService {
 		//If the register code matches the code saved in the registrierungscode table for the role chosen by the user
 		if(this.checkIfRegisterCodeMatchesRole(userRole.getRole(), userRole.getRegisterCode())) {
 			try {
+				// Persists the user entity in the database
+				User resultUser = userRepository.save(user);
+				System.out.println((resultUser.getId()));
+				System.out.println((resultUser.getEmail()));
 				//checks if user is parent and adds entry to table family if yes
 				if(userRole.getRegisterCode()==201) {
-					createFamilyEntry(registrationDto);
+					createFamilyEntry(registrationDto,resultUser.getId());
 				}
-				// Persists the user entity in the database
-				userRepository.save(user);
+
 			    return new ResponseEntity<>(
 			    	      "User successfully saved in the database", HttpStatus.OK);
 			} catch (Exception e) {
@@ -141,8 +144,8 @@ public class UserServiceImpl implements UserService {
 		return registerCodeAssignedToRole == registrationCode;
 	}
 
-	public void createFamilyEntry(UserRegistrationDto registrationDto) {
-		Family family = new Family(registrationDto.getFamilyId(), registrationDto.getUserId());
+	public void createFamilyEntry(UserRegistrationDto registrationDto, int id) {
+		Family family = new Family(registrationDto.getFamilyId(), id);
 		familyRepository.save(family);
 	}
 	

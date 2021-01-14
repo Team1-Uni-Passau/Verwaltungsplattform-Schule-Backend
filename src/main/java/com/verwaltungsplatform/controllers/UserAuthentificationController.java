@@ -19,9 +19,11 @@ import com.verwaltungsplatform.dto.AuthRequestDto;
 import com.verwaltungsplatform.dto.UserRegistrationDto;
 import com.verwaltungsplatform.dto.User_Role_RegisterCode_MapperDto;
 import com.verwaltungsplatform.exceptions.UserAlreadyExistException;
+import com.verwaltungsplatform.model.Family;
 import com.verwaltungsplatform.model.MailSender;
 import com.verwaltungsplatform.model.PasswordCode;
 import com.verwaltungsplatform.model.User;
+import com.verwaltungsplatform.repositories.FamilyRepository;
 import com.verwaltungsplatform.repositories.UserRepository;
 import com.verwaltungsplatform.service.UserService;
 import com.verwaltungsplatform.util.JwtUtil;
@@ -47,6 +49,9 @@ public class UserAuthentificationController {
 	
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private FamilyRepository familyRepo;
 	
 	// Speichermethode der beiden Variablen sollte möglicherweise geändert werden
 		String eMailUsername = "team1.verwaltungsplattform@gmail.com";
@@ -87,7 +92,6 @@ public class UserAuthentificationController {
 		registrationDto.setRoleCodeMapping(mapper);
 		registrationDto.setFirstName(userdata.get("registerName"));
 		registrationDto.setLastName(userdata.get("registerName"));
-    	
 		
 		try {
 			 response = userService.save(registrationDto);
@@ -109,7 +113,17 @@ public class UserAuthentificationController {
 		    return new ResponseEntity<>(
 		    	      "This user might already be saved in the database", HttpStatus.CONFLICT);
 		}
-		
+
+//		//bei Zeile 119 muss noch die familyId vom Frontend angenommen werden in der Klammer statt "familyId"
+//		//der User wird hier nochmal neu aufgerufen, um die auto generated id abzufragen 
+//		
+//		if(registrationDto.getRoleCodeMapping().getRole().equals("Eltern")) {
+//			registrationDto.setFamilyId(familyId);
+//			User user = userRepo.getUserRole(registrationDto.getEmail());
+//			Family family = new Family(registrationDto.getFamilyId(), user.getId());
+//			
+//			familyRepo.save(family);
+//		}
 		
 	    return response;
 

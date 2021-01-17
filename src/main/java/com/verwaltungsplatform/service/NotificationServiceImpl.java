@@ -84,6 +84,30 @@ public class NotificationServiceImpl implements NotificationService {
 
 		return roleNotifications;
 	}
+	
+	/*@param userId
+	 * @return list of all current Notifications for the role, all roles and the Notifications created by the user
+	 */
+	public List<NotificationDto> getAllNotificationsTeacher(int teacherId) {
+		
+		List<NotificationDto> roleNotifications = getAllNotRole(teacherId);
+		List<NotificationDto> allNotifications = getAllNotifications();
+		List<NotificationDto> ownNotifications = getOwnNotifications(teacherId);
+		roleNotifications.addAll(allNotifications);
+		roleNotifications.addAll(ownNotifications);
+		
+		return roleNotifications;
+		
+	}
+	
+	//@retrun list of all Notifications created by the user
+	public List<NotificationDto> getOwnNotifications(int userId) {
+		return ((List<Notification>) notificationRepository
+				.findByUserId(userId))			
+				.stream()
+				.map(this::convertToNotificationDto).collect(Collectors.toList());
+		
+	}
 
 		
 //	//@return list of all Notifications with no defined class or role

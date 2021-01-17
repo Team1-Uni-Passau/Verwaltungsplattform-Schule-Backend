@@ -23,6 +23,9 @@ public interface NotificationRepository extends JpaRepository<Notification, Inte
 @Query("FROM Notification n WHERE n.end >= CURRENT_DATE() AND n.start <= CURRENT_DATE() AND n.role IS NULL AND n.classId IS NULL ")
 	List<Notification> findByRoleIsNullAndClassIdIsNull();
 
+@Query("FROM Notification n WHERE n.userId = :userId AND n.end >= CURRENT_DATE()")
+	List<Notification> findByUserId(@Param("userId") int userId);
+
 @Modifying
 @Query("UPDATE Notification n SET n.start = :newStart WHERE n.idankuendigung= :notId")
 		void updateStartDate(@Param("notId") int notId, @Param("newStart") Date newStart);

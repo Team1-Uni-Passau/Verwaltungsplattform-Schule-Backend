@@ -16,5 +16,6 @@ public interface NotificationService {
 	List<NotificationDto> getAllNotificationsRoleAndClass(int userId);
 	List<NotificationDto> getSecretaryNotifications();
 	NotificationDto convertToNotificationDto(Notification notification);
+	List<NotificationDto> getAllNotificationsTeacher(int teacherId);
 
 }

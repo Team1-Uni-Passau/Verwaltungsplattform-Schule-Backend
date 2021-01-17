@@ -43,12 +43,11 @@ public class NotificationController {
 	
 	// Benötigte Ausgabe: List<NotificationDto>
 	// Anzeigen aller betreffenden Ankündigungen als ein Lehrer
-	// Funktioniert nicht für mehrere Klassen
 	@GetMapping("/lehrender/ankuendigungen")
 	@ResponseBody
 	public List<NotificationDto> getNotificationsTeacher(int teacherId) {
 		
-		List<NotificationDto> notification = notificationService.getAllNotificationsRoleAndClass(teacherId);
+		List<NotificationDto> notification = notificationService.getAllNotificationsTeacher(teacherId);
 		
 		return notification;
 	}

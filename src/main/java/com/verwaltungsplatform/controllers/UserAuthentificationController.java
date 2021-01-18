@@ -121,8 +121,8 @@ public class UserAuthentificationController {
 		    return new ResponseEntity<>(
 		    	      "This user might already be saved in the database", HttpStatus.CONFLICT);
 		}
-		
-		if(registrationDto.getRoleCodeMapping().getRole().equals("Eltern")) {
+
+		if(registrationDto.getRoleCodeMapping().getRole().equals("Eltern") && response.getStatusCodeValue() == 200) {
 			registrationDto.setFamilyId(Integer.valueOf(userdata.get("familyId")));
 			int userId = userService.getUserId(registrationDto.getEmail());
 			System.out.println(userId);

@@ -176,12 +176,12 @@ public class UserAuthentificationController {
 				jsonResponse , HttpStatus.OK);
 	}
 	
-	@GetMapping("/restorePassword")
+	@PutMapping("/restorePassword")
 	@ResponseBody
-	public void generateCode(String email) {
+	public void generateCode(@RequestBody Map<String,String> passworddata) {
 		
 		this.code = new PasswordCode();
-		this.email = email;
+		this.email = passworddata.get("eMail");
 		
 		MailSender sender = new MailSender();
 		sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
@@ -194,20 +194,20 @@ public class UserAuthentificationController {
 		}
 	}
 	
-	@GetMapping("/restorePassword/code")
+	@PutMapping("/restorePassword/code")
 	@ResponseBody
-	public boolean checkCode(int frontendCode) {
+	public boolean checkCode(@RequestBody Map<String,String> passworddata) {
 		
-		return code.isCodeCorrect( frontendCode );
+		return code.isCodeCorrect( Integer.valueOf(passworddata.get("frontendCode")));
 		
 	}
 	
 	@PutMapping("/restorePassword/changePassword")
 	@ResponseBody
-	public void changePassword(String newPassword) {
+	public void changePassword(@RequestBody Map<String,String> passworddata) {
 		
 		User user = userRepo.findByEmail(email);
-		user.setPassword(newPassword);
+		user.setPassword(passworddata.get("newPassword"));
 		userRepo.save(user);
 	}
 	

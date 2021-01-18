@@ -32,9 +32,9 @@ public class NotificationController {
 
 	// Benötigte Ausgabe: List<NotificationDto>
 	// Anzeigen aller betreffenden Ankündigungen als ein Schüler
-	@GetMapping("/lernender/ankuendigungen")
+	@GetMapping("/lernender/ankuendigungen/{studentId}")
 	@ResponseBody
-	public List<NotificationDto> getNotificationsStudent(int studentId) {
+	public List<NotificationDto> getNotificationsStudent(@PathVariable("studentId") int studentId) {
 		
 		List<NotificationDto> notification = notificationService.getAllNotificationsRoleAndClass(studentId);
 		
@@ -43,9 +43,9 @@ public class NotificationController {
 	
 	// Benötigte Ausgabe: List<NotificationDto>
 	// Anzeigen aller betreffenden Ankündigungen als ein Lehrer
-	@GetMapping("/lehrender/ankuendigungen")
+	@GetMapping("/lehrender/ankuendigungen/{teacherId}")
 	@ResponseBody
-	public List<NotificationDto> getNotificationsTeacher(int teacherId) {
+	public List<NotificationDto> getNotificationsTeacher(@PathVariable("teacherId")int teacherId) {
 		
 		List<NotificationDto> notification = notificationService.getAllNotificationsTeacher(teacherId);
 		

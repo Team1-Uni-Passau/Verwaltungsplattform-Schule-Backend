@@ -2,6 +2,7 @@ package com.verwaltungsplatform.service;
 
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,8 +41,9 @@ public class ExamServiceImpl implements ExamService {
 	
 	//saves new exam
 		public void saveNewExam (ExamDto examDto) {
-			int appointment = appointmentRepository.findId(examDto.getDay(), examDto.getHour());
 			Date date = java.sql.Date.valueOf(examDto.getDate());
+			String weekday = getWeekDay(date);
+			int appointment = appointmentRepository.findId(weekday, examDto.getHour());
 			Exam exam = new Exam(examDto.getUserId(), examDto.getClassId(), appointment, date, examDto.getType());
 		
 			examsRepository.save(exam);
@@ -101,6 +103,35 @@ public class ExamServiceImpl implements ExamService {
 		return exam;
 	}
  	
+	//returns String weekday for date
+		private String getWeekDay(Date date) {
+			Calendar c = Calendar.getInstance();
+			c.setTime(date);
+			int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+			String weekday = "";
+			
+			switch(dayOfWeek) {
+			case 2:
+	            weekday = "Montag";
+	            break;
+	        case 3:
+	        	weekday = "Dienstag";
+	            break;
+	        case 4:
+	        	weekday = "Mittwoch";
+	            break;
+	        case 5:
+	        	weekday = "Donnerstag";
+	            break;
+	        case 6:
+	        	weekday = "Freitag";
+	            break;
+	        default:
+	        	break;
+			}
+			return weekday;
+		}
+	    
 }
 
 

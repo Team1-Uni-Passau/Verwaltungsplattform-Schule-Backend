@@ -1,6 +1,8 @@
 package com.verwaltungsplatform.service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,9 +11,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.verwaltungsplatform.dto.ExamDto;
 import com.verwaltungsplatform.dto.RegisterStudentDto;
 import com.verwaltungsplatform.dto.UserRegistrationDto;
+import com.verwaltungsplatform.dto.UserInfoDto;
 import com.verwaltungsplatform.exceptions.UserAlreadyExistException;
+import com.verwaltungsplatform.model.Exam;
 import com.verwaltungsplatform.model.Family;
 import com.verwaltungsplatform.model.Role_RegisterCode_Mapper;
 import com.verwaltungsplatform.model.SchoolClass;
@@ -38,6 +43,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private FamilyRepository familyRepository;
+	
 	
 
 	public UserServiceImpl(UserRepository userRepository) {
@@ -168,5 +174,44 @@ public class UserServiceImpl implements UserService {
 		studentDto.setFamilyId(family.getFamilyId());
 		
 		return studentDto;
+	}
+	
+	//returns List of all students with ID, class, familyId, name
+	public List<UserInfoDto> GetAllStudents(){
+		return ((List<User>) userRepository
+				.getAllByRole("Lernender"))
+				.stream()
+				.map(this::convertToUserInfoDto).collect(Collectors.toList());
+	}
+	
+	private UserInfoDto convertToUserInfoDto(User user) {
+		UserInfoDto userInfoDto = new UserInfoDto();
+		userInfoDto.setUserId(user.getId());
+		userInfoDto.setFirstName(user.getFirstName());
+		userInfoDto.setLastName(user.getLastName());
+		userInfoDto.setEmail(user.getEmail());
+		userInfoDto.setRole("Lernender");
+		Family family = familyRepository.findByUserId(user.getId());
+		userInfoDto.setFamilyId(family.getFamilyId());
+		SchoolClass schoolClass = schoolClassRepository.getOne(user.getId());
+		userInfoDto.setClassId(schoolClass.getName());
+		return userInfoDto;
+	}
+	
+	public List<UserInfoDto> GetAllTeachers(){
+		return ((List<User>) userRepository
+				.getAllByRole("Lehrender"))
+				.stream()
+				.map(this::convertToTeacherUserInfoDto).collect(Collectors.toList());
+	}
+	
+	private UserInfoDto convertToTeacherUserInfoDto(User user) {
+		UserInfoDto userInfoDto = new UserInfoDto();
+		userInfoDto.setUserId(user.getId());
+		userInfoDto.setFirstName(user.getFirstName());
+		userInfoDto.setLastName(user.getLastName());
+		userInfoDto.setEmail(user.getEmail());
+		userInfoDto.setRole("Lehrender");
+		return userInfoDto;
 	}
 }

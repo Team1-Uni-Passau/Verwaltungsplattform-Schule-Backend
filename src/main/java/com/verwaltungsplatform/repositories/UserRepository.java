@@ -30,6 +30,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT lastName FROM User u WHERE u.id= :id")
     String getLastName(@Param("id") int id);
 
+    @Query("FROM User u WHERE u.role= :role")
+    List<User> getAllByRole(@Param("role") String role);
+    
     @Modifying
     @Query("UPDATE User u SET u.role = :newRole WHERE u.id = :id")
 		void updateRole(@Param("id") int id, @Param("newRole") String newRole);

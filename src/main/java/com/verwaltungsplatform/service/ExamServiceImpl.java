@@ -63,6 +63,7 @@ public class ExamServiceImpl implements ExamService {
 	//method for getAllGradesDto
 	private ExamDto convertToExamDto(Exam exam) {
 		ExamDto examDto = new ExamDto();
+		examDto.setExamId(exam.getId());
 		examDto.setUserId(exam.getTeacherId());
 		String date = exam.getDate().toString();
 		examDto.setDate(date);

@@ -1,6 +1,7 @@
 package com.verwaltungsplatform.controllers;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.verwaltungsplatform.dto.IllnessConfirmationDto;
 import com.verwaltungsplatform.dto.PresenceDto;
+import com.verwaltungsplatform.model.Presence;
 import com.verwaltungsplatform.model.SchoolClass;
+import com.verwaltungsplatform.repositories.PresenceRepository;
 import com.verwaltungsplatform.repositories.SchoolClassRepository;
 import com.verwaltungsplatform.service.PresenceService;
 import com.verwaltungsplatform.service.SchoolClassService;
@@ -26,6 +29,9 @@ public class SchoolClassController {
 	
 	@Autowired
 	PresenceService presenceService;
+	
+	@Autowired
+	PresenceRepository presenceRepo;
 	
 	
 	
@@ -101,13 +107,21 @@ public class SchoolClassController {
 	// Erstellt einen neuen Anwesenheitseintrag für einen bestimmten Schüler
 	@PostMapping("/lehrender/klassenliste/abwesenheiteintragen")
 	@ResponseBody
-	public PresenceDto addAbsence(int affectedUserId, String date, int lesson, boolean presence,
-			boolean confirmation) {
+	public PresenceDto addAbsence(@RequestBody Map<String,String> presenceData) throws java.text.ParseException {
 		
-		PresenceDto newAbsence = new PresenceDto(affectedUserId, date, lesson, presence, confirmation);
-		presenceService.savePresenceEntry(newAbsence);
+		 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		 java.util.Date date= null;
+		 
+		date = format.parse(presenceData.get("date"));
+		    
+	    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 		
-		return newAbsence;
+		Presence newAbsence = new Presence(Integer.valueOf(presenceData.get("userId")), sqlDate, Boolean.valueOf(presenceData.get("presence")), Boolean.valueOf(presenceData.get("confirmation")), Integer.valueOf(presenceData.get("lesson")));
+		presenceRepo.save(newAbsence);
+		
+		PresenceDto response = presenceService.convertToPresenceDto(newAbsence);
+		
+		return response;
 	}
 
 }

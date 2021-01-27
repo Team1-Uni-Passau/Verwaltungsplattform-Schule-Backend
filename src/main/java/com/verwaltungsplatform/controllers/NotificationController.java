@@ -132,9 +132,19 @@ public class NotificationController {
 	// Erstellen einer neuen klassenspezifischen Ankündigung als Lehrer
 	@PostMapping("/lehrender/neueankuendigungklasse")
 	@ResponseBody
-	public NotificationDto addNotificationClass(int user, String classId, String content, Date start, Date end) {
+	public NotificationDto addNotificationClass(@RequestBody Map<String,String> eventData) throws java.text.ParseException {
 		
-		Notification newNotification = new Notification(user, classId, content, start, end);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date startDate = null;
+		java.util.Date endDate = null;
+		
+		startDate = format.parse(eventData.get("startDate"));
+		endDate = format.parse(eventData.get("endDate"));
+		
+		java.sql.Date sqlStartDate = new java.sql.Date(startDate.getTime());
+		java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
+		
+		Notification newNotification = new Notification(Integer.valueOf(eventData.get("userId")), sqlStartDate, sqlEndDate, eventData.get("classId"), eventData.get("content"));
 		notificationRepo.save(newNotification);
 		
 		NotificationDto response = notificationService.convertToNotificationDto(newNotification);

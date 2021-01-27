@@ -70,7 +70,7 @@ public class PresenceServiceImpl implements PresenceService {
 	}
 	
 	//supports Method getPresenceEntriesLastWeek
-	private PresenceDto convertToPresenceDto(Presence presence) {
+	public PresenceDto convertToPresenceDto(Presence presence) {
 		PresenceDto presenceDto = new PresenceDto();
 		presenceDto.setAffectedUserId(presence.getUserId());
 		String date = presence.getDate().toString();

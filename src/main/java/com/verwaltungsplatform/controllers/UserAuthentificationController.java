@@ -54,8 +54,8 @@ public class UserAuthentificationController {
 	private FamilyRepository familyRepo;
 	
 	// Speichermethode der beiden Variablen sollte möglicherweise geändert werden
-		String eMailUsername = "team1.verwaltungsplattform@gmail.com";
-		String eMailPassword = "ToSEWS20/21T1";
+//		String eMailUsername = "team1.verwaltungsplattform@gmail.com";
+//		String eMailPassword = "xxxx";
 	
 	
 	// Contructor
@@ -103,17 +103,30 @@ public class UserAuthentificationController {
 			 response = userService.save(registrationDto);
 			 
 			 if(response.getStatusCodeValue() == 200) {
-					MailSender sender = new MailSender();
-					sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
-					try {	
-							
-							sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", registrationDto.getEmail(), "Registrierung erfolgreich", "Ihre Registrierung im System ist erfolgreich. \rSie sind nun im System registriert.");
-
+				 
+				 String mailCommand =  "echo \"Ihre Registrierung im System ist erfolgreich. Sie sind nun im System registriert.\" | mail -s \"Registrierung erfolgreich\" " +  registrationDto.getEmail();
 					
-
+					try {
+						
+						String[] commands = {"bash", "-c", mailCommand};
+						
+						Process process = Runtime.getRuntime().exec(commands);
+						
 					} catch(Exception e) {
 						e.printStackTrace();
 					}
+					
+//					MailSender sender = new MailSender();
+//					sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
+//					try {	
+//							
+//							sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", registrationDto.getEmail(), "Registrierung erfolgreich", "Ihre Registrierung im System ist erfolgreich. \rSie sind nun im System registriert.");
+//
+//					
+//
+//					} catch(Exception e) {
+//						e.printStackTrace();
+//					}
 			 }
 			 
 		} catch (UserAlreadyExistException e) {	
@@ -183,15 +196,30 @@ public class UserAuthentificationController {
 		this.code = new PasswordCode();
 		this.email = passworddata.get("eMail");
 		
-		MailSender sender = new MailSender();
-		sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
+		String mailCommand =  "echo \"Sie haben versucht Ihr Passwort zu ändern. Der Änderungscode ist: "+ code.getCode() + "\" | mail -s \"Code zur Passwortänderung\" " +  email;
+		
 		try {
 			
-			sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", email, "Code zur Passwortänderung", "Sie haben versucht Ihr Passwort zu ändern. \rDer Änderungscode ist: " + code.getCode());
+			String[] commands = {"bash", "-c", mailCommand};
+			
+			Process process = Runtime.getRuntime().exec(commands);
 			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+//		MailSender sender = new MailSender();
+//		//sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword); //nur für GMAIL
+//		
+//		sender.login("mail.lehner-tse01", "25", "grup1@lehner-tse01", "PASSWORT"); //nur für POSTFIX
+//		
+//		try {
+//			
+//			sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", email, "Code zur Passwortänderung", "Sie haben versucht Ihr Passwort zu ändern. \rDer Änderungscode ist: " + code.getCode());
+//			
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	@PutMapping("/restorePassword/code")

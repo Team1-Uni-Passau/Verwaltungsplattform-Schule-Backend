@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.verwaltungsplatform.repositories.IllnessNotificationRepository;
+import com.verwaltungsplatform.repositories.PresenceRepository;
 import com.verwaltungsplatform.repositories.SchoolClassRepository;
 import com.verwaltungsplatform.repositories.UserRepository;
 import com.verwaltungsplatform.dto.IllnessConfirmationDto;
 import com.verwaltungsplatform.model.SchoolClass;
 import com.verwaltungsplatform.model.User;
 import com.verwaltungsplatform.model.IllnessNotification;
+import com.verwaltungsplatform.model.Presence;
 
 
 @Service
@@ -27,6 +29,8 @@ public class SchoolClassServiceImpl implements SchoolClassService {
 	private UserRepository userRepository;
 	@Autowired
 	private IllnessNotificationRepository illnessNotificationRepository;
+	@Autowired
+	private PresenceRepository presenceRepository;
 	
 	//@param klassen-id
 	//@return List of all students in class with firstName, lastName
@@ -50,7 +54,12 @@ public class SchoolClassServiceImpl implements SchoolClassService {
 			if(illnessNotificationRepository.existsById(userId)) {
 				confirmation = illnessNotificationRepository.findByAffectedUser(userId).getConfirmation();}
 		illnessConfirmationDto.setConfirmation(confirmation);
-		illnessConfirmationDto.setPresence(true);
+			if(presenceRepository.existsByUserId(userId)==null) {
+				illnessConfirmationDto.setPresence(true);}
+			else {
+				Presence presence = presenceRepository.findByUserIdToday(userId);
+				illnessConfirmationDto.setPresence(presence.isPresence());
+			}
 		return illnessConfirmationDto;
 	}
  	

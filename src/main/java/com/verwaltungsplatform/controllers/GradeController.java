@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.verwaltungsplatform.dto.GettingGradesDto;
 import com.verwaltungsplatform.dto.GivingGradesDto;
 import com.verwaltungsplatform.dto.GradingSchemeDto;
+import com.verwaltungsplatform.repositories.GradingSchemeRepository;
 import com.verwaltungsplatform.service.GradesService;
 
 @Controller
@@ -21,6 +22,9 @@ public class GradeController {
 	
 	@Autowired
 	GradesService gradesService;
+	
+	@Autowired
+	GradingSchemeRepository GradingSchemeRepo;
 	
 	// Ein Lehrer trägt einem Schüler eine neue Note ein
 	@PostMapping("/lehrender/noten/eintragen")
@@ -55,12 +59,20 @@ public class GradeController {
 	@ResponseBody
 	public String addGradingScheme(@RequestBody Map<String,String> gradingSchemeData) throws java.text.ParseException {
 		
-		GradingSchemeDto scheme = new GradingSchemeDto(gradingSchemeData.get("classId"), Integer.valueOf(gradingSchemeData.get("teacherId")), 
+		String response;
+		
+		if (GradingSchemeRepo.getClassGradingScheme(gradingSchemeData.get("classId"),  Integer.valueOf(gradingSchemeData.get("teacherId"))) == null) {
+			GradingSchemeDto scheme = new GradingSchemeDto(gradingSchemeData.get("classId"), Integer.valueOf(gradingSchemeData.get("teacherId")), 
 				Double.valueOf(gradingSchemeData.get("writtenEvaluation")), Double.valueOf(gradingSchemeData.get("oralEvaluation")), 
 				Integer.valueOf(gradingSchemeData.get("writtenNumber")), Integer.valueOf(gradingSchemeData.get("oralNumber")));
-		gradesService.saveNewGradingScheme(scheme);
+			gradesService.saveNewGradingScheme(scheme);
+			
+			response = "Das Notenschema wurde angelegt.";
+		}
+		else {
+			response = "Es existiert bereits ein Notenschema.";
+		}
 		
-		String response = "Das Notenschema wurde angelegt.";
 		return response;
 	}
 	

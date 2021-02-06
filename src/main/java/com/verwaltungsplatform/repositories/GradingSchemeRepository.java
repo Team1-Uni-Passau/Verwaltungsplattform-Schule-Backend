@@ -15,6 +15,9 @@ public interface GradingSchemeRepository extends JpaRepository<GradingScheme, In
 
 	@Query("FROM GradingScheme g WHERE g.classId = :classId")
 	List<GradingScheme> getGradingSchemes(@Param("classId") String classId);
+	
+	@Query("FROM GradingScheme g WHERE g.classId = :classId AND g.teacherId = :teacherId")
+	GradingScheme getClassGradingScheme(@Param("classId") String classId, @Param("teacherId") int teacherId);
 
 }
 

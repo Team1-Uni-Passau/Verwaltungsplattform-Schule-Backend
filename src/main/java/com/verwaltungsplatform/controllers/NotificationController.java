@@ -30,7 +30,6 @@ public class NotificationController {
 	@Autowired
 	private NotificationRepository notificationRepo;
 
-	// Benötigte Ausgabe: List<NotificationDto>
 	// Anzeigen aller betreffenden Ankündigungen als ein Schüler
 	@GetMapping("/lernender/ankuendigungen/{studentId}")
 	@ResponseBody
@@ -41,7 +40,6 @@ public class NotificationController {
 		return notification;
 	}
 	
-	// Benötigte Ausgabe: List<NotificationDto>
 	// Anzeigen aller betreffenden Ankündigungen als ein Lehrer
 	@GetMapping("/lehrender/ankuendigungen/{teacherId}")
 	@ResponseBody
@@ -52,7 +50,6 @@ public class NotificationController {
 		return notification;
 	}
 	
-	// Benötigte Ausgabe: List<NotificationDto>
 	// Anzeigen aller betreffenden Ankündigungen als ein Elternteil
 	@GetMapping("/eltern/ankuendigungen/{parentId}")
 	@ResponseBody
@@ -61,17 +58,6 @@ public class NotificationController {
 		
 		return notification;
 	}
-	
-//	// Anzeigen aller betreffenden Ankündigungen als ein Sekretariatsmitglied
-//	@GetMapping("/sekretariat/ankuendigungen")
-//	@ResponseBody
-//	public List<Notification> getNotificationsSecretariat(int secretariatId) {
-//		
-//		List<Notification> notification = notificationService.getAllNotRole(secretariatId);
-//		notification.addAll(notificationService.getAllNotifications());
-//		
-//		return notification;
-//	}
 	
 	// Anzeigen aller Ankündigungen als Sekretariatsmitglied
 	@GetMapping("/sekretariat/alleankuendigungen")

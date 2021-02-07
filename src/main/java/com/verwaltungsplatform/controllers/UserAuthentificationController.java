@@ -53,7 +53,6 @@ public class UserAuthentificationController {
 	@Autowired
 	private FamilyRepository familyRepo;
 	
-	// Speichermethode der beiden Variablen sollte möglicherweise geändert werden
 //		String eMailUsername = "team1.verwaltungsplattform@gmail.com";
 //		String eMailPassword = "xxxx";
 	

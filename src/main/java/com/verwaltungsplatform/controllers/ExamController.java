@@ -72,7 +72,6 @@ public class ExamController {
 	
 //	// editExam() sucht mithilfe der examId die jeweilige Prüfung, aktualisiert die ExamDto und überschreibt die alten Werte der Prüfung
 //	// Editiert eine bestimmte Prüfung
-	//Problem: ich weiß nicht, wie subject geändert werden kann, weil es nicht in exam gespeichert ist, sondern durch Stunde und Wochentag gesucht wird
 	@PutMapping("/lehrender/pruefung/edit/{examId}")
 	@ResponseBody
 	public ExamDto editExam(@PathVariable("examId") int examId, Date date, String day, int hour, String classId, String type) {

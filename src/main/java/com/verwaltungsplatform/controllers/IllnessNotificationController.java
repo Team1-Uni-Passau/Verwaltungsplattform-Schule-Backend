@@ -35,12 +35,8 @@ public class IllnessNotificationController {
 	private UserRepository userRepo;
 	
 	String eMailUsername = "team1.verwaltungsplattform@gmail.com";
-	String eMailPassword = "ToSEWS20/21T1";
+	String eMailPassword = "xxxx";
 	
-	// Wenn eine Krankmeldung  eines  „Lernenden“ durch das Sekretariat bestätigt ist, ist dies ersichtlich für Lehrende (Methode zur Ausgabe aller bestätigten Krankmeldungen einer Klasse in der ServiceImpl)
-	// Automatischer Email Versand an Schüler eines krankgeschriebenen Lehrers
-	
-	// Es wird nicht gezeigt, ob die Krankmeldung bereits bestätigt ist (IllnessDto und IllnessConfirmationDto zusammenführen?)
 	// Gibt dem Sekretariat alle Krankmeldungen eines bestimmten Tages aus
 	@GetMapping("/sekretariat/krankmeldungen")
 	@ResponseBody
@@ -51,7 +47,6 @@ public class IllnessNotificationController {
 		return notifications;
 	}
 	
-	// Es fehlt noch ein E-Mail Versand beim aktuellen Datum (automatische Benachrichtigung der Eltern über die Abwesenheit eines „Lehrenden“)
 	// Bestätigt eine bestimmte Krankmeldung
 	@PutMapping("/sekretariat/krankmeldungen/{illnessNotificationId}")
 	@ResponseBody
@@ -64,7 +59,6 @@ public class IllnessNotificationController {
 	}
 	
 	// Ein Lehrer erstellt eine Krankmeldung für sich selbst
-	//E-Mail-Funktion kriegt Fehlermeldung: Handler dispatch failed; nested exception is java.lang.NoClassDefFoundError: javax/mail/Authenticator
 	@PostMapping("/lehrender/krankmeldungen/neuekrankmeldung")
 	@ResponseBody
 	public IllnessDto addIllnessNotificationTeacher(@RequestBody Map<String,String> teacherData) {
@@ -108,7 +102,6 @@ public class IllnessNotificationController {
 //	    
 //        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-		// Die Methode gibt gerade eine Fehlermeldung aus (Eingabe der Id des Kindes möglicherweise besser)
 		IllnessDto notificationDto = illnessNotificationService.createIllnessNotificationParent(Integer.valueOf(newSicknoteData.get("parentId")));
 		
 		illnessNotificationService.saveIllnessNotification(notificationDto);

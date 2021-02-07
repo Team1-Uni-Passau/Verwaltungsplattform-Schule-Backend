@@ -37,7 +37,6 @@ public class WeeklyScheduleController {
 	@Autowired
 	private AppointmentRepository appointmentRepo;
 	
-	// Null return value from advice does not match primitive return type for: public abstract int com.verwaltungsplatform.repositories.FamilyRepository.findByUserId(int)
 	// Gibt einem Schüler seinen eigenen Wochenplan aus
 	@GetMapping("/lernender/wochenplan/{studentId}")
 	@ResponseBody
@@ -61,7 +60,6 @@ public class WeeklyScheduleController {
 	}
 	
 	// Gibt dem Sekretariat den Wochenplan einer bestimmten Klasse aus
-	// Benötigt eine Fehlermeldung, wenn die eingegebene Klasse nicht existiert
 	@GetMapping("/sekretariat/wochenplan/klasse/{classId}")
 	@ResponseBody
 	public List<LessonDto> getSecretariatWeeklyScheduleClass(@PathVariable("classId") String classId) {
@@ -73,7 +71,6 @@ public class WeeklyScheduleController {
 	}
 	
 	//  Gibt dem Sekretariat den Wochenplan eines bestimmten Lehrers aus
-	// Benötigt noch eine Fehlermeldung, wenn die eingegebene Id kein Teacher ist
 	@GetMapping("/sekretariat/wochenplan/{teacherId}")
 	@ResponseBody
 	public List<LessonDto> getSecretariatWeeklyScheduleTeacher(@PathVariable("teacherId") int teacherId) {
@@ -83,9 +80,7 @@ public class WeeklyScheduleController {
 		return schedule;
 	}
 	
-	// Null return value from advice does not match primitive return type for: public abstract int com.verwaltungsplatform.repositories.FamilyRepository.findByUserId(int)
 	// Gibt einem Elternteil den Wochenplan eines bestimmten Kindes aus
-	// Benötigt noch eine Fehlermeldung, wenn die eingegebene Id keinem Familienmitglied gehört
 	@GetMapping("/eltern/wochenplan/{studentId}")
 	@ResponseBody
 	public List<LessonDto> getWeeklyScheduleChild(@PathVariable("studentId") int studentId) {
@@ -114,7 +109,6 @@ public class WeeklyScheduleController {
 	}
 	
 	// Gibt dem Sekretariat eine bestimmte Unterrichtsstunde aus
-	// Benötigt noch eine Fehlermeldung, wenn die Unterrichtsstunde nicht existiert
 	@GetMapping("/sekretariat/wochenplan/stunde/{lessonId}")
 	@ResponseBody
 	public Lesson getOneLesson(@PathVariable("lessonId") int lessonId) {

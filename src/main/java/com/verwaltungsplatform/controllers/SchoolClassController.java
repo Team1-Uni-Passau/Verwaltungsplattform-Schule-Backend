@@ -33,39 +33,6 @@ public class SchoolClassController {
 	@Autowired
 	PresenceRepository presenceRepo;
 	
-	
-	
-	// Das  Sekretariat  kann neue  Lernende  anlegen  und  Ihnen  dabei  eine Klasse zuweisen
-	// Das  Sekretariat kann Klassen  von  vorhandenen  Lernenden  ändern
-	// „Lehrende“ können Klassen  einsehen
-	// Wenn „Lehrende“ sich eine Klasse anzeigen lassen, können  sie  für  jeden Lernenden  dieser  Klasse  für  ihre  Unterrichtsstundedie An-bzw.  Abwesenheit jedes   individuellen   Lernendeneintragen
-	// Wenn eine Krankmeldung  eines  „Lernenden“ durch das Sekretariat bestätigt ist, ist dies ersichtlich für Lehrende 
-
-	
-	
-	// Das Sekretariat erhält eine Liste aller Schüler einer bestimmten Klasse
-	// Ausgabe UserDto:	userId, Vorname, Nachname, Email, zugehörige Klasse
-//	@GetMapping("/sekretariat/klassenliste/{classId}")
-//	@ResponseBody
-//	public List<UserDto> getStudentsClass(@PathVariable("classId") String classId) {
-//		
-//		List<UserDto> classmemberList = schoolClassService.getClassMember(String classId); 	
-//		// Methode getClassMember(String classId) gibt alle Schüler einer bestimmten Klasse aus. 
-//		
-//		return classmemberList;
-//	}
-	
-	// Das Sekretariat erhält eine Liste aller Schüler, die noch keiner Klasse zugewiesen wurden
-//	@GetMapping("/sekretariat/klassenliste/keineklasse")
-//	@ResponseBody
-//	public List<UserDto> getStudentsClassNULL() {
-//		
-//		List<UserDto> studentsWithoutClass = schoolClassService.getClassMemberNULL();
-//		// Methode getClassMemberNULL() gibt alle Schüler aus, die noch keiner keiner Klasse zugewiesen wurden
-//		
-//		return studentsWithoutClass;
-//	}
-	
 	// Fügt einen Schüler einer bestimmten Klasse hinzu. Der Schüler war zuvor keiner Klasse zugeordnet.
 	@PostMapping("/sekretariat/klassenliste/keineklasse/klassehinzufuegen")
 	@ResponseBody
@@ -74,7 +41,7 @@ public class SchoolClassController {
 		SchoolClass allocation = new SchoolClass(addId.get("classId"), Integer.valueOf(addId.get("studentId")));
 		schoolClassRepo.save(allocation);
 		
-		String response = "Der Schüler wurde der Klasse " + Integer.valueOf(addId.get("studentId")) + " zugeordnet.";
+		String response = "Der Schüler wurde der Klasse " + addId.get("classId") + " zugeordnet.";
 		return response;
 	}
 	
@@ -92,9 +59,6 @@ public class SchoolClassController {
 	}
 	
 	// Gibt einem Lehrenden die Klassenliste einer bestimmten Klasse aus
-	// Fehler, wenn für einen Schüler der Klasse keine Krankmeldung existiert
-	// IllnessConfirmationDto benötigt noch die Attribute: boolean presence (standardmäßig true), String farbe
-	// Könnte vielleicht auch alternativ als List<PresenceDto> gelöst werden 
 	@GetMapping("/lehrender/klassenliste/{classId}")
 	@ResponseBody
 	public List<IllnessConfirmationDto> getClassList(@PathVariable("classId") String classId) {

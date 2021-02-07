@@ -1,13 +1,11 @@
 package com.verwaltungsplatform.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.verwaltungsplatform.dto.GettingGradesDto;
 import com.verwaltungsplatform.dto.GivingGradesDto;
@@ -23,9 +21,9 @@ public class GradeController {
 	// Ein Lehrer trägt einem Schüler eine neue Note ein
 	@PostMapping("/lehrender/noten/eintragen")
 	@ResponseBody
-	public String addGrade(int affectedUserId, int examId, int grade) {
+	public String addGrade(@RequestBody Map<String,String> newgrade ) {
 		
-		GivingGradesDto newGrade = new GivingGradesDto(affectedUserId, examId, grade);
+		GivingGradesDto newGrade = new GivingGradesDto(Integer.valueOf(newgrade.get("affectedUserId")), Integer.valueOf(newgrade.get("examId")) ,Integer.valueOf(newgrade.get("grade")));
 		gradesService.saveNewGrade(newGrade);
 		
 		String response = "Die Note wurde eingetragen.";

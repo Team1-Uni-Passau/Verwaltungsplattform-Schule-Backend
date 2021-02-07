@@ -31,136 +31,130 @@ import com.verwaltungsplatform.util.JwtUtil;
 
 @Controller
 public class UserAuthentificationController {
-	
+
 //	@Autowired
 //	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	private PasswordCode code;
 	private String email;
-	
+
 	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private JwtUtil jwtUtil;
-	
+
 	@Autowired
 	private AuthenticationManager authentificationManager;
-	
+
 	@Autowired
 	private UserRepository userRepo;
-	
+
 	@Autowired
 	private FamilyRepository familyRepo;
-	
+
 	// Speichermethode der beiden Variablen sollte möglicherweise geändert werden
-		String eMailUsername = "team1.verwaltungsplattform@gmail.com";
-		String eMailPassword = "ToSEWS20/21T1";
-	
-	
+	String eMailUsername = "team1.verwaltungsplattform@gmail.com";
+	String eMailPassword = "ToSEWS20/21T1";
+
+
 	// Contructor
 	public UserAuthentificationController(UserService userService) {
 		super();
 		this.userService = userService;
 	}
-	
-	
-	
-	
+
+
 	// Method to handle registration
 	@PostMapping(value = "/registration")
-	public ResponseEntity<String> registerUserAccount (@RequestBody Map<String,String> userdata) throws UserAlreadyExistException {
-		
+	public ResponseEntity<String> registerUserAccount(@RequestBody Map<String, String> userdata) throws UserAlreadyExistException {
+
 		ResponseEntity<String> response;
-		
-		if(!this.isInteger(userdata.get("registerCode"))) {
-		    return new ResponseEntity<>(
-		    	      "The registration code is not valid", HttpStatus.UNPROCESSABLE_ENTITY);
+
+		if (!this.isInteger(userdata.get("registerCode"))) {
+			return new ResponseEntity<>(
+					"The registration code is not valid", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-				
+
 		UserRegistrationDto registrationDto = new UserRegistrationDto();
 		User_Role_RegisterCode_MapperDto mapper = new User_Role_RegisterCode_MapperDto();
-			
+
 		mapper.setRole(userdata.get("roleCheckedInRegisterForm"));
 		mapper.setRegisterCode(Integer.valueOf(userdata.get("registerCode")));
-		
-		
+
+
 //		String encodedPassword = bCryptPasswordEncoder.encode(userdata.get("registerPassword"));
-		
+
 
 		registrationDto.setEmail(userdata.get("registerEmail"));
 		registrationDto.setPassword(userdata.get("registerPassword"));
 		registrationDto.setRoleCodeMapping(mapper);
 		registrationDto.setFirstName(userdata.get("registerFirstName"));
 		registrationDto.setLastName(userdata.get("registerName"));
-		
-		
+
+
 		//bei Zeile 119 muss noch die familyId vom Frontend angenommen werden in der Klammer statt "familyId"
 		//der User wird hier nochmal neu aufgerufen, um die auto generated id abzufragen 
 
 
 		try {
-			 response = userService.save(registrationDto);
-			 
-			 if(response.getStatusCodeValue() == 200) {
-					MailSender sender = new MailSender();
-					sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
-					try {	
-							
-							sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", registrationDto.getEmail(), "Registrierung erfolgreich", "Ihre Registrierung im System ist erfolgreich. \rSie sind nun im System registriert.");
+			response = userService.save(registrationDto);
 
-					
+			if (response.getStatusCodeValue() == 200) {
+				MailSender sender = new MailSender();
+				sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
+				try {
 
-					} catch(Exception e) {
-						e.printStackTrace();
-					}
-			 }
-			 
-		} catch (UserAlreadyExistException e) {	
-			e.printStackTrace(); 
-		    return new ResponseEntity<>(
-		    	      "This user might already be saved in the database", HttpStatus.CONFLICT);
+					sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", registrationDto.getEmail(), "Registrierung erfolgreich", "Ihre Registrierung im System ist erfolgreich. \rSie sind nun im System registriert.");
+
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+		} catch (UserAlreadyExistException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(
+					"This user might already be saved in the database", HttpStatus.CONFLICT);
 		}
-		
-		if(registrationDto.getRoleCodeMapping().getRole().equals("Eltern")) {
+
+		if (registrationDto.getRoleCodeMapping().getRole().equals("Eltern")) {
 			registrationDto.setFamilyId(Integer.valueOf(userdata.get("familyId")));
 			int userId = userService.getUserId(registrationDto.getEmail());
 			System.out.println(userId);
 			User user = userRepo.getUserRole(registrationDto.getEmail());
 			Family family = new Family(registrationDto.getFamilyId(), user.getId());
-			
+
 			familyRepo.save(family);
 		}
-		
 
 
-		
-	    return response;
+		return response;
 
 	}
-	
-	
-	
+
+
 	// Method to handle login requests
-	@PostMapping(value= "/login")
-	public ResponseEntity<Map<String,Object>> generateToken(@RequestBody Map<String,String> loginData) throws Exception {
-		
-		
-	    Map<String, Object> jsonResponse = new HashMap<String, Object>();
+	@PostMapping(value = "/login")
+	public ResponseEntity<Map<String, Object>> generateToken(@RequestBody Map<String, String> loginData) throws Exception {
+
+
+		Map<String, Object> jsonResponse = new HashMap<String, Object>();
 
 		AuthRequestDto authRequestDto = new AuthRequestDto(loginData.get("username"), loginData.get("password"));
-		
+
 		try {
 			authentificationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(authRequestDto.getEmail(), authRequestDto.getPassword())
 			);
 		} catch (Exception ex) {
-			ex.printStackTrace(); 
+			ex.printStackTrace();
 			jsonResponse.put("message", "Wrong username or password");
 			return new ResponseEntity<>(
-					jsonResponse , HttpStatus.OK);
+					jsonResponse, HttpStatus.OK);
 		}
-				
+
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		if (principal != null) {
@@ -170,57 +164,64 @@ public class UserAuthentificationController {
 			jsonResponse.put("role", userRole);
 			jsonResponse.put("userId", userId);
 			jsonResponse.put("token", token);
-		} 
+		}
 
 		return new ResponseEntity<>(
-				jsonResponse , HttpStatus.OK);
+				jsonResponse, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/restorePassword")
 	@ResponseBody
-	public void generateCode(@RequestBody Map<String,String> passworddata) {
-		
+	public ResponseEntity<String> generateCode(@RequestBody Map<String, String> passworddata) {
+
 		this.code = new PasswordCode();
 		this.email = passworddata.get("eMail");
-		
+
 		MailSender sender = new MailSender();
 		sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword);
 		try {
-			
 			sender.send("team1.verwaltungsplattform@gmail.com", "Schule Verwaltungsplattform", email, "Code zur Passwortänderung", "Sie haben versucht Ihr Passwort zu ändern. \rDer Änderungscode ist: " + code.getCode());
-			
-		} catch(Exception e) {
+			return new ResponseEntity<>(
+					"Email wurde erfolgreich geschickt", HttpStatus.OK);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	@PutMapping("/restorePassword/code")
-	@ResponseBody
-	public boolean checkCode(@RequestBody Map<String,String> passworddata) {
-		
-		return code.isCodeCorrect( Integer.valueOf(passworddata.get("frontendCode")));
-		
-	}
-	
-	@PutMapping("/restorePassword/changePassword")
-	@ResponseBody
-	public void changePassword(@RequestBody Map<String,String> passworddata) {
-		
-		User user = userRepo.findByEmail(email);
-		user.setPassword(passworddata.get("newPassword"));
-		userRepo.save(user);
-	}
-	
-	
-	
-	// Method to check if the register code is of type integer
-	public boolean isInteger(String p_str)
-	{
-	    if (p_str == null)
-	        return false;
-	    else
-	        return p_str.matches("^\\d*$");
+
+		return new ResponseEntity<>(
+				"Etwas ist schief gelaufen", HttpStatus.BAD_REQUEST);
 	}
 
-	
+	@PutMapping("/restorePassword/code")
+	@ResponseBody
+	public boolean checkCode(@RequestBody Map<String, String> passworddata) {
+
+		return code.isCodeCorrect(Integer.valueOf(passworddata.get("frontendCode")));
+
+	}
+
+	@PutMapping("/restorePassword/changePassword")
+	@ResponseBody
+	public User changePassword(@RequestBody Map<String, String> passworddata) {
+
+		User user = userRepo.findByEmail(email);
+		user.setPassword(passworddata.get("newPassword"));
+		try {
+			User savedUser = userRepo.save(user);
+			return savedUser;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+
+	// Method to check if the register code is of type integer
+	public boolean isInteger(String p_str) {
+		if (p_str == null)
+			return false;
+		else
+			return p_str.matches("^\\d*$");
+	}
 }
+

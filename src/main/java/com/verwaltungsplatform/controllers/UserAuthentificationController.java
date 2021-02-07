@@ -191,7 +191,7 @@ public class UserAuthentificationController {
 	
 	@PutMapping("/restorePassword")
 	@ResponseBody
-	public void generateCode(@RequestBody Map<String,String> passworddata) {
+	public ResponseEntity<String> generateCode(@RequestBody Map<String, String> passworddata) {
 		
 		this.code = new PasswordCode();
 		this.email = passworddata.get("eMail");
@@ -203,10 +203,13 @@ public class UserAuthentificationController {
 			String[] commands = {"bash", "-c", mailCommand};
 			
 			Process process = Runtime.getRuntime().exec(commands);
-			
+			return new ResponseEntity<>(
+					"Email wurde erfolgreich geschickt", HttpStatus.OK);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		return new ResponseEntity<>(
+				"Etwas ist schief gelaufen", HttpStatus.BAD_REQUEST);
 		
 //		MailSender sender = new MailSender();
 //		//sender.login("smtp.gmail.com", "465", eMailUsername, eMailPassword); //nur für GMAIL
@@ -232,11 +235,18 @@ public class UserAuthentificationController {
 	
 	@PutMapping("/restorePassword/changePassword")
 	@ResponseBody
-	public void changePassword(@RequestBody Map<String,String> passworddata) {
+	public User changePassword(@RequestBody Map<String,String> passworddata) {
 		
 		User user = userRepo.findByEmail(email);
 		user.setPassword(passworddata.get("newPassword"));
-		userRepo.save(user);
+		try {
+			User savedUser = userRepo.save(user);
+			return savedUser;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 	
 	

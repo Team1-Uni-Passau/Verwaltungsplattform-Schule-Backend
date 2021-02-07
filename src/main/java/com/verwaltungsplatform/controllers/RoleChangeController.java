@@ -68,17 +68,16 @@ public class RoleChangeController {
 	public String changeRoleAdmin(@RequestBody Map<String,String> rolechange) {
 		System.out.print(rolechange.get("eMail"));
 		User user = userRepo.findByEmail(rolechange.get("eMail"));
-		String response;
+
 		
 		if(user == null) {
-			response = "Es konnte kein Nutzer mit dieser E-Mail Adresse gefunden werden.";
-			return response;
+			return null;
 		}
 		else {
 			Role_RegisterCode_Mapper userRole = new Role_RegisterCode_Mapper(rolechange.get("newRole"));
 			user.setRoleRegisterCodeMapper(userRole);
-			userRepo.save(user);
-			response = "Die Rolle des Nutzers wurde in " + (rolechange.get("newRole")) + " geändert.";
+			User savedUser = userRepo.save(user);
+			String response ="Die Rolle des Nutzers wurde erfolgreich geändert";
 			return response;
 		}
 	}
@@ -96,8 +95,8 @@ public class RoleChangeController {
 
 			SchoolClass allocation = new SchoolClass(newstudent.get("classId"), newStudent.getId());
 			schoolClassRepo.save(allocation);
-			int familyId=(familyRepo.getMaxFamilyId()+1);
-			Family newFamily = new Family(newStudent.getId(), familyId);
+			int familyId = (familyRepo.getMaxFamilyId() + 1);
+			Family newFamily = new Family(familyId, newStudent.getId());
 			familyRepo.save(newFamily);
 
 			String response = "Der Lernende wurde im System hinzugefügt. \nVorname:	" + newstudent.get("firstName")
